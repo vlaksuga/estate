@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/main.css">    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/js/api.js"></script>    
+    <script src="/js/main.js"></script>
+    <title>SEUM RMS</title>
+</head>
+
+<body>
+    <div id="app" user="admin">
+        <header loadsrc="../layout/header.html">
+        </header>
+        <main>
+            <nav loadsrc="../layout/nav.html" currentmenu="realestate.html" auth="admin"></nav>
+            <article>
+                <div class="contentHeader">
+                    <div class="contentHeaderStartContainer">
+                        <div class="title">real estate</div>
+                    </div>
+                    <div class="contentHeaderEndContainer">
+                        <span class="material-icons" style="font-size: 18px; cursor: pointer;" onclick="createEstate()">add</span>
+                    </div>
+                </div>
+                <div class="contentMain">
+                    <div class="rowFlexContainer" style="gap:16px;">
+
+                        <div class="itemList estatelist" style="transition: all 0.5s ease-in-out;">
+                            <div class="itemListStart">
+                                <div class="rowFlexContainer" style="gap:10px; align-items: center;">
+                                    <span class="itemListTitle">등록 물건</span>                                    
+                                </div>
+                                <div class="rowView header">
+                                    <div class="rowItem" style="width: 100%">
+                                        <span>상태</span>
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span>지번</span>
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span>동</span>                                        
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span>지목</span>                                        
+                                    </div>
+                                    <div class="rowItem" style="width: 100%" >
+                                        <span>토지면적</span>
+                                        <span class="measure">&#13217</span>                                                                                
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span>토지가격</span>                                        
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span>건물면적</span>
+                                        <span class="measure">&#13217</span>                                   
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span>건물가격</span>                                        
+                                    </div>
+                                </div>                                
+                            </div>
+
+                            <div class="itemListEnd">
+                                <div class="overflowContainer" style="max-height: 725px; overflow-y: auto;">
+                                    <div class="colFlexContainer" c-bind="estatelist:list" style="gap: 10px;">                                        
+                                                                                
+                                        <item>
+                                            <div class="rowView light" c-bind="estatepkey:estatepkey:selectEstate" style="cursor:pointer;">
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="officialstatus:text"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="officialaddress:text"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="townname:text"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="officialnomination:text"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="officiallandmeter:text"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%; display: none;" >
+                                                    <span c-bind="officiallandmeter:text:formatMeterKor"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="officiallandprice:text:formatWon"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="officialbuildingmeter:text"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%; display: none;">
+                                                    <span c-bind="officialbuildingmeter:text:formatMeterKor"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="officialbuildingprice:text:formatWon"></span>
+                                                </div>
+                                            </div>
+                                        </item>                                   
+                                        
+                                        <emptyitem style="display: none;">
+                                            <div class="emptyContainer">
+                                                <div class="msgBox">
+                                                    <span>등록된 물건이 없습니다.</span>                                            
+                                                </div>
+                                            </div>
+                                        </emptyitem>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="itemList possessionlist" style="display: none; transition: all 0.5s ease-in-out;">
+                            <div class="itemListStart">
+                                <div class="rowFlexContainer" style="gap:10px; align-items: center;">
+                                    <span class="material-icons">chevron_left</span>
+                                    <span class="itemListTitle">소유 권리</span>                                    
+                                </div>
+                                <div class="rowView header">
+                                    <div class="rowItem" style="width: 100%">
+                                        <span>상태</span>
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span>지번</span>
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span>동</span>                                        
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span>지목</span>                                        
+                                    </div>
+                                    <div class="rowItem" style="width: 100%" >
+                                        <span>토지면적</span>
+                                        <span class="measure">&#13217</span>                                                                                
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span>토지가격</span>                                        
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span>건물면적</span>
+                                        <span class="measure">&#13217</span>                                   
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span>건물가격</span>                                        
+                                    </div>
+                                </div>                                
+                            </div>
+
+                            <div class="itemListEnd">
+                                <div class="overflowContainer" style="max-height: 725px; overflow-y: auto;">
+                                    <div class="colFlexContainer" c-bind="estatelist:list" style="gap: 10px;">                                        
+                                                                                
+                                        <item>
+                                            <div class="rowView light" c-bind="estatepkey:estatepkey:selectEstate" style="cursor:pointer;">
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="officialstatus:text"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="officialaddress:text"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="townname:text"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="officialnomination:text"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="officiallandmeter:text"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%; display: none;" >
+                                                    <span c-bind="officiallandmeter:text:formatMeterKor"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="officiallandprice:text:formatWon"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="officialbuildingmeter:text"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%; display: none;">
+                                                    <span c-bind="officialbuildingmeter:text:formatMeterKor"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="officialbuildingprice:text:formatWon"></span>
+                                                </div>
+                                            </div>
+                                        </item>                                   
+                                        
+                                        <emptyitem style="display: none;">
+                                            <div class="emptyContainer">
+                                                <div class="msgBox">
+                                                    <span>등록된 물건이 없습니다.</span>                                            
+                                                </div>
+                                            </div>
+                                        </emptyitem>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>                 
+            </article>
+            <aside></aside>
+        </main>
+    </div>
+</body>
+
+</html>
+
+<script>
+    
+    function runSetup() {
+        findItems(document);
+        setListEstate();
+    }    
+
+    function setListEstate() {
+        API.listEstate().then(data => {
+            console.log(data);
+            bindView($('.estatelist').get(0), data.body);
+        });
+        
+    }
+
+    function createEstate() {
+        location.href = "createestate.html";
+    }
+
+    function selectEstate(v, d, e){
+        $(e).on('click', function() {
+            $('.estatelist').hide();
+            $('.possessionlist').show();
+            showAside('../aside/detailestate.html', function(){ mapAside(d)});
+        })
+        return v;
+    }
+
+</script>

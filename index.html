@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/main.css">    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/js/api.js"></script>    
+    <script src="/js/main.js"></script>
+    <title>Estate</title>
+</head>
+
+<body>
+    <div id="app" user="com">
+        <header loadsrc="../layout/header.html">
+        </header>
+        <main>
+            <nav loadsrc="../layout/nav.html" currentmenu="title.html" auth="com"></nav>
+            <article>
+                <div class="contentHeader">
+                    <div class="contentHeaderStartContainer">
+                        <div class="title">title</div>
+                    </div>
+                    <div class="contentHeaderEndContainer">
+                        <span class="material-icons" style="font-size: 18px; cursor: pointer;" onclick="createTitle()">add</span>
+                    </div>
+                </div>
+                <div class="contentMain">
+                    <div class="rowFlexContainer" style="gap:16px">
+
+                        <div class="itemList titlelist" style="min-width: 400px; max-width: 400px;">
+                            <div class="itemListStart">
+                                <div class="rowFlexContainer" style="gap:10px; align-items: center;">
+                                    <span class="itemListTitle">타이틀</span>                                                                        
+                                </div>
+                                <div class="rowView header">
+                                    <div class="rowItem">
+                                        <span>아이템</span>
+                                    </div>
+                                    <div class="wrap" style="display: flex; flex-direction: row; justify-content: flex-end;">
+                                        <div class="toggleSwitchView title">
+                                            <span class="toggleSwitchTitle material-icons title">close</span>
+                                            <label class="switch">
+                                                <input type="checkbox" class="currenttitlekind" onchange="toggleTitilListKind(this)">
+                                                <span class="slider"></span>
+                                            </label>
+                                        </div>
+                                    </div>                                 
+                                </div>                                                               
+                            </div>
+                            <div class="itemListEnd">
+                                <div class="overflowContainer" style="max-height: 725px; overflow-y: auto;" onscroll="showMoreList(this)">
+                                    <div class="colFlexContainer" c-bind="titlelist:list" style="gap: 10px;" listidx="0" step="15">                                        
+                                        <item>
+                                            <div class="profileView" c-bind="titlepkey:titlepkey:showTitleDetail" style="cursor: pointer;">
+                                                <div class="wrap">
+                                                    <img class="thumb material-icons" c-bind="thumb:src:getImage" onerror="this.src='/img/noimage.jpg'"></img>
+                                                </div>
+                                                <div class="infoContainer">
+                                                    <div class="info">
+                                                        <span class="name" c-bind="name:text"></span>
+                                                        <div class="detail">
+                                                            <span class="episodecount" c-bind="episodecnt:text, titlepkey:titlepkey"></span>
+                                                            <span>EPISODES</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="actions">
+                                                    </div>
+                                                </div>
+                                            </div> 
+                                        </item>
+                                        <emptyitem style="display: none;">
+                                            <div class="emptyContainer">
+                                                <div class="msgBox">
+                                                    <span>타이틀이 없습니다.</span>                                            
+                                                </div>
+                                            </div>
+                                        </emptyitem>                                        
+                                    </div>                                    
+                                </div>                                
+                            </div>
+                        </div>
+
+                        <div class="itemList episodelist" style="display: none;">
+                            <div class="itemListStart" >
+                                <div class="rowFlexContainer" style="gap:10px; align-items: center;">
+                                    <span class="itemListTitle">에피소드</span>                                    
+                                </div>
+                                <div class="rowView header">
+                                    <div class="rowItem" style="width: 70%;">
+                                        <span>에피소드 이름</span>
+                                    </div>
+                                    <div class="rowItem" style="width: 10%;">
+                                        <span>생성일</span>
+                                    </div>
+                                    <div class="rowItem" style="width: 10%;">
+                                        <span>상태</span>
+                                    </div>
+                                    <div class="wrap" style="display: flex; flex-direction: row; justify-content: flex-end; width: 10%;">
+                                        <div class="toggleSwitchView episode">
+                                            <span class="toggleSwitchTitle material-icons episode">close</span>
+                                            <label class="switch">
+                                                <input type="checkbox" class="currentepisodekind" onchange="toggleEpisodeListKind(this)">
+                                                <span class="slider"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="itemListEnd">
+                                <div class="overflowContainer" style="overflow-y: auto; max-height: 725px;">
+                                    <div class="colFlexContainer" c-bind="episodelist:list" style="gap: 10px;">
+                                        <item>
+                                            <div class="rowView light" c-bind="status:status:showEpisodeDetail" style="cursor: pointer;">
+                                                <div class="rowItem" style="width: 70%; ">
+                                                    <span c-bind="name:text"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 10%;">
+                                                    <span c-bind="createdate:text:formatDateNum"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 10%;">
+                                                    <span c-bind="status:text:formatEpisodeStatus"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 10%;">                                                    
+                                                </div>
+                                            </div>                                
+                                        </item>
+                                        <emptyitem style="display: none;">
+                                            <div class="emptyContainer">
+                                                <div class="msgBox">
+                                                    <span>에피소드가 없습니다.</span>                                            
+                                                </div>
+                                            </div>
+                                        </emptyitem>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>                
+            </article>
+            <aside></aside>
+        </main>
+    </div>
+</body>
+
+</html>
+
+<script>    
+       
+
+    
+    
+</script>
