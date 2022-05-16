@@ -118,7 +118,7 @@
 
                         <div class="itemList possessionlist" style="display: none; transition: all 0.5s ease-in-out;">
                             <div class="itemListStart">
-                                <div class="rowFlexContainer" style="gap:10px; align-items: center;">
+                                <div class="rowFlexContainer" style="gap:10px; align-items: center;">                                    
                                     <span class="material-icons" onclick="backToEstateList()" style="cursor: pointer;">chevron_left</span>
                                     <span class="itemListTitle">소유 권리</span>                                    
                                 </div>
@@ -195,62 +195,42 @@
                         <div class="itemList possessionmortgagelist" style="display: none; transition: all 0.5s ease-in-out;">
                             <div class="itemListStart">
                                 <div class="rowFlexContainer" style="gap:10px; align-items: center;">
-                                    <span class="material-icons" onclick="backToEstateList()" style="cursor: pointer;">chevron_left</span>
-                                    <span class="itemListTitle">소유 권리</span>                                    
+                                    <span class="material-icons" onclick="backToPossessionList()" style="cursor: pointer;">chevron_left</span>
+                                    <span class="itemListTitle">근저당권</span>                                    
                                 </div>
                                 <div class="rowView header">
                                     <div class="rowItem" style="width: 100%">
-                                        <span>소유자명</span>
+                                        <span>저당권자</span>
                                     </div>
                                     <div class="rowItem" style="width: 100%" >
-                                        <span>소유토지면적</span>
-                                        <span class="measure">&#13217</span>                                                                                
+                                        <span>근저당설정일</span>                                        
                                     </div>
                                     <div class="rowItem" style="width: 100%">
-                                        <span>토지관리처분가</span>                                        
+                                        <span>근저당설정액</span>                                        
                                     </div>
                                     <div class="rowItem" style="width: 100%">
-                                        <span>토지소유권이전일</span>
-                                    </div>
-                                    <div class="rowItem" style="width: 100%">
-                                        <span>소유건물면적</span>
-                                        <span class="measure">&#13217</span>                                   
-                                    </div>
-                                    <div class="rowItem" style="width: 100%">
-                                        <span>건물관리처분가</span>                                        
-                                    </div>
-                                    <div class="rowItem" style="width: 100%">
-                                        <span>건물소유권이전일</span>                                        
+                                        <span>상태</span>
                                     </div>
                                 </div>                                
                             </div>
 
                             <div class="itemListEnd">
                                 <div class="overflowContainer" style="max-height: calc(100vh - 210px); overflow-y: auto;">
-                                    <div class="colFlexContainer" c-bind="possessionlist:list" style="gap: 10px;">                                        
+                                    <div class="colFlexContainer" c-bind="possessionmortgagelist:list" style="gap: 10px;">                                        
                                                                                 
                                         <item>
-                                            <div class="rowView light" c-bind="possessionpkey:possessionpkey:selectPossession" style="cursor:pointer;">
+                                            <div class="rowView light" style="cursor:pointer;">
                                                 <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="ownername:text"></span>
+                                                    <span c-bind="mortgageename:text"></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="possessionlandmeter:text"></span>
+                                                    <span c-bind="mortgagedate:text:formatDateNum"></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="landpurchaseprice:text:formatWon"></span>
+                                                    <span c-bind="mortgageprice:text:formatWon"></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="landtransferdate:text:formatDateNum"></span>
-                                                </div>
-                                                <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="possessionbuildingmeter:text"></span>
-                                                </div>
-                                                <div class="rowItem" style="width: 100%;" >
-                                                    <span c-bind="buildingpurchaseprice:text:formatWon"></span>
-                                                </div>
-                                                <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="buildingtransferdate:text:formatDateNum"></span>
+                                                    <span c-bind="mortgagestatus:text"></span>
                                                 </div>
                                             </div>
                                         </item>                                   
@@ -300,8 +280,8 @@
             $('.estatelist').hide();
             $('.possessionlist').show();
             $('.possessionmortgagelist').hide();            
-            showAside('../aside/detailestate.html', function(){ mapAside(d)} );
-            API.listPossession({officialestatepkey : v}).then(data => {
+            showAside('../aside/detailestate.html', function(){ mapAside(d)} );            
+            API.listPossessionByEstate({officialestatepkey : v}).then(data => {
                 clearItems('.possessionlist');
                 bindView($('.possessionlist').get(0), data.body);            
             });
@@ -312,19 +292,28 @@
     function selectPossession(v, d, e){
         $(e).on('click', function() {
             $('.estatelist').hide();
-            $('.possessionlist').show();
-            $('.possessionmortgagelist').hide();
-            showAside('../aside/detailepossession.html', function(){ mapAside(d)} );
+            $('.possessionlist').hide();
+            $('.possessionmortgagelist').show();            
+            showAside('../aside/detailpossession.html', function(){ mapAside(d)} );
             API.listPossessionMortgage({possessionpkey : v}).then(data => {
-                console.log(data);
+                clearItems('.possessionmortgagelist');
+                bindView($('.possessionmortgagelist').get(0), data.body);            
             });
         })
         return v;
     }
 
     function backToEstateList() {
-        $('.possessionlist').hide();
-        $('.estatelist').show();        
+        $('.estatelist').show();    
+        $('.possessionlist').hide();            
+        $('.possessionmortgagelist').hide();
+        hideAside();
+    }
+
+    function backToPossessionList() {
+        $('.estatelist').hide();        
+        $('.possessionlist').show();        
+        $('.possessionmortgagelist').hide();
         hideAside();
     }
 

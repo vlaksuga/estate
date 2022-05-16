@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/main.css">    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/js/api.js"></script>    
+    <script src="/js/main.js"></script>    
+    <title>SEUM RMS</title>
+</head>
+<body>
+    <div id="app" user="admin">
+        <header loadsrc="../layout/header.html">
+        </header>
+        <main>
+            <nav loadsrc="../layout/nav.html" currentmenu="mortgagee.html" auth="admin"></nav>
+            <article>
+                <div class="contentHeader">
+                    <div class="contentHeaderStartContainer">
+                        <div class="title">create mortgagee</div>
+                    </div>
+                    <div class="contentHeaderEndContainer"></div>
+                </div>
+                <div class="contentMain">
+                    <div class="cellView" style="width:500px">
+                        <div class="cellCol">
+                            <div class="cellRow">
+                                <label class="cell" for="mortgageename">
+                                    <span class="cellTitle">이름</span>
+                                    <input type="text" name="mortgageename" id="mortgageename" placeholder="이름을 입력하세요">
+                                </label>                            
+                            </div>                            
+                            
+                            <div class="rowFlexContainer" style="justify-content: flex-end;">
+                                <div class="buttonView" onclick="submitCreateMortgagee()">
+                                    <span>확인</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>                
+            </article>
+            <aside></aside>
+        </main>
+    </div>
+</body>
+</html>
+
+<script>
+    function runSetup() {
+        findItems(document);        
+    }
+
+    function submitCreateMortgagee() {
+        var formData = getDataFrom('.cellView');        
+        if(!formData.mortgageename || formData.mortgageename.trim() == "") { showToast("이름을 입력하세요"); return; }
+        console.log(formData);
+/*         API.addMortgagee(formData).then(data => {
+            if(data.head.status != "ok") { showToast('채권자를 만들지 못했습니다.'); return ;}
+            alert('새 채권자가 만들어 졌습니다.');
+            location.href = "mortgagee.html";
+        })     */
+    }
+</script>

@@ -24,7 +24,7 @@
                         <div class="title">mortgagee</div>
                     </div>
                     <div class="contentHeaderEndContainer">
-                        
+                        <span class="material-icons" style="font-size: 18px; cursor: pointer;" onclick="createMortgagee()">add</span>
                     </div>
                 </div>
                 <div class="contentMain">
@@ -91,6 +91,10 @@
             console.log(data);
             bindView($('.mortgageelist').get(0), data.body);
         });
+    }
+
+    function createMortgagee() {
+        location.href = "createmortgagee.html"
     }
 
 </script>

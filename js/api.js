@@ -66,7 +66,8 @@ class CommonApi extends Api {
     listArea(data) { return super.get("s/listArea.json", data) }    
     listTown(data) { return super.get("s/listTown.json", data) }    
     listEstate(data) { return super.get("s/listEstate.json", data) }    
-    listPossession(data) { return super.get("s/listPossession.json", data) }    
+    listPossessionByEstate(data) { return super.get("s/listPossessionByEstate.json", data) }    
+    listPossessionByOwner(data) { return super.get("s/listPossessionByOwner.json", data) }    
         
     listOwner(data) { return super.get("s/listOwner.json", data) }    
     listUser(data) { return super.get("s/listUser.json", data) }
