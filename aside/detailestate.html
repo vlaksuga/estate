@@ -39,7 +39,7 @@
             </div>
         </div>
         <div class="asideFooter">
-            <div class="buttonView" onclick="goCreatepossession()">
+            <div class="buttonView" onclick="goCreatePossession()">
                 <span>소유 권리 추가</span>
             </div>
         </div>
@@ -48,13 +48,12 @@
     
 </div>
 <script>    
-    function mapAside(d) {            
-        console.log(d);
+    function mapAside(d) {                    
         $('.asideView').get(0).adata = d;     
         bindView($('.asideView').get(0), d);
     }
 
-    function goCreatepossession() {
+    function goCreatePossession() {
         location.href = "createpossession.html?estatepkey=" + $('.asideView').get(0).adata.officialestatepkey;
     }
 </script>

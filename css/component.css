@@ -557,6 +557,14 @@
     font-size : 12px;
 }
 
+.cellView .cellRowTitle {
+    width: 200px;
+    border-bottom: 1px solid white;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px;
+}
+
 .cellView .cellCol {
     width: 100%;
     height: 100%;
@@ -610,6 +618,7 @@
 }
 
 .cellView .cell input[type='text'],
+.cellView .cell input[type='password'],
 .cellView .cell input[type='month'],
 .cellView .cell input[type='date'] {
     width: 100%;
@@ -770,6 +779,36 @@
     width: 100%;    
     height: 100%;    
     background-color: white;
+}
+
+/* CARDVIEW */
+.cardView {
+    width: 150px;    
+}
+
+.cardView .thumb {
+    width: 100%;
+    aspect-ratio: 1;
+    background-color: white;
+    border-radius: 8px;
+}
+
+.cardView .thumb img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.cardView .info {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
 }
 
 /* CHARTBOX */

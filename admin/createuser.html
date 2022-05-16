@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/main.css">    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/js/api.js"></script>    
+    <script src="/js/main.js"></script>    
+    <title>SEUM RMS</title>
+</head>
+<body>
+    <div id="app" user="admin">
+        <header loadsrc="../layout/header.html">
+        </header>
+        <main>
+            <nav loadsrc="../layout/nav.html" currentmenu="owner.html" auth="admin"></nav>
+            <article>
+                <div class="contentHeader">
+                    <div class="contentHeaderStartContainer">
+                        <div class="title">create user</div>
+                    </div>
+                    <div class="contentHeaderEndContainer"></div>
+                </div>
+                <div class="contentMain">
+                    <div class="cellView" style="width:500px">
+                        <div class="cellCol">
+                            <div class="cellRow">
+                                <label class="cell" for="username">
+                                    <span class="cellTitle">이름</span>
+                                    <input type="text" name="username" id="username" placeholder="이름을 입력하세요" autocomplete="no">
+                                </label>                            
+                            </div>
+                            <div class="cellRow">
+                                <label class="cell" for="userid">
+                                    <span class="cellTitle">아이디</span>
+                                    <input type="text" name="userid" id="userid" placeholder="아이디를 입력하세요" autocomplete="no">
+                                </label>
+                            </div>
+                            <div class="cellRow">
+                                <label class="cell" for="userpw">
+                                    <span class="cellTitle">패스워드</span>
+                                    <input type="password" name="userpw" id="userpw" placeholder="패스워드를 입력하세요" autocomplete="new-password">
+                                </label>
+                            </div>
+                            <div class="cellRow">
+                                <label class="cell" for="userpw2">
+                                    <span class="cellTitle">패스워드 확인</span>
+                                    <input type="password" name="userpw2" id="userpw2" placeholder="패스워드를 입력하세요" autocomplete="new-password">
+                                </label>
+                            </div>                            
+                            <div class="cellRow">
+                                <div class="cell view provincelist">
+                                    <span class="cellTitle">권한</span>                                    
+                                    <select name="rolepkey" id="rolepkey" style="font-size: 12px;">
+                                        <option value="ALL">선택</option>                                        
+                                        <option value="1">관리자</option>                                        
+                                        <option value="2">게스트</option>                                        
+                                        <option value="3">협력사</option>                                        
+                                    </select>
+                                </div>
+                                
+                            </div>
+
+                            
+                            <div class="rowFlexContainer" style="justify-content: flex-end;">
+                                <div class="buttonView" onclick="submitCreateUser()">
+                                    <span>확인</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>                
+            </article>
+            <aside></aside>
+        </main>
+    </div>
+</body>
+</html>
+
+<script>
+    function runSetup() {
+        findItems(document);        
+    }
+
+    function submitCreateUser() {
+        var formData = getDataFrom('.cellView');        
+        if(!formData.username || formData.username.trim() == "") { showToast("이름을 입력하세요"); return; }
+        if(!formData.userid || formData.userid.trim() == "") { showToast("주소를 입력하세요"); return; }
+        if(!formData.userpw || formData.userpw.trim() == "") { showToast("패스워드를 입력하세요"); return; }
+        if(!formData.userpw2 || formData.userpw2.trim() == "") { showToast("패스워드를 입력하세요"); return; }
+        API.addUser(formData).then(data => {
+            if(data.head.status != "ok") { showToast('사용자를 만들지 못했습니다.'); return ;}
+            alert('새 사용자가 만들어 졌습니다.');
+            location.href = "user.html";
+        })    
+    }
+</script>

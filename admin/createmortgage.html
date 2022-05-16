@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/main.css">    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/js/api.js"></script>    
+    <script src="/js/main.js"></script>    
+    <title>SEUM RMS</title>
+</head>
+<body>
+    <div id="app" user="admin">
+        <header loadsrc="../layout/header.html">
+        </header>
+        <main>
+            <nav loadsrc="../layout/nav.html" currentmenu="owner.html" auth="admin"></nav>
+            <article>
+                <div class="contentHeader">
+                    <div class="contentHeaderStartContainer">
+                        <div class="title">create mortgage</div>
+                    </div>
+                    <div class="contentHeaderEndContainer"></div>
+                </div>
+                <div class="contentMain">
+                    <div class="cellView" style="width:75%">
+                        <div class="cellCol">
+                            <div class="cellRowTitle">소유 권리</div>
+                            <div class="cellRow">                                
+                                <div class="cell">
+                                    <span class="cellTitle">소유자명</span>
+                                    <span c-bind="ownername:text"></span>
+                                </div>
+                                <div class="cell">
+                                    <span class="cellTitle">동</span>
+                                    <span c-bind="townname:text"></span>
+                                </div>                                
+                                <div class="cell">
+                                    <span class="cellTitle">지번</span>
+                                    <span c-bind="officialaddress:text"></span>
+                                </div>                            
+                            </div>
+                            <div class="cellRow">                                
+                                <div class="cell">
+                                    <span class="cellTitle">소유토지면적</span>
+                                    <span c-bind="possessionlandmeter:text"></span>
+                                </div>
+                                <div class="cell">
+                                    <span class="cellTitle">토지관리처분가</span>
+                                    <span c-bind="landpurchaseprice:text:formatWon"></span>
+                                </div>
+                                <div class="cell">
+                                    <span class="cellTitle">토지소유이전일</span>
+                                    <span c-bind="landtransferdate:text:formatDateNum"></span>
+                                </div>                                
+                            </div>
+                            <div class="cellRow">                                
+                                <div class="cell">
+                                    <span class="cellTitle">소유건물면적</span>
+                                    <span c-bind="possessionbuildingmeter:text"></span>
+                                </div>
+                                <div class="cell">
+                                    <span class="cellTitle">건물관리처분가</span>
+                                    <span c-bind="buildingpurchaseprice:text:formatWon"></span>
+                                </div>
+                                <div class="cell">
+                                    <span class="cellTitle">건물소유이전일</span>
+                                    <span c-bind="landtransferdate:text:formatDateNum"></span>
+                                </div>
+                            </div>
+                            <span class="cellRowTitle">근저당 설정</span>                                
+                            <div class="cellRow">
+                                <div class="cell">
+                                    <span class="cellTitle">저당권자</span>
+                                    <select name="mortgageepkey" c-bind="mortgageelist:listtemplete" c-tag="c-item" style="font-size: 12px;">
+                                        <option value="ALL">선택</option>
+                                        <option listtempitem c-item="mortgageename:option, mortgageepkey:value"></option>
+                                    </select>
+                                </div>
+                                <div class="cell">
+                                    <span class="cellTitle">근저당설정일</span>
+                                    <input type="date" name="mortgagedate" id="mortgagedate">
+                                </div>
+                                <div class="cell">
+                                    <span class="cellTitle">근저당설정액</span>
+                                    <input type="text" name="mortgageprice" id="mortgageprice" placeholder="근저당설정액을 원단위 숫자로 입력하세요. 예)8000">
+                                </div>    
+                            </div>                                                                          
+                            
+                            <div class="rowFlexContainer" style="justify-content: flex-end;">
+                                <div class="buttonView" onclick="submitCreateMortgage()">
+                                    <span>확인</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>                
+            </article>
+            <aside></aside>
+        </main>
+    </div>
+</body>
+</html>
+
+<script>
+    function runSetup() {
+        findItems(document);
+        getPossession();
+    }
+
+    function getPossession() {
+        const possessionpkey = getParam('possessionpkey');
+        API.getPossession({possessionpkey : possessionpkey})
+        .then(data => {
+            API.listMortgagee().then(res => {
+                data.body.possession.mortgageelist = res.body.mortgageelist;
+                bindView($('.cellView').get(0), data.body.possession); 
+                console.log(data);               
+            });
+        })
+    }
+
+    function submitCreateMortgage() {
+        var formData = getDataFrom('.cellView');
+        
+        formData.possessionpkey = getParam('possessionpkey');        
+        formData.mortgagedate = formData.mortgagedate.replace(/-/g, "");
+        console.log(formData);
+        API.addMortgage(formData).then(data => {
+            if(data.head.status != "ok") { showToast('근저당권을 만들지 못했습니다.'); return ;}
+            alert('새 근저당권이 만들어 졌습니다.');
+            location.href = "realestate.html";
+        });    
+    }
+</script>

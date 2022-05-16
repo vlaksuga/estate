@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/main.css">    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/js/api.js"></script>    
+    <script src="/js/main.js"></script>
+    <title>SEUM RMS</title>
+</head>
+
+<body>
+    <div id="app" user="admin">
+        <header loadsrc="../layout/header.html">
+        </header>
+        <main>
+            <nav loadsrc="../layout/nav.html" currentmenu="home.html" auth="admin"></nav>
+            <article>
+                <div class="contentHeader">
+                    <div class="contentHeaderStartContainer">
+                        <div class="title">home</div>
+                    </div>
+                    <div class="contentHeaderEndContainer">
+                        <span class="material-icons" style="font-size: 18px; cursor: pointer;" onclick="createEstate()">add</span>
+                    </div>
+                </div>
+                <div class="contentMain">
+
+                </div>                 
+            </article>
+            <aside></aside>
+        </main>
+    </div>
+</body>
+
+</html>
+
+<script>
+    
+    function runSetup() {
+        findItems(document);
+        setListEstate();
+    }    
+
+    function setListEstate() {
+        API.listEstate().then(data => {
+            console.log(data);
+            bindView($('.estatelist').get(0), data.body);
+        });
+        
+    }
+
+    function createEstate() {
+        location.href = "createestate.html";
+    }
+
+    function selectEstate(v, d, e){
+        $(e).on('click', function() {
+            $('.estatelist').hide();
+            $('.possessionlist').show();
+            showAside('../aside/detailestate.html', function(){ mapAside(d)} );
+            API.listPossession({officialestatepkey : v}).then(data => {
+                clearItems('.possessionlist');
+                bindView($('.possessionlist').get(0), data.body);
+                console.log(data);
+            });
+        })
+        return v;
+    }
+
+    function backToEstateList() {
+        $('.possessionlist').hide();
+        $('.estatelist').show();        
+        hideAside();
+    }
+
+</script>

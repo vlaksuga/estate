@@ -2,12 +2,13 @@
     <div class="userContainer" style="cursor: pointer;">
         <div class="profileView">
             <div class="thumb">
-                <span class="thumb material-icons" style="background-color: var(--theme-color-prime);" c-bind="auth:text:setUserThumb"></span>
+                <span class="thumb material-icons" style="background-color: var(--theme-color-prime); display: none;" c-bind="auth:text:setUserThumb">setUserThumb</span>
+                <span class="thumb material-icons" style="background-color: var(--theme-color-prime);">storefront</span>
             </div>
             <div class="infoContainer">
                 <div class="info">
-                    <span class="name" c-bind="name:text"></span>
-                    <div class="detail" c-bind="auth:text:setDetail"></div>
+                    <span class="name">유바울</span>
+                    <div class="detail">관리자</div>
                 </div>
                 <div class="actions"></div>
             </div>
@@ -23,8 +24,16 @@
             <span class="name">real estate</span>
         </div>
         <div class="menuView" id="menu_overview" viewlink="owner.html" auth="all">
-            <span class="material-icons thumb">person</span>
+            <span class="material-icons thumb">house</span>
             <span class="name">owner</span>
+        </div>
+        <div class="menuView" id="menu_overview" viewlink="mortgagee.html" auth="all">
+            <span class="material-icons thumb">paid</span>
+            <span class="name">mortgagee</span>
+        </div>
+        <div class="menuView" id="menu_overview" viewlink="user.html" auth="all">
+            <span class="material-icons thumb">manage_accounts</span>
+            <span class="name">user</span>
         </div>
         
     </div>

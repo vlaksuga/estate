@@ -17,45 +17,63 @@
         <header loadsrc="../layout/header.html">
         </header>
         <main>
-            <nav loadsrc="../layout/nav.html" currentmenu="owner.html" auth="admin"></nav>
+            <nav loadsrc="../layout/nav.html" currentmenu="user.html" auth="admin"></nav>
             <article>
                 <div class="contentHeader">
                     <div class="contentHeaderStartContainer">
-                        <div class="title">owner</div>
+                        <div class="title">user</div>
                     </div>
                     <div class="contentHeaderEndContainer">
-                        <span class="material-icons" style="font-size: 18px; cursor: pointer;" onclick="createOwner()">add</span>
+                        <span class="material-icons" style="font-size: 18px; cursor: pointer;" onclick="createUser()">add</span>
                     </div>
                 </div>
                 <div class="contentMain">
                     <div class="rowFlexContainer" style="gap:16px;">
 
-                        <div class="itemList ownerlist" style="transition: all 0.5s ease-in-out;">
+                        <div class="itemList userlist" style="transition: all 0.5s ease-in-out;">
                             <div class="itemListStart">
                                 <div class="rowFlexContainer" style="gap:10px; align-items: center;">
-                                    <span class="itemListTitle">소유자</span>                                    
+                                    <span class="itemListTitle">계정</span>                                    
                                 </div>
                                 <div class="rowView header">
-                                    <div class="rowItem" style="width: 10%">
+                                    <div class="rowItem" style="width: 100%">
                                         <span>이름</span>
                                     </div>
                                     <div class="rowItem" style="width: 100%">
-                                        <span>주소</span>
+                                        <span>아이디</span>
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span>권한</span>
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span>상태</span>
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span>생성일</span>
                                     </div>
                                 </div>                                
                             </div>
 
                             <div class="itemListEnd">
-                                <div class="overflowContainer" style="max-height: calc(); overflow-y: auto;">
-                                    <div class="colFlexContainer" c-bind="ownerlist:list" style="gap: 10px;">                                        
+                                <div class="overflowContainer" style="max-height: 500px; overflow-y: auto;">
+                                    <div class="colFlexContainer" c-bind="userlist:list" style="gap: 10px;">                                        
                                                                                 
                                         <item>
                                             <div class="rowView light" c-bind="estatepkey:estatepkey:selectOwner" style="cursor:pointer;">
-                                                <div class="rowItem" style="width: 10%">
-                                                    <span c-bind="ownername:text"></span>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="username:text"></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="owneraddress:text"></span>
+                                                    <span c-bind="userid:text"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="rolename:text"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="userstatus:text"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="usercreatedate:text:formatDateNum"></span>
                                                 </div>
                                             </div>
                                         </item>                                   
@@ -63,7 +81,7 @@
                                         <emptyitem style="display: none;">
                                             <div class="emptyContainer">
                                                 <div class="msgBox">
-                                                    <span>소유자가 없습니다.</span>                                            
+                                                    <span>계정이 없습니다.</span>                                            
                                                 </div>
                                             </div>
                                         </emptyitem>
@@ -86,18 +104,17 @@
     
     function runSetup() {
         findItems(document);
-        setListOwner();
+        setListUser();
     }    
 
-    function setListOwner() {
-        API.listOwner().then(data => {
-            console.log(data);
-            bindView($('.ownerlist').get(0), data.body);
+    function setListUser() {
+        API.listUser().then(data => {            
+            bindView($('.userlist').get(0), data.body);
         });
     }
 
-    function createOwner() {
-        location.href = "createowner.html";
+    function createUser() {
+        location.href = "createuser.html";
     }
 
     function selectOwner(v, d, e){
