@@ -30,15 +30,12 @@
                 <div class="contentMain">
                     <div class="rowFlexContainer" style="gap:16px;">
 
-                        <div class="itemList estatelist" style="transition: all 0.5s ease-in-out;">
+                        <div class="itemList estatelist" style="transition: all 0.5s ease-in-out; width: 1000px;">
                             <div class="itemListStart">
                                 <div class="rowFlexContainer" style="gap:10px; align-items: center;">
                                     <span class="itemListTitle">등록 물건</span>                                    
                                 </div>
                                 <div class="rowView header">
-                                    <div class="rowItem" style="width: 100%">
-                                        <span>상태</span>
-                                    </div>
                                     <div class="rowItem" style="width: 100%">
                                         <span>지번</span>
                                     </div>
@@ -47,6 +44,12 @@
                                     </div>
                                     <div class="rowItem" style="width: 100%">
                                         <span>지목</span>                                        
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span>건물명</span>                                        
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span>업종</span>                                        
                                     </div>
                                     <div class="rowItem" style="width: 100%" >
                                         <span>토지면적</span>
@@ -71,9 +74,7 @@
                                                                                 
                                         <item>
                                             <div class="rowView light" c-bind="officialestatepkey:officialestatepkey:selectEstate" style="cursor:pointer;">
-                                                <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="officialstatus:text"></span>
-                                                </div>
+
                                                 <div class="rowItem" style="width: 100%">
                                                     <span c-bind="officialaddress:text"></span>
                                                 </div>
@@ -82,6 +83,12 @@
                                                 </div>
                                                 <div class="rowItem" style="width: 100%">
                                                     <span c-bind="officialnomination:text"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="officialbuildingname:text"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="officialbuildingsector:text"></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 100%">
                                                     <span c-bind="officiallandmeter:text"></span>
@@ -116,7 +123,7 @@
                             </div>
                         </div>
 
-                        <div class="itemList possessionlist" style="display: none; transition: all 0.5s ease-in-out;">
+                        <div class="itemList possessionlist" style="transition: all 0.5s ease-in-out; width: 800px; display: none;">
                             <div class="itemListStart">
                                 <div class="rowFlexContainer" style="gap:10px; align-items: center;">                                    
                                     <span class="material-icons" onclick="backToEstateList()" style="cursor: pointer;">chevron_left</span>
@@ -192,7 +199,7 @@
                             </div>
                         </div>
 
-                        <div class="itemList possessionmortgagelist" style="display: none; transition: all 0.5s ease-in-out;">
+                        <div class="itemList possessionmortgagelist" style="transition: all 0.5s ease-in-out; width: 800px; display: none;">
                             <div class="itemListStart">
                                 <div class="rowFlexContainer" style="gap:10px; align-items: center;">
                                     <span class="material-icons" onclick="backToPossessionList()" style="cursor: pointer;">chevron_left</span>
@@ -277,10 +284,14 @@
 
     function selectEstate(v, d, e){
         $(e).on('click', function() {
-            $('.estatelist').hide();
+            $('.estatelist .rowView').removeClass('active');
+            $(this).addClass('active');
+
+            showAside('../aside/detailestate.html', function(){ mapAside(d)} );   
+            $('.estatelist').css('margin-left', "-1016px");
             $('.possessionlist').show();
-            $('.possessionmortgagelist').hide();            
-            showAside('../aside/detailestate.html', function(){ mapAside(d)} );            
+            $('.possessionmortgagelist').hide();                                 
+
             API.listPossessionByEstate({officialestatepkey : v}).then(data => {
                 clearItems('.possessionlist');
                 bindView($('.possessionlist').get(0), data.body);            
@@ -291,10 +302,13 @@
 
     function selectPossession(v, d, e){
         $(e).on('click', function() {
-            $('.estatelist').hide();
-            $('.possessionlist').hide();
-            $('.possessionmortgagelist').show();            
+            $('.possessionlist .rowView').removeClass('active');
+            $(this).addClass('active');  
+
             showAside('../aside/detailpossession.html', function(){ mapAside(d)} );
+            $('.possessionlist').css('margin-left', '-816px');
+            $('.possessionmortgagelist').show();                   
+                 
             API.listPossessionMortgage({possessionpkey : v}).then(data => {
                 clearItems('.possessionmortgagelist');
                 bindView($('.possessionmortgagelist').get(0), data.body);            
@@ -303,18 +317,18 @@
         return v;
     }
 
-    function backToEstateList() {
-        $('.estatelist').show();    
-        $('.possessionlist').hide();            
+    function backToEstateList() {        
+        $('.estatelist').css('margin-left', '0');
+        $('.possessionlist').hide();
         $('.possessionmortgagelist').hide();
+        $('.estatelist .rowView').removeClass('active');
         hideAside();
     }
 
-    function backToPossessionList() {
-        $('.estatelist').hide();        
-        $('.possessionlist').show();        
+    function backToPossessionList() {        
+        $('.possessionlist').css('margin-left', '0');
         $('.possessionmortgagelist').hide();
-        hideAside();
+        showAside('../aside/detailestate.html', function(){ mapAside($('.estatelist .rowView.active').get(0).binddata) });        
     }
 
 </script>

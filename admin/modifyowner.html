@@ -19,12 +19,13 @@
             <article>
                 <div class="contentHeader">
                     <div class="contentHeaderStartContainer">
-                        <div class="title">create owner</div>
+                        <div class="title">edit owner</div>
                     </div>
                     <div class="contentHeaderEndContainer"></div>
                 </div>
                 <div class="contentMain">
                     <div class="cellView" style="width:60%">
+                        <input type="hidden" name="ownerpkey" c-bind="ownerpkey:value">
                         <div class="cellCol">
                             <div class="cellRowTitle">소유자</div>
                             <div class="cellRow">
@@ -32,13 +33,13 @@
                                     <div class="cellRow">
                                         <label class="cell" for="ownername">
                                             <span class="cellTitle">이름</span>
-                                            <input type="text" name="ownername" id="ownername" placeholder="이름을 입력하세요">
+                                            <input type="text" c-bind="ownername:value" name="ownername" id="ownername" placeholder="이름을 입력하세요">
                                         </label>
                                     </div>
                                     <div class="cellRow">
                                         <div class="cell">
                                             <span class="cellTitle">구분</span>
-                                            <select name="ownerkind" style="font-size: 12px;" onchange="setIdKind(this)">
+                                            <select name="ownerkind" c-bind="ownerkind:select" style="font-size: 12px;" onchange="setIdKind(this)">
                                                 <option value="ALL">선택</option>
                                                 <option value="PERSONAL">개인</option>
                                                 <option value="CORPORATION">법인</option>
@@ -51,44 +52,44 @@
                                         <div class="cell view provincelist">
                                             <span class="cellTitle">시/도</span>
                                             
-                                            <select name="provincepkey" id="provicefilter" c-bind="provincelist:listtemplete" c-tag="c-item" style="font-size: 12px;" onchange="onProvinceFilterChanged(this)">
+                                            <select name="provincepkey" id="provicefilter" c-bind="provincelist:listtemplete" c-tag="c-item" style="font-size: 12px;" onchange="onProvinceFilterChanged(this)" autoset="Y">
                                                 <option value="ALL">선택</option>
                                                 <option listtempitem c-item="provincename:option, provincepkey:value"></option>
                                             </select>
                                         </div>
                                         <div class="cell view arealist">
                                             <span class="cellTitle">구/군</span>
-                                            <select name="areapkey" id="areafilter" c-bind="arealist:listtemplete" c-tag="c-item" style="font-size: 12px;" >
+                                            <select name="areapkey" id="areafilter" c-bind="arealist:listtemplete" c-tag="c-item" style="font-size: 12px;" autoset="Y">
                                                 <option value="ALL">선택</option>
                                                 <option listtempitem c-item="areaname:option, areapkey:value"></option>
                                             </select>
                                         </div>
                                         <label class="cell" for="addressdetail">
                                             <span class="cellTitle">상세주소</span>
-                                            <input type="text" id="addressdetail" placeholder="상세주소를 입력하세요">
+                                            <input type="text" id="addressdetail" c-bind="owneraddress:value:formatOnwerAddress" placeholder="상세주소를 입력하세요">
                                         </label>
                                     </div>
 
                                     <div class="cellRow">                                
                                         <label class="cell" for="owneridnumber">
                                             <span class="cellTitle">식별번호</span>
-                                            <input type="text" name="owneridnumber"  id="owneridnumber" placeholder="소유자의 종류를 선택해주세요">
+                                            <input type="text" name="owneridnumber" c-bind="owneridnumber:value" id="owneridnumber" placeholder="소유자의 종류를 선택해주세요">
                                         </label>
                                         <label class="cell" for="owneraddress">
                                             <span class="cellTitle">TEL</span>
-                                            <input type="text" name="ownertel" id="ownertel" placeholder="전화번호를 입력하세요">
+                                            <input type="text" name="ownertel" id="ownertel" c-bind="ownertel:value:formatTel" placeholder="전화번호를 입력하세요">
                                         </label>
                                         <label class="cell" for="owneraddress">
                                             <span class="cellTitle">PHONE</span>
-                                            <input type="text" name="ownerphone" id="ownerphone" placeholder="휴대전화를 입력하세요">
+                                            <input type="text" name="ownerphone" id="ownerphone" c-bind="ownerphone:value:formatTel" placeholder="휴대전화를 입력하세요">
                                         </label>
                                     </div>
-                                </div> 
-                            </div>                            
+                                </div>
+                            </div>
 
                             
                             <div class="rowFlexContainer" style="justify-content: flex-end;">
-                                <div class="buttonView" onclick="submitCreateOwner()">
+                                <div class="buttonView" onclick="submitModifyOwner()">
                                     <span>확인</span>
                                 </div>
                             </div>
@@ -106,12 +107,28 @@
 <script>
     function runSetup() {
         findItems(document);
-        setListProvince();
+        setOwner();        
+    }
+
+    function setOwner() {
+        API.getOwner({ownerpkey : getParam('ownerpkey')}).then(data => {
+            bindView($('.cellView').get(0), data.body.owner);
+            currentData = data.body.owner;
+            console.log(data);
+            setListProvince();            
+        })
     }
 
     function setListProvince() {
         API.listProvince().then(data => {
             bindView($('.provincelist').get(0), data.body);
+            const filter = $('#provicefilter').get(0);
+            if(filter.getAttribute('autoset') == "Y") {
+                const option = Array.from(filter.options).find(opt => { return opt.value == currentData.provincepkey });                    
+                filter.selectedIndex = option.index;
+                filter.onchange(filter);
+                filter.setAttribute('autoset', "N");
+            }
         })
     }
 
@@ -119,30 +136,40 @@
         if(ele.value == "ALL") { return; }
         API.listArea({provincepkey : ele.value}).then(data => {              
             bindView($('.arealist').get(0), data.body);
+            const filter = $('#areafilter').get(0);
+            if(filter.getAttribute('autoset') == "Y") {
+                const option = Array.from(filter.options).find(opt => { return opt.value == currentData.areapkey });                    
+                filter.selectedIndex = option.index;                
+                filter.setAttribute('autoset', "N");
+            } 
         });                  
     }
 
-    function submitCreateOwner() {        
+    function submitModifyOwner() {
         var formData = getDataFrom('.cellView');       
         formData.owneraddress = `${$('#provicefilter option:checked').text()} ${$('#areafilter option:checked').text()} ${$('#addressdetail').val()}`;
         formData.owneraddress = formData.owneraddress.trim();
         if(!formData.ownername || formData.ownername.trim() == "") { showToast("이름을 입력하세요"); return; }
-        
-        if(!formData.provincepkey || formData.provincepkey=="ALL") { showToast("시/도를 선택하세요"); return; }
-        if(!formData.areapkey || formData.areapkey=="ALL") { showToast("구/군을 선택하세요"); return; }        
         if(!formData.owneraddress || formData.owneraddress.trim() == "") { showToast("주소를 입력하세요"); return; }
-        if(!formData.ownerkind || formData.ownerkind == "ALL") { showToast('구분을 선택해주세요'); return;}        
-        API.addOwner(formData).then(data => {
-            if(data.head.status != "ok") { showToast('소유자를 만들지 못했습니다.'); return ;}
-            alert('새 소유자가 만들어 졌습니다.');
+        if(!formData.provincepkey || formData.provincepkey=="ALL") { showToast("시/도를 선택하세요"); return; }
+        if(!formData.areapkey || formData.areapkey=="ALL") { showToast("구/군을 선택하세요"); return; }
+        if(!formData.ownerkind || formData.ownerkind == "ALL") { showToast('구분을 선택해주세요'); return;}
+        console.log(formData);
+        /* API.modifyOwner(formData).then(data => {
+            if(data.head.status != "ok") { showToast('소유자를 수정하지 못했습니다.'); return ;}
+            alert('소유자가 수정되었습니다.');
             location.href = "owner.html";
-        })    
+        })  */   
     }
 
-    function setIdKind(ele) {
-        var msg = "소유자의 종류를 선택해주세요";                
-        if(ele.value == "PERSONAL") { msg = "주민등록번호를 입력해주세요" }
-        if(ele.value == "CORPORATION") { msg = "사업자등록번호를 입력해주세요" }    
-        $('#owneridnumber').attr('placeholder', msg);        
+    function formatOnwerAddress(v, d, e) {
+        console.log(v.split(' '))
+        let address = v.split(' ');
+        let ret = [];
+        for(i=2; i<address.length; i++) {
+            ret.push(address[i]);
+        }
+        ret = ret.join(' ');
+        return ret;
     }
 </script>

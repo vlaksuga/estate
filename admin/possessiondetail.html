@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/main.css">    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/js/api.js"></script>    
+    <script src="/js/main.js"></script>
+    <title>SEUM RMS</title>
+</head>
+
+<body>
+    <div id="app" user="admin">
+        <header loadsrc="../layout/header.html">
+        </header>
+        <main>
+            <nav loadsrc="../layout/nav.html" currentmenu="owner.html" auth="admin"></nav>
+            <article>
+                <div class="contentHeader">
+                    <div class="contentHeaderStartContainer">
+                        <div class="title">possession detail</div>
+                    </div>
+                    <div class="contentHeaderEndContainer">                        
+                    </div>
+                </div>
+                <div class="contentMain">
+                    <div class="overflowContainer" style="max-height: calc(100vh - 130px); overflow-y: auto;">
+                        <div class="cellView">
+                            <div class="cellCol">
+                                <div class="cellRowTitle">대상 정보</div>
+                                
+                                <div class="cellRow">                                
+                                    <div class="cell view">
+                                        <span class="cellTitle">소재지</span>
+                                        <span c-bind="estate.townname:text:formatAddress"></span>
+                                    </div>
+                                    <div class="cell view">
+                                        <span class="cellTitle">지목</span>
+                                        <span c-bind="estate.officialnomination:text"></span>
+                                    </div>
+                                    <div class="cell view">
+                                        <span class="cellTitle">건물명</span>
+                                        <span c-bind="estate.officialbuildingname:text"></span>
+                                    </div>
+                                    <div class="cell view">
+                                        <span class="cellTitle">업종</span>
+                                        <span c-bind="estate.officialbuildingsector:text"></span>
+                                    </div>
+                                </div>
+                                
+                                <div class="cellRowTitle">소유자</div>
+
+                                <div class="cellRow">                                
+                                    <div class="cell view">
+                                        <span class="cellTitle">이름</span>
+                                        <span c-bind="owner.ownername:text"></span>
+                                    </div>
+                                    <div class="cell view">
+                                        <span class="cellTitle">주소</span>
+                                        <span c-bind="owner.owneraddress:text"></span>
+                                    </div>
+                                    <div class="cell view">
+                                        <span class="cellTitle">주민등록번호</span>
+                                        <span c-bind="owner.ownerresidentnumber:text"></span>
+                                    </div>
+                                    <div class="cell view">
+                                        <span class="cellTitle">HP</span>
+                                        <span c-bind="owner.ownerphone:text:formatTel"></span>
+                                    </div>                                
+                                    <div class="cell view">
+                                        <span class="cellTitle">TEL</span>
+                                        <span c-bind="owner.ownertel:text:formatTel"></span>
+                                    </div>
+                                </div>                            
+    
+                                <div class="cellRowTitle">관리처분</div>
+                                <div class="cellRowSubtitle">토지</div>
+                                <div class="cellRow">                                                  
+                                    <div class="cell view">
+                                        <span class="cellTitle">토지평당가</span>
+                                        <span c-bind="landpurchaseprice:text:formatWon"></span>
+                                    </div>                                
+                                    <div class="cell view">
+                                        <span class="cellTitle">토지면적 평</span>
+                                        <span c-bind="possessionlandmeter:text"></span>
+                                    </div>
+                                    <div class="cell view">
+                                        <span class="cellTitle">토지면적 제곱</span>
+                                        <span c-bind="possessionlandmeter:text"></span>
+                                    </div>
+                                </div>
+                                <div class="cellRow">
+                                    <div class="cell view">
+                                        <span class="cellTitle">공시토지평당가</span>
+                                        <span c-bind="estate.officiallandprice:text:formatWon"></span>
+                                    </div>                                
+                                    <div class="cell view">
+                                        <span class="cellTitle">공시토지면적 평</span>
+                                        <span c-bind="estate.officiallandmeter:text"></span>
+                                    </div>
+                                    <div class="cell view">
+                                        <span class="cellTitle">공시토지면적 제곱</span>
+                                        <span c-bind="estate.officiallandprice:text"></span>
+                                    </div>
+                                </div>
+                                <div class="cellRow">
+                                    <div class="cell view">
+                                        <span class="cellTitle">평당가차액</span>
+                                        <span c-bind="landpurchaseprice:text:getLandPriceGap"></span>
+                                    </div>                                                                        
+                                </div>
+
+                                <div class="cellRowSubtitle">건물</div>
+                                <div class="cellRow">                                                  
+                                    <div class="cell view">
+                                        <span class="cellTitle">건물평당가</span>
+                                        <span c-bind="buildingpurchaseprice:text:formatWon"></span>
+                                    </div>                                
+                                    <div class="cell view">
+                                        <span class="cellTitle">건물면적 평</span>
+                                        <span c-bind="possessionbuildingmeter:text"></span>
+                                    </div>
+                                    <div class="cell view">
+                                        <span class="cellTitle">토지면적 제곱</span>
+                                        <span c-bind="possessionbuildingmeter:text"></span>
+                                    </div>
+                                </div>
+                                <div class="cellRow">
+                                    <div class="cell view">
+                                        <span class="cellTitle">공시토지평당가</span>
+                                        <span c-bind="estate.officialbuildingprice:text:formatWon"></span>
+                                    </div>                                
+                                    <div class="cell view">
+                                        <span class="cellTitle">공시토지면적 평</span>
+                                        <span c-bind="estate.officialbuildingmeter:text"></span>
+                                    </div>
+                                    <div class="cell view">
+                                        <span class="cellTitle">공시토지면적 제곱</span>
+                                        <span c-bind="estate.officialbuildingprice:text"></span>
+                                    </div>
+                                </div>
+                                <div class="cellRow">
+                                    <div class="cell view">
+                                        <span class="cellTitle">평당가차액</span>
+                                        <span c-bind="buildingpurchaseprice:text:getBuildingPriceGap"></span>
+                                    </div>                                                                        
+                                </div>                                                                                                                                                               
+                                
+
+                                <!-- <div class="cellRowTitle">종전자산</div>
+                                <div class="cellRow">
+                                    <div class="cell view">
+                                        <span class="cellTitle">소재지</span>
+                                        <span c-bind="possessionaddress:text"></span>
+                                    </div>
+                                    <div class="cell view">
+                                        <span class="cellTitle">100%</span>
+                                        <span c-bind="possessionaddress:text"></span>
+                                    </div>
+                                    <div class="cell view">
+                                        <span class="cellTitle">130%</span>
+                                        <span c-bind="possessionaddress:text"></span>
+                                    </div>                                                                                  
+                                </div> -->
+
+
+    
+                                <div class="cellRowTitle">등기부권리사항</div>
+                                
+                                <div class="wrap" c-bind="landhistory:list" style="display: flex; flex-direction: column; gap: 8px;">
+                                    <item>
+                                        <div class="cellRow">                                
+                                            <div class="cell view">
+                                                <span class="cellTitle">구분</span>
+                                                <span c-bind="historykind:text"></span>                                        
+                                            </div>
+                                            <div class="cell view">
+                                                <span class="cellTitle">권리자</span>
+                                                <span c-bind="historyowner:text"></span>                                        
+                                            </div>                        
+                                            <div class="cell view">
+                                                <span class="cellTitle">설정일</span>
+                                                <span c-bind="createdate:text:formatDateNum"></span>
+                                            </div>
+                                            <div class="cell view">
+                                                <span class="cellTitle">금액</span>
+                                                <span c-bind="historyprice:text:formatWon"></span>
+                                            </div>                                   
+                                        </div>
+                                    </item>
+                                </div>                                
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>                 
+            </article>
+            <aside></aside>
+        </main>
+    </div>
+</body>
+
+</html>
+
+<script>
+    
+    function runSetup() {
+        findItems(document);        
+        setOwnerDetail()
+    }    
+    function setOwnerDetail(){
+        const config = { possessionpkey : getParam('possessionpkey') }
+        API.getPossession(config).then(data => {                       
+            console.log(data);
+            data.body.possession.landhistory = getLandHistory(data.body.possession);
+            bindView($('.cellView').get(0), data.body.possession);
+        })
+    }
+
+    function formatAddress(v, d, e) {
+        return v + " " + d.estate.officialaddress + "지번";
+    }
+
+    function getLandPriceGap (v, d, e) {
+        return formatNumber(parseInt(v) - parseInt(d.estate.officiallandprice));
+    }
+
+    function getBuildingPriceGap (v, d, e) {
+        return formatNumber(parseInt(v) - parseInt(d.estate.officialbuildingprice));
+    }
+
+    function getLandHistory(p) {
+        let ret = [];
+        var landpossession = {
+            kind : "LAND",
+            historypkey : "-1",
+            historykind : "POSSESSION",
+            historyowner : p.owner.ownername,
+            historyownerpkey : p.owner.ownerpkey,
+            historyprice : p.landpurchaseprice,
+            createdate : p.landtransferdate
+        }
+        ret.push(landpossession);
+        for(i=0; i<p.landmortgagelist.length; i++) {
+            let m = p.landmortgagelist[i];
+            var mortgage = {
+                kind : "LAND",
+                hitorypkey : m.mortgagepkey,
+                historykind : "MORTGAGE",
+                historyowner : m.mortgageename,
+                historyownerpkey : m.mortgageepkey,
+                historyprice : m.mortgageprice,
+                createdate : m.mortgagedate
+            }
+            ret.push(mortgage);
+        }
+        return ret;
+    }
+
+    
+
+</script>

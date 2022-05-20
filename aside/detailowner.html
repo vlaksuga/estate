@@ -10,12 +10,30 @@
                 <span class="value" c-bind="ownername:text"></span>
             </div>
             <div class="propertyView">
+                <span class="key">구분</span>
+                <span class="value" c-bind="ownerkind:text:formatOwnerKind"></span>
+            </div>
+            <div class="propertyView">
+                <span class="key">식별번호</span>
+                <span class="value" c-bind="owneridnumber:text"></span>
+            </div>
+            <div class="propertyView">
                 <span class="key">주소</span>
                 <span class="value" c-bind="owneraddress:text"></span>
+            </div>
+            <div class="propertyView">
+                <span class="key">TEL</span>
+                <span class="value" c-bind="ownertel:text:formatTel"></span>
+            </div>
+            <div class="propertyView">
+                <span class="key">PHONE</span>
+                <span class="value" c-bind="ownerphone:text:formatTel"></span>
             </div>            
         </div>
         <div class="asideFooter">
-
+            <div class="buttonView" onclick="goModifyOwner()">
+                <span>소유자 수정</span>
+            </div>
         </div>
         
     </div>
@@ -25,5 +43,9 @@
     function mapAside(d) {                    
         $('.asideView').get(0).adata = d;     
         bindView($('.asideView').get(0), d);
+    }
+
+    function goModifyOwner() {
+        location.href = "modifyowner.html?ownerpkey=" + $('.asideView').get(0).adata.ownerpkey;
     }
 </script>

@@ -1,7 +1,7 @@
-const TEST_MODE = true;
+const TEST_MODE = false;
 
-const IMG_SERVER = TEST_MODE ? "http://192.168.50.24:7777/" : "https://tms.webtoon.ai:3000/" ; 
-const API_SERVER = TEST_MODE ? "http://192.168.50.24:7777/" : "https://tms.webtoon.ai:3000/" ; 
+const IMG_SERVER = TEST_MODE ? "http://192.168.50.24:7777/" : "http://15.164.216.77:7777/" ; 
+const API_SERVER = TEST_MODE ? "http://192.168.50.24:7777/" : "http://15.164.216.77:7777/" ; 
 
 
 class Api {
@@ -75,13 +75,17 @@ class CommonApi extends Api {
     listPossessionMortgage(data) { return super.get("s/listPossessionMortgage.json", data) }
 
     getEstate(data) { return super.get("s/getEstate.json", data) }
-    getPossession(data) { return super.get("s/getPossession.json", data) }
+    getOwner(data) { return super.get("s/getOwner.json", data) }
+    getPossession(data) { return super.get("s/getPossession.json", data) }    
         
                                            
 
     /* post */
     addEstate(data) { return super.post("addEstate.json", data) }
+    modifyEstate(data) { return super.post("modifyEstate.json", data) }
+
     addOwner(data) { return super.post("addOwner.json", data) }
+    modifyOwner(data) { return super.post("modifyOwner.json", data) }
     addUser(data) { return super.post("addUser.json", data) }
     addPossession(data) { return super.post("addPossession.json", data) }
     addMortgage(data) { return super.post("addMortgage.json", data) }

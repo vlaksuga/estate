@@ -565,6 +565,17 @@
     padding: 4px;
 }
 
+.cellView .cellRowTitle:not(:first-child) {
+    margin-top: 10px;
+}
+
+.cellView .cellRowSubtitle {
+    width: 200px;    
+    font-size: 10px;
+    font-weight: 500;
+    padding: 4px;
+}
+
 .cellView .cellCol {
     width: 100%;
     height: 100%;

@@ -15,7 +15,7 @@
         <header loadsrc="../layout/header.html">
         </header>
         <main>
-            <nav loadsrc="../layout/nav.html" currentmenu="owner.html" auth="admin"></nav>
+            <nav loadsrc="../layout/nav.html" currentmenu="realestate.html" auth="admin"></nav>
             <article>
                 <div class="contentHeader">
                     <div class="contentHeaderStartContainer">
@@ -24,101 +24,199 @@
                     <div class="contentHeaderEndContainer"></div>
                 </div>
                 <div class="contentMain">
-                    <div class="cellView" style="width:75%">
-                        <div class="cellCol">
-                            <div class="cellRow">
+                    <div class="overflowContainer" style="max-height: calc(100vh - 150px); overflow-y: auto;">
+                        <div class="cellView" style="width:75%">
+                            <div class="cellCol">
+                                <div class="cellRowTitle">공시 정보</div>
+                                <div class="cellRow">                                
+                                    <div class="cell">
+                                        <span class="cellTitle">지번</span>
+                                        <span c-bind="officialaddress:text"></span>
+                                    </div>
+                                    <div class="cell">
+                                        <span class="cellTitle">동</span>
+                                        <span c-bind="townname:text"></span>
+                                    </div>
+                                    <div class="cell">
+                                        <span class="cellTitle">지목</span>
+                                        <span c-bind="officialnomination:text"></span>
+                                    </div>
+                                    <div class="cell">
+                                        <span class="cellTitle">건물명</span>
+                                        <span c-bind="officialbuildingname:text"></span>
+                                    </div>
+                                    <div class="cell">
+                                        <span class="cellTitle">업종</span>
+                                        <span c-bind="officialbuildingsector:text"></span>
+                                    </div>                            
+                                </div>
+    
+                                <div class="cellRowTitle">소유자</div>
+                                <div class="cellRow ownerlist">
+                                    <div class="cellCol" style="width: 33%;">
+                                        <div class="cellRow">
+                                            <div class="cell">
+                                                <span class="cellTitle">이름</span>
+                                                <select name="ownerpkey" c-bind="ownerlist:listtemplete" c-tag="c-item" style="font-size: 12px;" onchange="onSelectOnwer(this)">
+                                                    <option value="ALL">선택</option>
+                                                    <option listtempitem c-item="ownername:option, ownerpkey:value"></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="cellRow">
+                                            <div class="cell">
+                                                <span class="cellTitle">주민등록번호</span>
+                                                <span class="ownerresidentnumber"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="cellCol">
+                                        <div class="cellRow">
+                                            <div class="cell">
+                                                <span class="cellTitle">주소</span>
+                                                <span class="owneraddress"></span>
+                                            </div>
+                                        </div>
+                                        <div class="cellRow">
+                                            <div class="cell">
+                                                <span class="cellTitle">TEL</span>
+                                                <span class="ownertel"></span>
+                                            </div>
+                                            <div class="cell">
+                                                <span class="cellTitle">PHONE</span>
+                                                <span class="ownerphone"></span>
+                                            </div>
+                                        </div>
+                                    </div>                                                                
+                                </div>
+    
+    
+                                <div class="cellRowTitle">소유권리</div>
+                                <div class="cellRowSubtitle">토지</div>
+                                <div class="cellRow">
+                                    <div class="cellCol">
+                                        <div class="cellRow">
+                                            <div class="cell">
+                                                <span class="cellTitle">소유자명</span>
+                                                <span class="ownername"></span>
+                                            </div>
+                                        </div>
+                                        <div class="cellRow">
+                                            <div class="cell" for="possessionlandmeter">
+                                                <span class="cellTitle">소유권이전일</span>
+                                                <input type="date" name="landtransferdate">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="cellCol">
+                                        <div class="cellRow">
+                                            <div class="cell">
+                                                <span id="landmeter" class="cellTitle">공시면적</span>
+                                                <span c-bind="officiallandmeter:text:formatNumber"></span>
+                                            </div>
+                                        </div>
+                                        <div class="cellRow">
+                                            <div class="cell">
+                                                <span class="cellTitle">공시가격</span>
+                                                <span id="landprice" c-bind="officiallandprice:text:formatWon"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="cellCol">
+                                        <div class="cellRow">
+                                            <label class="cell" for="possessionlandmeter">
+                                                <span class="cellTitle">소유면적</span>
+                                                <input type="text" name="possessionlandmeter" id="possessionlandmeter" placeholder="소유토지면적을 &#13217 단위의 숫자로 입력하세요. 예)8000" oninput="calcPercent('landmeter', this, 'landmeterpercent')">
+                                            </label>
+                                        </div>
+                                        <div class="cellRow">
+                                            <label class="cell" for="landpurchaseprice">
+                                                <span class="cellTitle">관리처분가</span>
+                                                <input type="text" name="landpurchaseprice" id="landpurchaseprice" placeholder="소유토지면적을 &#13217 단위의 숫자로 입력하세요. 예)8000" oninput="calcPercent('landprice', this, 'landpricepercent')">
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="cellCol">
+                                        <div class="cellRow">
+                                            <div class="cell" for="possessionlandmeter">
+                                                <span class="cellTitle">소유률</span>
+                                                <span id="landmeterpercent"></span>
+                                            </div>
+                                        </div>
+                                        <div class="cellRow">
+                                            <div class="cell" for="possessionlandmeter">
+                                                <span class="cellTitle">매매가율</span>
+                                                <span id="landpricepercent"></span>
+                                            </div>
+                                        </div>
+                                    </div>               
+                                </div>
                                 
-                                <div class="cell">
-                                    <span class="cellTitle">지번</span>
-                                    <span c-bind="officialaddress:text"></span>
+                                <div class="cellRowSubtitle">건물</div>
+                                <div class="cellRow">
+                                    <div class="cellCol">
+                                        <div class="cellRow">
+                                            <div class="cell">
+                                                <span class="cellTitle ">소유자명</span>
+                                                <span class="ownername"></span>
+                                            </div>
+                                        </div>
+                                        <div class="cellRow">
+                                            <div class="cell" for="possessionlandmeter">
+                                                <span class="cellTitle">소유권이전일</span>
+                                                <input type="date" name="landtransferdate">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="cellCol">
+                                        <div class="cellRow">
+                                            <div class="cell">
+                                                <span id="landmeter" class="cellTitle">공시면적</span>
+                                                <span c-bind="officialbuildingmeter:text:formatNumber"></span>
+                                            </div>
+                                        </div>
+                                        <div class="cellRow">
+                                            <div class="cell">
+                                                <span class="cellTitle">공시가격</span>
+                                                <span id="landprice" c-bind="officialbuildingprice:text:formatWon"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="cellCol">
+                                        <div class="cellRow">
+                                            <label class="cell" for="possessionlandmeter">
+                                                <span class="cellTitle">소유면적</span>
+                                                <input type="text" name="possessionbuildingmeter" id="possessionlandmeter" placeholder="소유토지면적을 &#13217 단위의 숫자로 입력하세요. 예)8000" oninput="calcPercent('landmeter', this, 'landmeterpercent')">
+                                            </label>
+                                        </div>
+                                        <div class="cellRow">
+                                            <label class="cell" for="landpurchaseprice">
+                                                <span class="cellTitle">관리처분가</span>
+                                                <input type="text" name="buildingpurchaseprice" id="landpurchaseprice" placeholder="소유토지면적을 &#13217 단위의 숫자로 입력하세요. 예)8000" oninput="calcPercent('landprice', this, 'landpricepercent')">
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="cellCol">
+                                        <div class="cellRow">
+                                            <div class="cell" for="possessionbuildingmeter">
+                                                <span class="cellTitle">소유률</span>
+                                                <span id="buildingmeterpercent"></span>
+                                            </div>
+                                        </div>
+                                        <div class="cellRow">
+                                            <div class="cell" for="possessionbuildingmeter">
+                                                <span class="cellTitle">매매가율</span>
+                                                <span id="buildingpricepercent"></span>
+                                            </div>
+                                        </div>
+                                    </div>               
                                 </div>
-                                <div class="cell">
-                                    <span class="cellTitle">동</span>
-                                    <span c-bind="townname:text"></span>
+                                <div class="rowFlexContainer" style="justify-content: flex-end;">
+                                    <div class="buttonView" onclick="submitCreatePossession()">
+                                        <span>확인</span>
+                                    </div>
                                 </div>
-                                <div class="cell">
-                                    <span class="cellTitle">소유자</span>
-                                    <select name="ownerpkey" c-bind="ownerlist:listtemplete" c-tag="c-item" style="font-size: 12px;">
-                                        <option value="ALL">선택</option>
-                                        <option listtempitem c-item="ownername:option, ownerpkey:value"></option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="cellRow">
-                                <div class="cell">
-                                    <span id="landmeter" class="cellTitle">토지면적</span>
-                                    <span c-bind="officiallandmeter:text:formatNumber">
-                                </div>
-                                <label class="cell" for="possessionlandmeter">
-                                    <span class="cellTitle">소유토지면적</span>
-                                    <input type="text" name="possessionlandmeter" id="possessionlandmeter" placeholder="소유토지면적을 &#13217 단위의 숫자로 입력하세요. 예)8000" oninput="calcPercent('landmeter', this, 'landmeterpercent')">
-                                </label>
-                                <div class="cell" for="possessionlandmeter">
-                                    <span class="cellTitle">토지소유률</span>
-                                    <span id="landmeterpercent"></span>
-                                </div>
-                                <div class="cell" for="possessionlandmeter">
-                                    <span class="cellTitle">토지소유권이전일</span>
-                                    <input type="date" name="landtransferdate">
-                                </div>                         
-                            </div>
-
-                            <div class="cellRow">
-                                <div class="cell">
-                                    <span class="cellTitle">토지가격</span>
-                                    <span id="landprice" c-bind="officiallandprice:text:formatWon">
-                                </div>
-                                <label class="cell" for="landpurchaseprice">
-                                    <span class="cellTitle">관리처분가</span>
-                                    <input type="text" name="landpurchaseprice" id="landpurchaseprice" placeholder="소유토지면적을 &#13217 단위의 숫자로 입력하세요. 예)8000" oninput="calcPercent('landprice', this, 'landpricepercent')">
-                                </label>
-                                <div class="cell" for="possessionlandmeter">
-                                    <span class="cellTitle">매매가율</span>
-                                    <span id="landpricepercent"></span>
-                                </div>
-         
-                            </div>
-
-                            <div class="cellRow">
-                                <div class="cell">
-                                    <span class="cellTitle">건물면적</span>
-                                    <span id="buildingmeter" c-bind="officialbuildingmeter:text:formatNumber">
-                                </div>
-                                <label class="cell" for="possessionlandmeter">
-                                    <span class="cellTitle">소유건물면적</span>
-                                    <input type="text" name="possessionbuildingmeter" id="possessionlandmeter" placeholder="소유건물면적을 &#13217 단위의 숫자로 입력하세요. 예)8000" oninput="calcPercent('buildingmeter', this, 'buildingmeterpercent')">
-                                </label>
-                                <div class="cell" for="possessionlandmeter">
-                                    <span class="cellTitle">건물소유률</span>
-                                    <span id="buildingmeterpercent"></span>
-                                </div>                   
-                                <div class="cell" for="possessionlandmeter">
-                                    <span class="cellTitle">건물소유권이전일</span>
-                                    <input type="date" name="buildingtransferdate">
-                                </div>      
-                            </div>
-
-                            <div class="cellRow">
-                                <div class="cell">
-                                    <span class="cellTitle">건물가격</span>
-                                    <span id="buildingprice" c-bind="officialbuildingprice:text:formatWon">
-                                </div>
-                                <label class="cell" for="buildingpurchaseprice">
-                                    <span class="cellTitle">관리처분가</span>
-                                    <input type="text" name="buildingpurchaseprice" id="buildingpurchaseprice" placeholder="소유토지면적을 &#13217 단위의 숫자로 입력하세요. 예)8000" oninput="calcPercent('buildingprice', this, 'buildingpricepercent')">
-                                </label>
-                                <div class="cell" for="possessionlandmeter">
-                                    <span class="cellTitle">매매가율</span>
-                                    <span id="buildingpricepercent"></span>
-                                </div>                         
-                            </div>
-
-                            
-                            <div class="rowFlexContainer" style="justify-content: flex-end;">
-                                <div class="buttonView" onclick="submitCreatePossession()">
-                                    <span>확인</span>
-                                </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -139,19 +237,40 @@
 
     function getEstate() {
         API.getEstate({officialestatepkey : getParam('estatepkey')}).then(data => {
+            currentData = data.body.estate;
             API.listOwner().then(res => {
-                data.body.estate.ownerlist = res.body.ownerlist;
-                bindView($('.cellView').get(0), data.body.estate);
+                currentData.ownerlist = res.body.ownerlist;
+                currentData.ownerlist.sort((a, b) => { return a.ownername > b.ownername ? 1 : -1})
+                bindView($('.cellView').get(0), currentData);
                 console.log(data);
             })
             
         })
     }
 
+    function onSelectOnwer(ele) {
+        let ownerdata = {};
+        currentData.ownerlist.forEach(owner => {
+            if(owner.ownerpkey == ele.value) {
+                ownerdata = owner;
+            }
+        });        
+        bindView($('.ownerlist').get(0), ownerdata);
+        bindOwner(ownerdata)  
+        
+        console.log(ownerdata);
+    }
+
+    function bindOwner(ownerdata) {
+        for(const [k, v]  of Object.entries(ownerdata)) {
+            $('.' + k).text(v);
+        }
+        
+    }
+
    function calcPercent(p, c, t) {
        const parent = document.getElementById(p);
-       const target = document.getElementById(t);
-       parent.textContet;
+       const target = document.getElementById(t);       
    }
 
     function submitCreatePossession() {

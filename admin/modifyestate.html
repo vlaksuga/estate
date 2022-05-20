@@ -19,32 +19,33 @@
             <article>
                 <div class="contentHeader">
                     <div class="contentHeaderStartContainer">
-                        <div class="title">create real estate</div>
+                        <div class="title">edit real estate</div>
                     </div>
                     <div class="contentHeaderEndContainer"></div>
                 </div>
                 <div class="contentMain">
                     <div class="cellView" style="width:75%">
+                        <input type="hidden" name="officialestatepkey" c-bind="officialestatepkey:value">
                         <div class="cellCol">
                             <div class="cellRow">
                                 <div class="cell view provincelist">
                                     <span class="cellTitle">시/도</span>
                                     
-                                    <select name="provincepkey" id="provicefilter" c-bind="provincelist:listtemplete" c-tag="c-item" style="font-size: 12px;" onchange="onProvinceFilterChanged(this)">
+                                    <select name="provincepkey" id="provicefilter" c-bind="provincelist:listtemplete" c-tag="c-item" style="font-size: 12px;" onchange="onProvinceFilterChanged(this)" autoset="Y">
                                         <option value="ALL">선택</option>
                                         <option listtempitem c-item="provincename:option, provincepkey:value"></option>
                                     </select>
                                 </div>
                                 <div class="cell view arealist">
                                     <span class="cellTitle">구/군</span>
-                                    <select name="areapkey" id="areafilter" c-bind="arealist:listtemplete" c-tag="c-item" style="font-size: 12px;" onchange="onAreaFilterChanged(this)">
+                                    <select name="areapkey" id="areafilter" c-bind="arealist:listtemplete" c-tag="c-item" style="font-size: 12px;" onchange="onAreaFilterChanged(this)" autoset="Y">
                                         <option value="ALL">선택</option>
                                         <option listtempitem c-item="areaname:option, areapkey:value"></option>
                                     </select>
                                 </div>
                                 <div class="cell view townlist">
                                     <span class="cellTitle">읍/동/면</span>
-                                    <select name="townpkey" id="townfilter" c-bind="townlist:listtemplete" c-tag="c-item" style="font-size: 12px;">
+                                    <select name="townpkey" id="townfilter" c-bind="townlist:listtemplete" c-tag="c-item" style="font-size: 12px;" autoset="Y">
                                         <option value="ALL">선택</option>
                                         <option listtempitem c-item="townname:option, townpkey:value"></option>
                                     </select>
@@ -55,28 +56,28 @@
                             <div class="cellRow">
                                 <label class="cell" for="officialaddress">
                                     <span class="cellTitle">지번</span>
-                                    <input type="text" name="officialaddress" id="officialaddress" placeholder="지번을 입력하세요">
+                                    <input type="text" name="officialaddress" id="officialaddress" c-bind="officialaddress:value" placeholder="지번을 입력하세요">
                                 </label>
                                 <div class="cell">
                                     <span class="cellTitle">지대</span>
                                     <div class="wrap" style="display: flex; flex-direction: row; gap: 16px;">
                                         <div class="radioView">                                               
                                             <label for="nomia">대지</label>
-                                            <input type="radio" name="officialnomination" id="nomia" value="대" checked>
+                                            <input type="radio" name="officialnomination" id="nomia" c-bind="officialnomination:radio" value="대" checked>
                                         </div>
                                         <div class="radioView">                                                
                                             <label for="nomib">도로</label>
-                                            <input type="radio" name="officialnomination" id="nomib" value="도">
+                                            <input type="radio" name="officialnomination" id="nomib" c-bind="officialnomination:radio" value="도">
                                         </div>
                                     </div>                                            
                                 </div>
                                 <label class="cell" for="officialbuildingname">
                                     <span class="cellTitle">건물명</span>
-                                    <input type="text" name="officialbuildingname" id="officialbuildingname" placeholder="건물명을 입력하세요">
+                                    <input type="text" c-bind="officialbuildingname:value" name="officialbuildingname" id="officialbuildingname" placeholder="건물명을 입력하세요">
                                 </label>
                                 <label class="cell" for="officialbuildingsector">
                                     <span class="cellTitle">업종</span>
-                                    <select name="officialbuildingsector" id="provicefilter" style="font-size: 12px;">
+                                    <select name="officialbuildingsector" c-bind="officialbuildingsector:select" id="provicefilter" style="font-size: 12px;">
                                         <option value="ALL">선택</option>
                                         <option value="상업시설">상업시설</option>
                                         <option value="주거시설">주거시설</option>
@@ -87,25 +88,25 @@
                             <div class="cellRow">
                                 <label class="cell" for="officiallandmeter">
                                     <span class="cellTitle">토지면적</span>
-                                    <input type="text" name="officiallandmeter" id="officiallandmeter" placeholder="토지면적을 &#13217 단위의 숫자로 입력하세요. 예)8000" value="0">
+                                    <input type="text" name="officiallandmeter" id="officiallandmeter" c-bind="officiallandmeter:value" placeholder="토지면적을 &#13217 단위의 숫자로 입력하세요. 예)8000" value="0">
                                 </label>
                                 <label class="cell" for="officiallandprice">
                                     <span class="cellTitle">토지가격</span>
-                                    <input type="text" name="officiallandprice" id="officiallandprice" placeholder="토지가격을 원단위의 숫자로 입력하세요. 예)2000000" value="0">
+                                    <input type="text" name="officiallandprice" id="officiallandprice" c-bind="officiallandprice:value" placeholder="토지가격을 원단위의 숫자로 입력하세요. 예)2000000" value="0">
                                 </label>
                             </div>
                             <div class="cellRow">
                                 <label class="cell" for="officialbuildingmeter">
                                     <span class="cellTitle">건물면적</span>
-                                    <input type="text" name="officialbuildingmeter" id="officialbuildingmeter" placeholder="건물면적을 &#13217 단위의 숫자로 입력하세요. 예)8000" value="0">
+                                    <input type="text" name="officialbuildingmeter" id="officialbuildingmeter" c-bind="officialbuildingmeter:value"  placeholder="건물면적을 &#13217 단위의 숫자로 입력하세요. 예)8000" value="0">
                                 </label>
                                 <label class="cell" for="officialbuildingprice">
                                     <span class="cellTitle">건물가격</span>
-                                    <input type="text" name="officialbuildingprice" id="officialbuildingprice" placeholder="건물가격을 원단위의 숫자로 입력하세요. 예)200000" value="0">
+                                    <input type="text" name="officialbuildingprice" id="officialbuildingprice" c-bind="officialbuildingprice:value" placeholder="건물가격을 원단위의 숫자로 입력하세요. 예)200000" value="0">
                                 </label>
                             </div>
                             <div class="rowFlexContainer" style="justify-content: flex-end;">
-                                <div class="buttonView" onclick="submitCreateEstate()">
+                                <div class="buttonView" onclick="submitModifyEstate()">
                                     <span>확인</span>
                                 </div>
                             </div>
@@ -123,12 +124,28 @@
 <script>
     function runSetup() {
         findItems(document);
-        setListProvince();
+        setEstate();        
+    }
+
+    function setEstate() {
+        API.getEstate({ officialestatepkey : getParam('estatepkey')}).then(data => {
+            bindView($('.cellView').get(0), data.body.estate);
+            currentData = data.body.estate;
+            setListProvince();            
+        })
     }
 
     function setListProvince() {
         API.listProvince().then(data => {
             bindView($('.provincelist').get(0), data.body);
+            const filter = $('#provicefilter').get(0);
+            if(filter.getAttribute('autoset') == "Y") {
+                const option = Array.from(filter.options).find(opt => { return opt.value == currentData.provincepkey });                    
+                filter.selectedIndex = option.index;
+                filter.onchange(filter);
+                filter.setAttribute('autoset', "N");
+            }
+            
         })
     }
 
@@ -136,17 +153,31 @@
         if(ele.value == "ALL") { return; }
         API.listArea({provincepkey : ele.value}).then(data => {              
             bindView($('.arealist').get(0), data.body);
+            const filter = $('#areafilter').get(0);
+            if(filter.getAttribute('autoset') == "Y") {
+                const option = Array.from(filter.options).find(opt => { return opt.value == currentData.areapkey });                    
+                filter.selectedIndex = option.index;
+                filter.onchange(filter);
+                filter.setAttribute('autoset', "N");
+            }            
         });                  
     }
+
 
     function onAreaFilterChanged(ele) {
         if(ele.value == "ALL") { return; }
         API.listTown({areapkey : ele.value}).then(data => {              
             bindView($('.townlist').get(0), data.body);
+            const filter = $('#townfilter').get(0);
+            if(filter.getAttribute('autoset') == "Y") {
+                const option = Array.from(filter.options).find(opt => { return opt.value == currentData.townpkey });
+                filter.selectedIndex = option.index;
+                filter.setAttribute('autoset', "N");
+            }
         });                  
     }
 
-    function submitCreateEstate() {
+    function submitModifyEstate() {
         var formData = getDataFrom('.cellView');
         console.log(formData);
         if(!formData.provincepkey || formData.provincepkey=="ALL") { showToast("시/도를 선택하세요"); return; }
@@ -157,9 +188,9 @@
         if(!formData.officiallandprice || formData.officiallandprice.trim() == "") { showToast("토지가격을 입력하세요"); return; }
         if(!formData.officialbuildingmeter || formData.officialbuildingmeter.trim() == "") { showToast("건물면적을 입력하세요"); return; }
         if(!formData.officialbuildingprice || formData.officialbuildingprice.trim() == "") { showToast("건물가격을 입력하세요"); return; }
-        API.addEstate(formData).then(data => {
-            if(data.head.status != "ok") { showToast('공시를 만들지 못했습니다.'); return ;}
-            alert('새 공시가 만들어 졌습니다.');
+        API.modifyEstate(formData).then(data => {
+            if(data.head.status != "ok") { showToast('공시를 수정하지 못했습니다.'); return ;}
+            alert('공시가 수정되었습니다.');
             location.href = "realestate.html";
         })    
     }

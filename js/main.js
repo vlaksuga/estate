@@ -101,7 +101,7 @@ function bindView(view, data) {
     }
 
     customBinds.forEach(bind => {
-        if(bind.getAttribute('bindlock') == "Y") { return; }
+        if(bind.getAttribute('bindlock') == "Y") { return; }                
         bind.binddata = data;
         const bindingValueArray = bind.getAttribute('c-bind').split(",")
         bindingValueArray.forEach(value => {
@@ -192,7 +192,8 @@ function bindView(view, data) {
                                 commandValue[i].idx = i;
                                 bind.setAttribute('listidx', i + 1);                                
                                 bindView(clone, commandValue[i]);
-                                bind.appendChild(clone)
+                                bind.appendChild(clone);
+                                bind.setAttribute("bindlock", "Y");
                             } catch (E) {
 
                             }
@@ -511,12 +512,20 @@ function getCopyObject(obj) {
     return ret;
 }
 
-function formatDateNum(v, d, e) {    
+function formatDateNum(v, d, e) {        
     if( v == "99991231") { return "--" }    
     const yyyy = v.substring(0, 4);
     const mm = v.substring(4, 6);
     const dd = v.substring(6, 8);
     return `${yyyy}-${mm}-${dd}`;
+}
+
+function formatTel(v, d, e) {         
+    let firstnum = v.length == 11 ? 3 : 2;    
+    const a = v.substring(0, firstnum);
+    const b = v.substring(firstnum, firstnum + 4);
+    const c = v.substring(firstnum + 4, firstnum + 8);
+    return `${a}-${b}-${c}`;
 }
 
 function formatEpisodeStatus(v, d, e) {
@@ -533,6 +542,11 @@ function formatTaskStatus(v, d, e) {
     if(v == "ING") { return "진행"; }
     if(v == "DONE") { return "완료"; }
     return v;
+}
+
+function formatOwnerKind(v, d, e) {
+    if(v == "PERSONAL") { return "개인" }
+    if(v == "CORPORATION") { return "법인" }
 }
 
 function formatWorkStatus(v, d, e) {

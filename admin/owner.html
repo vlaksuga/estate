@@ -30,17 +30,29 @@
                 <div class="contentMain">
                     <div class="rowFlexContainer" style="gap:16px;">
 
-                        <div class="itemList ownerlist">
-                            <div class="itemListStart">
+                        <div class="itemList ownerlist" style="transition: all 0.5s ease-in-out; width: 1000px; ">
+                            <div class="itemListStart" >
                                 <div class="rowFlexContainer" style="gap:10px; align-items: center;">
                                     <span class="itemListTitle">소유자</span>                                    
                                 </div>
                                 <div class="rowView header">
-                                    <div class="rowItem" style="width: 25%">
+                                    <div class="rowItem" style="width: 10%">
+                                        <span>구분</span>
+                                    </div>
+                                    <div class="rowItem" style="width: 10%">
                                         <span>이름</span>
                                     </div>
-                                    <div class="rowItem" style="width: 75%">
+                                    <div class="rowItem" style="width: 45%">
                                         <span>주소</span>
+                                    </div>
+                                    <div class="rowItem" style="width: 15%">
+                                        <span>식별번호</span>
+                                    </div>                                    
+                                    <div class="rowItem" style="width: 10%">
+                                        <span>TEL</span>
+                                    </div>
+                                    <div class="rowItem" style="width: 10%">
+                                        <span>PHONE</span>
                                     </div>
                                 </div>                                
                             </div>
@@ -51,11 +63,23 @@
                                                                                 
                                         <item>
                                             <div class="rowView light" c-bind="ownerpkey:ownerpkey:selectOwner" style="cursor:pointer;">
-                                                <div class="rowItem" style="width: 25%">
+                                                <div class="rowItem" style="width: 10%">
+                                                    <span c-bind="ownerkind:text:formatOwnerKind"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 10%">
                                                     <span c-bind="ownername:text"></span>
                                                 </div>
-                                                <div class="rowItem" style="width: 75%">
+                                                <div class="rowItem" style="width: 45%">
                                                     <span c-bind="owneraddress:text"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 15%">
+                                                    <span c-bind="owneridnumber:text"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 10%">
+                                                    <span c-bind="ownertel:text:formatTel:formatTel"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 10%">
+                                                    <span c-bind="ownerphone:text:formatTel"></span>
                                                 </div>
                                             </div>
                                         </item>                                   
@@ -72,7 +96,7 @@
                             </div>
                         </div>
 
-                        <div class="itemList possessionlist" style="display: none; transition: all 0.5s ease-in-out;">
+                        <div class="itemList possessionlist" style="transition: all 0.5s ease-in-out; width: 800px; display: none;">
                             <div class="itemListStart">
                                 <div class="rowFlexContainer" style="gap:10px; align-items: center;">                                    
                                     <span class="material-icons" onclick="backToOwnerList()" style="cursor: pointer;">chevron_left</span>
@@ -107,7 +131,7 @@
                             </div>
 
                             <div class="itemListEnd">
-                                <div class="overflowContainer" style="max-height: calc(100vh - 210px); overflow-y: auto;">
+                                <div class="overflowContainer" style="max-height: calc(100vh - 210px); overflow-y: auto; ">
                                     <div class="colFlexContainer" c-bind="possessionlist:list" style="gap: 10px;">                                        
                                                                                 
                                         <item>
@@ -148,7 +172,7 @@
                             </div>
                         </div>
 
-                        <div class="itemList possessionmortgagelist" style="display: none; transition: all 0.5s ease-in-out;">
+                        <div class="itemList possessionmortgagelist" style="transition: all 0.5s ease-in-out; width: 800px; display: none;">
                             <div class="itemListStart">
                                 <div class="rowFlexContainer" style="gap:10px; align-items: center;">
                                     <span class="material-icons" onclick="backToPossessionList()" style="cursor: pointer;">chevron_left</span>
@@ -175,7 +199,7 @@
                                     <div class="colFlexContainer" c-bind="possessionmortgagelist:list" style="gap: 10px;">                                        
                                                                                 
                                         <item>
-                                            <div class="rowView light" c-bind="mortgagepkey:mortgagepkey:selectPossession" style="cursor:pointer;">
+                                            <div class="rowView light" c-bind="mortgagepkey:mortgagepkey:selectMortgage" style="cursor:pointer;">
                                                 <div class="rowItem" style="width: 100%">
                                                     <span c-bind="mortgageename:text"></span>
                                                 </div>
@@ -221,7 +245,8 @@
 
     function setListOwner() {
         API.listOwner().then(data => {
-            console.log(data);
+            console.log(data);            
+            data.body.ownerlist.sort((a, b) => { return a.ownername > b.ownername ? 1 : -1 });
             bindView($('.ownerlist').get(0), data.body);
         });
     }
@@ -232,9 +257,14 @@
 
     function selectOwner(v, d, e){
         $(e).on('click', function() {
-            $('.ownerlist').hide();
-            $('.possessionlist').show();            
+            $('.ownerlist .rowView').removeClass('active');
+            $(this).addClass('active');
+
             showAside('../aside/detailowner.html', function(){ mapAside(d)} );            
+            $('.ownerlist').css('margin-left', '-1016px');
+            $('.possessionlist').show();            
+            
+
             API.listPossessionByOwner({ownerpkey : v}).then(data => {
                 clearItems('.possessionlist');
                 bindView($('.possessionlist').get(0), data.body);            
@@ -245,10 +275,13 @@
 
     function selectPossession(v, d, e){
         $(e).on('click', function() {
-            $('.estatelist').hide();
-            $('.possessionlist').hide();
-            $('.possessionmortgagelist').show();    
+            $('.possessionlist .rowView').removeClass('active');
+            $(this).addClass('active');            
+
             showAside('../aside/detailpossession.html', function(){ mapAside(d)} );                 
+            $('.possessionlist').css('margin-left', '-816px');
+            $('.possessionmortgagelist').show();    
+            
             API.listPossessionMortgage({possessionpkey : v}).then(data => {
                 clearItems('.possessionmortgagelist');
                 bindView($('.possessionmortgagelist').get(0), data.body);            
@@ -257,11 +290,25 @@
         return v;
     }
 
+    function selectMortgage(v, d, e) {
+        return v;
+    }
+
     function backToOwnerList() {
-        $('.ownerlist').show();    
+        $('.ownerlist').css('margin-left', '0');
         $('.possessionlist').hide();        
         $('.possessionmortgagelist').hide();
+        $('.ownerlist .rowView').removeClass('active');
         hideAside();
     }
+
+    function backToPossessionList() {        
+        $('.possessionlist').css('margin-left', '0');        
+        $('.possessionmortgagelist').hide();
+        $('.possessionlist .rowView').removeClass('active');
+        showAside('../aside/detailowner.html', function(){ mapAside($('.ownerlist .rowView.active').get(0).binddata) });
+    }
+
+    
 
 </script>
