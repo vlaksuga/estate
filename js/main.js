@@ -100,8 +100,7 @@ function bindView(view, data) {
         return
     }
 
-    customBinds.forEach(bind => {
-        if(bind.getAttribute('bindlock') == "Y") { return; }                
+    customBinds.forEach(bind => {        
         bind.binddata = data;
         const bindingValueArray = bind.getAttribute('c-bind').split(",")
         bindingValueArray.forEach(value => {
@@ -127,13 +126,11 @@ function bindView(view, data) {
             if(commandValue == undefined) return;
             switch (commandType) {
                 case 'text': {
-                    bind.innerText = commandValue;
-                    bind.setAttribute("bindlock", "Y");
+                    bind.innerText = commandValue;                    
                     break;
                 }
                 case 'option': {                    
                     bind.text = commandValue;
-                    bind.setAttribute("bindlock", "Y");
                     break;
                 }
                 case 'select': {                    
@@ -192,8 +189,7 @@ function bindView(view, data) {
                                 commandValue[i].idx = i;
                                 bind.setAttribute('listidx', i + 1);                                
                                 bindView(clone, commandValue[i]);
-                                bind.appendChild(clone);
-                                bind.setAttribute("bindlock", "Y");
+                                bind.appendChild(clone);                                
                             } catch (E) {
 
                             }
@@ -205,14 +201,12 @@ function bindView(view, data) {
                     break;
                 }
                 case 'radio': {
-                    if(bind.value == commandValue) { bind.checked = true }
-                    bind.setAttribute("bindlock", "Y");
+                    if(bind.value == commandValue) { bind.checked = true }                    
                     break;
                 }
                 default: {
                     const attrKey = valueArray[1];
-                    if (attrKey) bind.setAttribute(attrKey, commandValue);
-                    bind.setAttribute("bindlock", "Y");
+                    if (attrKey) bind.setAttribute(attrKey, commandValue);                    
                     break;
                 }
             }

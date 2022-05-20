@@ -29,7 +29,7 @@
                             <div class="cellCol">
                                 <div class="cellRowTitle">공시 정보</div>
                                 <div class="cellRow">                                
-                                    <div class="cell">
+                                    <div class="cell view">
                                         <span class="cellTitle">지번</span>
                                         <span c-bind="officialaddress:text"></span>
                                     </div>
@@ -66,7 +66,7 @@
                                         <div class="cellRow">
                                             <div class="cell">
                                                 <span class="cellTitle">주민등록번호</span>
-                                                <span class="ownerresidentnumber"></span>
+                                                <span class="owneridnumber"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -111,8 +111,8 @@
                                     <div class="cellCol">
                                         <div class="cellRow">
                                             <div class="cell">
-                                                <span id="landmeter" class="cellTitle">공시면적</span>
-                                                <span c-bind="officiallandmeter:text:formatNumber"></span>
+                                                <span class="cellTitle">공시면적</span>
+                                                <span id="landmeter" c-bind="officiallandmeter:text:formatNumber"></span>
                                             </div>
                                         </div>
                                         <div class="cellRow">
@@ -126,13 +126,13 @@
                                         <div class="cellRow">
                                             <label class="cell" for="possessionlandmeter">
                                                 <span class="cellTitle">소유면적</span>
-                                                <input type="text" name="possessionlandmeter" id="possessionlandmeter" placeholder="소유토지면적을 &#13217 단위의 숫자로 입력하세요. 예)8000" oninput="calcPercent('landmeter', this, 'landmeterpercent')">
+                                                <input type="text" name="possessionlandmeter" id="possessionlandmeter" placeholder="소유토지면적을 &#13217 단위의 숫자로 입력하세요. 예)8000" oninput="calcPercent('landmeter', this, 'landmeterpercent')" value="0">
                                             </label>
                                         </div>
                                         <div class="cellRow">
                                             <label class="cell" for="landpurchaseprice">
                                                 <span class="cellTitle">관리처분가</span>
-                                                <input type="text" name="landpurchaseprice" id="landpurchaseprice" placeholder="소유토지면적을 &#13217 단위의 숫자로 입력하세요. 예)8000" oninput="calcPercent('landprice', this, 'landpricepercent')">
+                                                <input type="text" name="landpurchaseprice" id="landpurchaseprice" placeholder="소유토지면적을 &#13217 단위의 숫자로 입력하세요. 예)8000" oninput="calcPercent('landprice', this, 'landpricepercent')" value="0">
                                             </label>
                                         </div>
                                     </div>
@@ -162,9 +162,9 @@
                                             </div>
                                         </div>
                                         <div class="cellRow">
-                                            <div class="cell" for="possessionlandmeter">
+                                            <div class="cell" for="buildingtransferdate">
                                                 <span class="cellTitle">소유권이전일</span>
-                                                <input type="date" name="landtransferdate">
+                                                <input type="date" name="buildingtransferdate">
                                             </div>
                                         </div>
                                     </div>
@@ -178,21 +178,21 @@
                                         <div class="cellRow">
                                             <div class="cell">
                                                 <span class="cellTitle">공시가격</span>
-                                                <span id="landprice" c-bind="officialbuildingprice:text:formatWon"></span>
+                                                <span id="buildingprice" c-bind="officialbuildingprice:text:formatWon"></span>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="cellCol">
                                         <div class="cellRow">
-                                            <label class="cell" for="possessionlandmeter">
+                                            <label class="cell" for="possessionbuildingmeter">
                                                 <span class="cellTitle">소유면적</span>
-                                                <input type="text" name="possessionbuildingmeter" id="possessionlandmeter" placeholder="소유토지면적을 &#13217 단위의 숫자로 입력하세요. 예)8000" oninput="calcPercent('landmeter', this, 'landmeterpercent')">
+                                                <input type="text" name="possessionbuildingmeter" id="possessionlandmeter" placeholder="소유토지면적을 &#13217 단위의 숫자로 입력하세요. 예)8000" oninput="calcPercent('landmeter', this, 'landmeterpercent')" value="0">
                                             </label>
                                         </div>
                                         <div class="cellRow">
-                                            <label class="cell" for="landpurchaseprice">
+                                            <label class="cell" for="buildingpurchaseprice">
                                                 <span class="cellTitle">관리처분가</span>
-                                                <input type="text" name="buildingpurchaseprice" id="landpurchaseprice" placeholder="소유토지면적을 &#13217 단위의 숫자로 입력하세요. 예)8000" oninput="calcPercent('landprice', this, 'landpricepercent')">
+                                                <input type="text" name="buildingpurchaseprice" id="buildingpurchaseprice" placeholder="소유토지면적을 &#13217 단위의 숫자로 입력하세요. 예)8000" oninput="calcPercent('landprice', this, 'landpricepercent')" value="0">
                                             </label>
                                         </div>
                                     </div>
@@ -254,11 +254,8 @@
             if(owner.ownerpkey == ele.value) {
                 ownerdata = owner;
             }
-        });        
-        bindView($('.ownerlist').get(0), ownerdata);
-        bindOwner(ownerdata)  
-        
-        console.log(ownerdata);
+        });                
+        bindOwner(ownerdata)      
     }
 
     function bindOwner(ownerdata) {
@@ -271,16 +268,19 @@
    function calcPercent(p, c, t) {
        const parent = document.getElementById(p);
        const target = document.getElementById(t);       
+       console.log(parent, target);
    }
 
     function submitCreatePossession() {
         var formData = getDataFrom('.cellView');
         console.log(formData);
         formData.officialestatepkey = getParam('estatepkey');
-        formData.landtransferdate = "19981009"
-        formData.buildingtransferdate = "19981011"
+        formData.landtransferdate = formData.landtransferdate.replace(/-/g, "");
+        formData.buildingtransferdate = formData.buildingtransferdate.replace(/-/g, "");        
+        if(!formData.landtransferdate || formData.landtransferdate == "") { formData.landtransferdate = "99991231"}
+        if(!formData.buildingtransferdate || formData.buildingtransferdate == "") { formData.buildingtransferdate = "99991231"}
         API.addPossession(formData).then(data => {
-            if(data.head.status != "ok") { formatDshowToast('소유 권리를 만들지 못했습니다.'); return ;}
+            if(data.head.status != "ok") { showToast('소유 권리를 만들지 못했습니다.'); return ;}
             alert('새 소유 권리가 만들어 졌습니다.');
             location.href = "realestate.html";
         })    

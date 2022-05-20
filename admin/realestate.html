@@ -293,6 +293,7 @@
             $('.possessionmortgagelist').hide();                                 
 
             API.listPossessionByEstate({officialestatepkey : v}).then(data => {
+                console.log(data);
                 clearItems('.possessionlist');
                 bindView($('.possessionlist').get(0), data.body);            
             });

@@ -608,6 +608,8 @@
     border-radius: 8px; 
 }
 
+
+
 .cellView .cell.active {
     border: 2px solid var(--theme-color-active);
 }
