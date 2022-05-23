@@ -19,7 +19,7 @@
             <article>
                 <div class="contentHeader">
                     <div class="contentHeaderStartContainer">
-                        <div class="title">create mortgage</div>
+                        <div class="title">edit mortgage</div>
                     </div>
                     <div class="contentHeaderEndContainer"></div>
                 </div>
@@ -32,13 +32,13 @@
                                     <div class="cellRow">
                                         <div class="cell">
                                             <span class="cellTitle">이름</span>
-                                            <span class="ownername" c-bind="owner.ownername:text"></span>
+                                            <span class="ownername" c-bind="ownername:text"></span>
                                         </div>
                                     </div>
                                     <div class="cellRow">
                                         <div class="cell">
                                             <span class="cellTitle">식별번호</span>
-                                            <span class="owneridnumber" c-bind="owner.owneridnumber:text"></span>
+                                            <span class="owneridnumber" c-bind="owneridnumber:text"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -46,17 +46,17 @@
                                     <div class="cellRow">
                                         <div class="cell">
                                             <span class="cellTitle">주소</span>
-                                            <span class="owneraddress" c-bind="owner.owneraddress:text"></span>
+                                            <span class="owneraddress" c-bind="owneraddress:text"></span>
                                         </div>
                                     </div>
                                     <div class="cellRow">
                                         <div class="cell">
                                             <span class="cellTitle">TEL</span>
-                                            <span class="ownertel" c-bind="owner.ownertel:text:formatTel"></span>
+                                            <span class="ownertel" c-bind="ownertel:text:formatTel"></span>
                                         </div>
                                         <div class="cell">
                                             <span class="cellTitle">PHONE</span>
-                                            <span class="ownerphone" c-bind="owner.ownerphone:text:formatTel"></span>
+                                            <span class="ownerphone" c-bind="ownerphone:text:formatTel"></span>
                                         </div>
                                     </div>
                                 </div>                                                                
@@ -95,7 +95,7 @@
                             <div class="cellRow">
                                 <div class="cell">
                                     <span class="cellTitle">종류</span>
-                                    <select name="mortgagekind" style="font-size: 12px;">
+                                    <select name="mortgagekind" c-bind="mortgagekind:select" style="font-size: 12px;">
                                         <option value="ALL">선택</option>
                                         <option value="LAND">토지</option>
                                         <option value="BUIL">건물</option>
@@ -103,23 +103,23 @@
                                 </div>
                                 <div class="cell">
                                     <span class="cellTitle">저당권자</span>
-                                    <select name="mortgageepkey" c-bind="mortgageelist:listtemplete" c-tag="c-item" style="font-size: 12px;">
+                                    <select name="mortgageepkey" c-bind="mortgageelist:listtemplete" c-tag="c-item" style="font-size: 12px;" id="mortgageefilter" autoset="Y">
                                         <option value="ALL">선택</option>
                                         <option listtempitem c-item="mortgageename:option, mortgageepkey:value"></option>
                                     </select>
                                 </div>
                                 <div class="cell">
                                     <span class="cellTitle">근저당설정일</span>
-                                    <input type="date" name="mortgagedate" id="mortgagedate">
+                                    <input type="date" name="mortgagedate" c-bind="mortgagedate:value:formatDateNum" id="mortgagedate">
                                 </div>
                                 <div class="cell">
                                     <span class="cellTitle">근저당설정액</span>
-                                    <input type="text" name="mortgageprice" id="mortgageprice" placeholder="근저당설정액을 원단위 숫자로 입력하세요. 예)8000">
+                                    <input type="text" name="mortgageprice" c-bind="mortgageprice:value:formatWon" id="mortgageprice" placeholder="근저당설정액을 원단위 숫자로 입력하세요. 예)8000">
                                 </div>    
                             </div>                                                                          
                             
                             <div class="rowFlexContainer" style="justify-content: flex-end;">
-                                <div class="buttonView" onclick="submitCreateMortgage()">
+                                <div class="buttonView" onclick="submitModifyMortgage()">
                                     <span>확인</span>
                                 </div>
                             </div>
@@ -137,29 +137,39 @@
 <script>
     function runSetup() {
         findItems(document);
-        getPossession();
+        getMortgage();
     }
 
-    function getPossession() {
-        const possessionpkey = getParam('possessionpkey');
-        API.getPossession({possessionpkey : possessionpkey})
+    function getMortgage() {
+        const mortgagepkey = getParam('mortgagepkey');
+        API.getMortgage({mortgagepkey : mortgagepkey})
         .then(data => {
             API.listMortgagee().then(res => {
-                data.body.possession.mortgageelist = res.body.mortgageelist;
-                bindView($('.cellView').get(0), data.body.possession);                         
+                data.body.mortgage.mortgageelist = res.body.mortgageelist;
+                currentData = data.body.mortgage;                
+                bindView($('.cellView').get(0), currentData);
+                const filter = $('#mortgageefilter').get(0);
+                console.log(filter.options)
+                if(filter.getAttribute('autoset') == "Y") {
+                    const option = Array.from(filter.options).find(opt => { return opt.value == currentData.mortgageepkey });                    
+                    filter.selectedIndex = option.index;
+                    
+                    filter.setAttribute('autoset', "N");
+                }               
             });
         })
     }
 
-    function submitCreateMortgage() {
+    function submitModifyMortgage() {
         var formData = getDataFrom('.cellView');        
-        formData.possessionpkey = getParam('possessionpkey');        
-        formData.mortgagedate = formData.mortgagedate.replace(/-/g, "");  
+        formData.mortgagepkey = getParam('mortgagepkey');        
+        formData.mortgagedate = formData.mortgagedate.replace(/-/g, "");
+        formData.mortgageprice = formData.mortgageprice.replace(/,/g, "").replace("원", "");        
         if(formData.mortgagekind == "ALL") { showToast('근저당 종류를 선택해주세요'); return;}
         if(formData.mortgageepkey == "ALL") { showToast('저당자를 선택해주세요'); return;}
-        API.addMortgage(formData).then(data => {
-            if(data.head.status != "ok") { showToast('근저당권을 만들지 못했습니다.'); return ;}
-            alert('새 근저당권이 만들어 졌습니다.');
+        API.modifyMortgage(formData).then(data => {
+            if(data.head.status != "ok") { showToast('근저당권을 수정하지 못했습니다.'); return ;}
+            alert('근저당권이 수정되었습니다.');
             location.href = "realestate.html";
         });    
     }

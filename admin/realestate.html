@@ -207,6 +207,9 @@
                                 </div>
                                 <div class="rowView header">
                                     <div class="rowItem" style="width: 100%">
+                                        <span>종류</span>
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
                                         <span>저당권자</span>
                                     </div>
                                     <div class="rowItem" style="width: 100%" >
@@ -223,10 +226,12 @@
 
                             <div class="itemListEnd">
                                 <div class="overflowContainer" style="max-height: calc(100vh - 210px); overflow-y: auto;">
-                                    <div class="colFlexContainer" c-bind="possessionmortgagelist:list" style="gap: 10px;">                                        
-                                                                                
+                                    <div class="colFlexContainer" c-bind="possessionmortgagelist:list" style="gap: 10px;">                                                                                                                        
                                         <item>
-                                            <div class="rowView light" style="cursor:pointer;">
+                                            <div class="rowView light" style="cursor:pointer;" c-bind="mortgagepkey:mortgagepkey:selectMortgage">
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="mortgagekind:text:formatMortgageKind"></span>
+                                                </div>
                                                 <div class="rowItem" style="width: 100%">
                                                     <span c-bind="mortgageename:text"></span>
                                                 </div>
@@ -314,6 +319,16 @@
                 clearItems('.possessionmortgagelist');
                 bindView($('.possessionmortgagelist').get(0), data.body);            
             });
+        })
+        return v;
+    }
+
+    function selectMortgage(v, d, e) {
+        $(e).on('click', function(){
+            $('.possessionmortgagelist .rowView').removeClass('active');
+            $(this).addClass('active');  
+
+            showAside('../aside/detailmortgage.html', function(){ mapAside(d)} );
         })
         return v;
     }

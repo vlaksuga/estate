@@ -62,34 +62,42 @@ class CommonApi extends Api {
     }
 
     /* get */
-    listProvince(data) { return super.get("s/listProvince.json", data) }    
-    listArea(data) { return super.get("s/listArea.json", data) }    
-    listTown(data) { return super.get("s/listTown.json", data) }    
+    listOwner(data) { return super.get("s/listOwner.json", data) }    
+    getOwner(data) { return super.get("s/getOwner.json", data) }
+
     listEstate(data) { return super.get("s/listEstate.json", data) }    
+    getEstate(data) { return super.get("s/getEstate.json", data) }
+
     listPossessionByEstate(data) { return super.get("s/listPossessionByEstate.json", data) }    
     listPossessionByOwner(data) { return super.get("s/listPossessionByOwner.json", data) }    
-        
-    listOwner(data) { return super.get("s/listOwner.json", data) }    
-    listUser(data) { return super.get("s/listUser.json", data) }
-    listMortgagee(data) { return super.get("s/listMortgagee.json", data) }
-    listPossessionMortgage(data) { return super.get("s/listPossessionMortgage.json", data) }
+    getPossession(data) { return super.get("s/getPossession.json", data) }          
 
-    getEstate(data) { return super.get("s/getEstate.json", data) }
-    getOwner(data) { return super.get("s/getOwner.json", data) }
-    getPossession(data) { return super.get("s/getPossession.json", data) }    
+    listUser(data) { return super.get("s/listUser.json", data) }
+
+    listMortgagee(data) { return super.get("s/listMortgagee.json", data) }
+
+    listPossessionMortgage(data) { return super.get("s/listPossessionMortgage.json", data) }
+    getMortgage(data) { return super.get("s/getMortgage.json", data) }            
         
-                                           
+        
+    listProvince(data) { return super.get("s/listProvince.json", data) }    
+    listArea(data) { return super.get("s/listArea.json", data) }    
+    listTown(data) { return super.get("s/listTown.json", data) }                                               
 
     /* post */
+    addUser(data) { return super.post("addUser.json", data) }
+
     addEstate(data) { return super.post("addEstate.json", data) }
     modifyEstate(data) { return super.post("modifyEstate.json", data) }
 
     addOwner(data) { return super.post("addOwner.json", data) }
     modifyOwner(data) { return super.post("modifyOwner.json", data) }
-    addUser(data) { return super.post("addUser.json", data) }
+
     addPossession(data) { return super.post("addPossession.json", data) }
     modifyPossession(data) { return super.post("modifyPossession.json", data) }
+
     addMortgage(data) { return super.post("addMortgage.json", data) }
+    modifyMortgage(data) { return super.post("modifyMortgage.json", data) }
                                                                                             
 }
 

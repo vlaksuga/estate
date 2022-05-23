@@ -449,6 +449,11 @@ function formatSizeMeter(v, d, e) {
     return v;
 }
 
+function formatMortgageKind(v, d, e) {
+    if(v == "LAND") {return "토지"}
+    if(v == "BUIL") {return "건물"}
+}
+
 function getTreeFromArray(list, rel, depth, parentPath) {    
     let ret = [];
     var r = rel ? rel : -1;
