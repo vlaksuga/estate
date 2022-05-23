@@ -88,6 +88,7 @@ class CommonApi extends Api {
     modifyOwner(data) { return super.post("modifyOwner.json", data) }
     addUser(data) { return super.post("addUser.json", data) }
     addPossession(data) { return super.post("addPossession.json", data) }
+    modifyPossession(data) { return super.post("modifyPossession.json", data) }
     addMortgage(data) { return super.post("addMortgage.json", data) }
                                                                                             
 }

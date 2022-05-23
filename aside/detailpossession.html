@@ -35,6 +35,9 @@
             </div>
         </div>
         <div class="asideFooter">
+            <div class="buttonView" onclick="goModifyPossession()">
+                <span>소유 권리 수정</span>
+            </div>
             <div class="buttonView" onclick="goCreateMortgage()">
                 <span>근저당 추가</span>
             </div>
@@ -44,10 +47,13 @@
     
 </div>
 <script>    
-    function mapAside(d) {            
-        console.log(d);
+    function mapAside(d) {                    
         $('.asideView').get(0).adata = d;     
         bindView($('.asideView').get(0), d);
+    }
+
+    function goModifyPossession() {
+        location.href = "modifypossession.html?possessionpkey=" + $('.asideView').get(0).adata.possessionpkey;
     }
 
     function goCreateMortgage() {
