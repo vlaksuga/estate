@@ -315,7 +315,7 @@
             $('.possessionlist').css('margin-left', '-816px');
             $('.possessionmortgagelist').show();                   
                  
-            API.listPossessionMortgage({possessionpkey : v}).then(data => {
+            API.listMortgageByPossession({possessionpkey : v}).then(data => {
                 clearItems('.possessionmortgagelist');
                 bindView($('.possessionmortgagelist').get(0), data.body);            
             });

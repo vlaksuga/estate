@@ -30,37 +30,110 @@
                 <div class="contentMain">
                     <div class="rowFlexContainer" style="gap:16px;">
 
-                        <div class="itemList mortgageelist" style="transition: all 0.5s ease-in-out;">
+                        <div class="itemList mortgageelist" style="max-width: 320px; min-width: 320px; transition: all 0.5s ease-in-out;">
                             <div class="itemListStart">
                                 <div class="rowFlexContainer" style="gap:10px; align-items: center;">
                                     <span class="itemListTitle">저당권자</span>                                    
                                 </div>
                                 <div class="rowView header">
-                                    <div class="rowItem" style="width: 10%">
-                                        <span>아이템</span>
+                                    <div class="rowItem">
+                                        <span>리스트</span>
                                     </div>
                                 </div>                                
                             </div>
 
                             <div class="itemListEnd">
-                                <div class="overflowContainer" style="max-height: 500px; overflow-y: auto;">
-                                    <div class="rowFlexContainer" c-bind="mortgageelist:list" style="gap: 10px;">                                        
-                                        <item>                                        
-                                            <div class="cardView" style="cursor: pointer;">
-                                                <div class="thumb">
-                                                    <img src="/img/noimage.jpg" c-bind="mortgageethumb:src" alt="thumb" onerror="this.src='/img/noimage.jpg'">
+                                <div class="overflowContainer" style="max-height: calc(100vh - 210px); overflow-y: auto;">
+                                    <div class="colFlexContainer" c-bind="mortgageelist:list" style="gap: 10px;">                                        
+                                        <item>
+                                            <div class="profileView" c-bind="mortgageepkey:mortgageepkey:onSelectMortgagee" style="cursor: pointer;">
+                                                <div class="wrap">
+                                                    <img class="thumb material-icons" c-bind="thumb:src:getImage" onerror="this.src='/img/noimage.jpg'"></img>
                                                 </div>
-                                                <div class="info">
-                                                    <span c-bind="mortgageename:text"></span>
+                                                <div class="infoContainer">
+                                                    <div class="info">
+                                                        <span class="name" c-bind="mortgageename:text"></span>
+                                                        <div class="detail">
+                                                            <span class="mortgagecount" c-bind="mortgagecount:text"></span>
+                                                            <span>MORTGAGES</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="actions">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                    </item>      
+                                            </div> 
+                                        </item>     
                             
                                         
                                         <emptyitem style="display: none;">
                                             <div class="emptyContainer">
                                                 <div class="msgBox">
                                                     <span>저당권가 없습니다.</span>                                            
+                                                </div>
+                                            </div>
+                                        </emptyitem>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="itemList mortgagelist" style="display: none;">
+                            <div class="itemListStart">
+                                <div class="rowFlexContainer" style="gap:10px; align-items: center;">                                    
+                                    <span class="itemListTitle">근저당권</span>                                    
+                                </div>
+                                <div class="rowView header">
+                                    <div class="rowItem" style="width: 100%">
+                                        <span>종류</span>
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span>지번</span>
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span>소유자</span>
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span>저당권자</span>
+                                    </div>
+                                    <div class="rowItem" style="width: 100%" >
+                                        <span>근저당설정일</span>                                        
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span>근저당설정액</span>                                        
+                                    </div>
+                                </div>                                
+                            </div>
+
+                            <div class="itemListEnd">
+                                <div class="overflowContainer" style="max-height: calc(100vh - 210px); overflow-y: auto;">
+                                    <div class="colFlexContainer" c-bind="mortgagelist:list" style="gap: 10px;">                                                                                                                        
+                                        <item>
+                                            <div class="rowView light" style="cursor:pointer;" c-bind="mortgageepkey:mortgageepkey:onSelectMortgage">
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="mortgagekind:text:formatMortgageKind"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="officialaddress:text:formatTownAndAddress"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="ownername:text"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="mortgageename:text"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="mortgagedate:text:formatDateNum"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="mortgageprice:text:formatWon"></span>
+                                                </div>
+                                            </div>
+                                        </item>                                   
+                                        
+                                        <emptyitem style="display: none;">
+                                            <div class="emptyContainer">
+                                                <div class="msgBox">
+                                                    <span>근저당이 없습니다.</span>                                            
                                                 </div>
                                             </div>
                                         </emptyitem>
@@ -87,14 +160,35 @@
     }    
 
     function setListMortgagee() {
-        API.listMortgagee().then(data => {
-            console.log(data);
-            bindView($('.mortgageelist').get(0), data.body);
+        API.listMortgagee().then(data => { bindView($('.mortgageelist').get(0), data.body); });
+    }
+
+    function onSelectMortgagee(v, d, e) {
+        $(e).on('click', function(){
+            clearItems('.mortgagelist');
+            $('.mortgagelist').show();
+            showAside('../aside/detailmortgagee.html', function(){ mapAside(d)});
+            API.listMortgageByMortgagee({mortgageepkey : v}).then(data => {
+                console.log(data);
+                bindView($('.mortgagelist').get(0), data.body);
+            })
         });
+        return v;
+    }
+
+    function onSelectMortgage(v, d, e) {
+        $(e).on('click', function(){
+            showAside('../aside/detailmortgage.html', function(){ mapAside(d)});
+        });
+        return v;
     }
 
     function createMortgagee() {
         location.href = "createmortgagee.html"
+    }
+
+    function formatTownAndAddress(v, d, e) {
+        return d.townname + " " +v;
     }
 
 </script>

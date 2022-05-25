@@ -19,16 +19,17 @@
             <article>
                 <div class="contentHeader">
                     <div class="contentHeaderStartContainer">
-                        <div class="title">create mortgagee</div>
+                        <div class="title">edit mortgagee</div>
                     </div>
                     <div class="contentHeaderEndContainer"></div>
                 </div>
                 <div class="contentMain">
                     <div class="cellView" style="width:500px">
                         <div class="cellCol">
+                            <input type="hidden" name="mortgageepkey" c-bind="mortgageepkey:value">
                             <div class="cell">
                                 <span class="cellTitle">종류</span>
-                                <select name="mortgageekind" style="font-size: 12px;">                                    
+                                <select name="mortgageekind" c-bind="mortgageekind:select" style="font-size: 12px;">                                    
                                     <option value="PERSONAL">개인</option>
                                     <option value="CORPORATION" selected>법인</option>
                                 </select>
@@ -36,12 +37,12 @@
                             <div class="cellRow">
                                 <label class="cell" for="mortgageename">
                                     <span class="cellTitle">이름</span>
-                                    <input type="text" name="mortgageename" id="mortgageename" placeholder="이름을 입력하세요">
+                                    <input type="text" c-bind="mortgageename:value" name="mortgageename" id="mortgageename" placeholder="이름을 입력하세요">
                                 </label>                            
                             </div>                            
                             
                             <div class="rowFlexContainer" style="justify-content: flex-end;">
-                                <div class="buttonView" onclick="submitCreateMortgagee()">
+                                <div class="buttonView" onclick="submitModifyMortgagee()">
                                     <span>확인</span>
                                 </div>
                             </div>
@@ -58,17 +59,25 @@
 
 <script>
     function runSetup() {
-        findItems(document);        
+        findItems(document);
+        setMortgagee();   
     }
 
-    function submitCreateMortgagee() {
+    function setMortgagee() {
+        API.getMortgagee({mortgageepkey : getParam('mortgageepkey')}).then(data => {
+            console.log(data.body); 
+            bindView(document, data.body.mortgagee);
+        });
+    }
+
+    function submitModifyMortgagee() {
         var formData = getDataFrom('.cellView');        
         if(!formData.mortgageekind || formData.mortgageekind == "ALL") { showToast("종류를 선택해주세요"); return; }
-        if(!formData.mortgageename || formData.mortgageename.trim() == "") { showToast("이름을 입력하세요"); return; }
-        console.log(formData);
-        API.addMortgagee(formData).then(data => {
-            if(data.head.status != "ok") { showToast('채권자를 만들지 못했습니다.'); return ;}
-            alert('새 채권자가 만들어 졌습니다.');
+        if(!formData.mortgageename || formData.mortgageename.trim() == "") { showToast("이름을 입력하세요"); return; }        
+        API.modifyMortgagee(formData).then(data => {
+            console.log(data);
+            if(data.head.status != "ok") { showToast('저당권자를 수정하지 못했습니다.'); return ;}
+            alert('저당권자가 수정되었습니다.');
             location.href = "mortgagee.html";
         })    
     }

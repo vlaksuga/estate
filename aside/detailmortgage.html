@@ -10,6 +10,26 @@
                 <span class="value" c-bind="mortgagekind:text:formatMortgageKind"></span>
             </div>
             <div class="propertyView">
+                <span class="key">동</span>
+                <span class="value" c-bind="townname:text"></span>
+            </div>
+            <div class="propertyView">
+                <span class="key">지번</span>
+                <span class="value" c-bind="officialaddress:text"></span>
+            </div>
+            <div class="propertyView">
+                <span class="key">소유자</span>
+                <span class="value" c-bind="ownername:text"></span>
+            </div>
+            <div class="propertyView">
+                <span class="key">소유면적</span>
+                <span class="value" c-bind="possessionpkey:text:setPossessionMeter"></span>
+            </div>            
+            <div class="propertyView">
+                <span class="key">관리처분가</span>
+                <span class="value" c-bind="possessionpkey:text:setPossessionPrice"></span>
+            </div>            
+            <div class="propertyView">
                 <span class="key">저당권자</span>
                 <span class="value" c-bind="mortgageename:text"></span>
             </div>
@@ -20,10 +40,6 @@
             <div class="propertyView">
                 <span class="key">근저당설정액</span>
                 <span class="value" c-bind="mortgageprice:text:formatWon"></span>
-            </div>
-            <div class="propertyView">
-                <span class="key">상태</span>
-                <span class="value" c-bind="mortgagestatus:text"></span>
             </div>
         </div>
         <div class="asideFooter">
@@ -36,12 +52,24 @@
     
 </div>
 <script>    
-    function mapAside(d) {                    
+    function mapAside(d) {     
+        console.log(d);               
         $('.asideView').get(0).adata = d;     
         bindView($('.asideView').get(0), d);
     }    
 
     function goModifyMortgage() {
         location.href = "modifymortgage.html?mortgagepkey=" + $('.asideView').get(0).adata.mortgagepkey;
+    }
+
+    function setPossessionMeter(v, d, e) {
+        if(d.mortgagekind == "LAND") { return d.possessionlandmeter; }
+        if(d.mortgagekind == "BUIL") { return d.possessionbuildingmeter; }
+    }
+
+    function setPossessionPrice(v, d, e) {
+        console.log(v)
+        if(d.mortgagekind == "LAND") { return formatWon(d.landpurchaseprice); }
+        if(d.mortgagekind == "BUIL") { return formatWon(d.buildingpurchaseprice); }
     }
 </script>
