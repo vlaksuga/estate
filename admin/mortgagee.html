@@ -47,8 +47,8 @@
                                     <div class="colFlexContainer" c-bind="mortgageelist:list" style="gap: 10px;">                                        
                                         <item>
                                             <div class="profileView" c-bind="mortgageepkey:mortgageepkey:onSelectMortgagee" style="cursor: pointer;">
-                                                <div class="wrap">
-                                                    <img class="thumb material-icons" c-bind="thumb:src:getImage" onerror="this.src='/img/noimage.jpg'"></img>
+                                                <div class="thumb">                                                    
+                                                    <span class="thumb material-icons" c-bind="mortgageekind:text:formatMortgageeIcon" style="background-color: var(--theme-color-prime);"></span>
                                                 </div>
                                                 <div class="infoContainer">
                                                     <div class="info">
@@ -189,6 +189,11 @@
 
     function formatTownAndAddress(v, d, e) {
         return d.townname + " " +v;
+    }
+
+    function formatMortgageeIcon(v, d, e) {
+        if(v == "PERSONAL") { return "person" }
+        if(v == "CORPORATION") { return "location_city" }
     }
 
 </script>

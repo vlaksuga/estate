@@ -1,0 +1,47 @@
+<div class="asideView">
+    <div class="asideHeader">
+        <span class="asideTitle">사용자 상세</span>
+        <span class="asideClose material-icons" onclick="hideAside()">close</span>
+    </div>
+    <div class="asideMain">
+        <div class="asideContent">
+            <div class="propertyView">
+                <span class="key">이름</span>
+                <span class="value" c-bind="username:text"></span>
+            </div>
+            <div class="propertyView">
+                <span class="key">아이디</span>
+                <span class="value" c-bind="userid:text"></span>
+            </div>
+            <div class="propertyView">
+                <span class="key">권한</span>
+                <span class="value" c-bind="rolename:text"></span>
+            </div>
+            <div class="propertyView">
+                <span class="key">상태</span>
+                <span class="value" c-bind="userstatus:text"></span>
+            </div>
+            <div class="propertyView">
+                <span class="key">생성일</span>
+                <span class="value" c-bind="usercreatedate:text:formatDateNum"></span>
+            </div>
+        </div>
+        <div class="asideFooter">
+            <div class="buttonView" onclick="goModifyUser()">
+                <span>사용자 수정</span>
+            </div>
+        </div>
+        
+    </div>
+    
+</div>
+<script>    
+    function mapAside(d) {                    
+        $('.asideView').get(0).adata = d;     
+        bindView($('.asideView').get(0), d);
+    }
+
+    function goModifyUser() {
+        location.href = "modifyuser.html?userpkey=" + $('.asideView').get(0).adata.userpkey;
+    }
+</script>

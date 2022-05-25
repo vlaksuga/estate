@@ -59,7 +59,7 @@
                                     <div class="colFlexContainer" c-bind="userlist:list" style="gap: 10px;">                                        
                                                                                 
                                         <item>
-                                            <div class="rowView light" c-bind="estatepkey:estatepkey:selectOwner" style="cursor:pointer;">
+                                            <div class="rowView light" c-bind="userpkey:userpkey:selectUser" style="cursor:pointer;">
                                                 <div class="rowItem" style="width: 100%">
                                                     <span c-bind="username:text"></span>
                                                 </div>
@@ -117,8 +117,9 @@
         location.href = "createuser.html";
     }
 
-    function selectOwner(v, d, e){
+    function selectUser(v, d, e){
         $(e).on('click', function() {
+            showAside('../aside/detailuser.html', function(){ mapAside(d)});
         })
         return v;
     }

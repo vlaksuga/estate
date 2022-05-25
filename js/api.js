@@ -1,4 +1,4 @@
-const TEST_MODE = true;
+const TEST_MODE = false;
 
 const IMG_SERVER = TEST_MODE ? "http://192.168.50.24:7777/" : "http://15.164.216.77:7777/" ; 
 const API_SERVER = TEST_MODE ? "http://192.168.50.24:7777/" : "http://15.164.216.77:7777/" ; 
@@ -69,6 +69,7 @@ class CommonApi extends Api {
     listPossessionByEstate(data) { return super.get("s/listPossessionByEstate.json", data) }    
     listPossessionByOwner(data) { return super.get("s/listPossessionByOwner.json", data) }    
     getPossession(data) { return super.get("s/getPossession.json", data) }          
+    getUser(data) { return super.get("s/getUser.json", data) }
     listUser(data) { return super.get("s/listUser.json", data) }
     getMortgagee(data) { return super.get("s/getMortgagee.json", data) }
     listMortgagee(data) { return super.get("s/listMortgagee.json", data) }
@@ -81,6 +82,7 @@ class CommonApi extends Api {
 
     /* post */
     addUser(data) { return super.post("addUser.json", data) }
+    modifyUser(data) { return super.post("modifyUser.json", data) }
     addEstate(data) { return super.post("addEstate.json", data) }
     modifyEstate(data) { return super.post("modifyEstate.json", data) }
     addOwner(data) { return super.post("addOwner.json", data) }
