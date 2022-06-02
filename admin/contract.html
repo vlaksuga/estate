@@ -17,14 +17,14 @@
         <header loadsrc="../layout/header.html">
         </header>
         <main>
-            <nav loadsrc="../layout/nav.html" currentmenu="realestate.html" auth="admin"></nav>
+            <nav loadsrc="../layout/nav.html" currentmenu="contract.html" auth="admin"></nav>
             <article>
                 <div class="contentHeader">
                     <div class="contentHeaderStartContainer">
-                        <div class="title">공시</div>
+                        <div class="title">contract</div>
                     </div>
                     <div class="contentHeaderEndContainer">
-                        <span class="material-icons" style="font-size: 18px; cursor: pointer;" onclick="createEstate()">add</span>
+                        <span class="material-icons" style="font-size: 18px; cursor: pointer;" onclick="createContract()">add</span>
                     </div>
                 </div>
                 <div class="contentMain">
@@ -33,7 +33,7 @@
                         <div class="itemList estatelist" style="transition: all 0.5s ease-in-out; width: 1000px;">
                             <div class="itemListStart">
                                 <div class="rowFlexContainer" style="gap:10px; align-items: center;">
-                                    <span class="itemListTitle">등록 물건</span>                                    
+                                    <span class="itemListTitle">계약 리스트</span>                                    
                                 </div>
                                 <div class="rowView header">
                                     <div class="rowItem" style="width: 100%">
@@ -128,26 +128,32 @@
                                 <div class="rowFlexContainer" style="gap:10px; align-items: center;">                                    
                                     <span class="material-icons" onclick="backToEstateList()" style="cursor: pointer;">chevron_left</span>
                                     <span class="itemListTitle">소유 권리</span>                                    
-                                </div> 
+                                </div>
                                 <div class="rowView header">
                                     <div class="rowItem" style="width: 100%">
                                         <span>소유자명</span>
                                     </div>
-                                    <div class="rowItem" style="width: 100%">
-                                        <span>종류</span>
-                                    </div>
                                     <div class="rowItem" style="width: 100%" >
-                                        <span>소유면적(&#13217)</span>
-                                    </div>
-                                    <div class="rowItem" style="width: 100%" >
-                                        <span>소유면적(평)</span>                                        
+                                        <span>소유토지면적</span>
+                                        <span class="measure">&#13217</span>                                                                                
                                     </div>
                                     <div class="rowItem" style="width: 100%">
-                                        <span>관리처분가</span>                                        
+                                        <span>토지관리처분가</span>                                        
                                     </div>
                                     <div class="rowItem" style="width: 100%">
-                                        <span>소유권이전일</span>
+                                        <span>토지소유권이전일</span>
                                     </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span>소유건물면적</span>
+                                        <span class="measure">&#13217</span>                                   
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span>건물관리처분가</span>                                        
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span>건물소유권이전일</span>                                        
+                                    </div>
+
                                 </div>                                
                             </div>
 
@@ -161,19 +167,22 @@
                                                     <span c-bind="ownername:text"></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="possessionkind:text:formatPossessionKind"></span>
+                                                    <span c-bind="possessionlandmeter:text"></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="possessionmeter:text:formatMeterSquare"></span>
+                                                    <span c-bind="landpurchaseprice:text:formatWon"></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="possessionmeter:text:formatMeterKor"></span>
+                                                    <span c-bind="landtransferdate:text:formatDateNum"></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="possessionpurchaseprice:text:formatWon"></span>
+                                                    <span c-bind="possessionbuildingmeter:text"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%;" >
+                                                    <span c-bind="buildingpurchaseprice:text:formatWon"></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="possessiontransferdate:text:formatDateNum"></span>
+                                                    <span c-bind="buildingtransferdate:text:formatDateNum"></span>
                                                 </div>
                                             </div>
                                         </item>                                   
@@ -274,8 +283,8 @@
         
     }
 
-    function createEstate() {
-        location.href = "createestate.html";
+    function createContract() {
+        location.href = "createcontract.html";
     }
 
     function selectEstate(v, d, e){
@@ -337,7 +346,5 @@
         $('.possessionmortgagelist').hide();
         showAside('../aside/detailestate.html', function(){ mapAside($('.estatelist .rowView.active').get(0).binddata) });        
     }
-
-    
 
 </script>

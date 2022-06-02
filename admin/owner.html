@@ -106,28 +106,22 @@
                                     <div class="rowItem" style="width: 100%">
                                         <span>소유자명</span>
                                     </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span>종류</span>
+                                    </div>
                                     <div class="rowItem" style="width: 100%" >
-                                        <span>소유토지면적</span>
-                                        <span class="measure">&#13217</span>                                                                                
+                                        <span>소유면적(&#13217)</span>
+                                    </div>
+                                    <div class="rowItem" style="width: 100%" >
+                                        <span>소유면적(평)</span>                                        
                                     </div>
                                     <div class="rowItem" style="width: 100%">
-                                        <span>토지관리처분가</span>                                        
+                                        <span>관리처분가</span>                                        
                                     </div>
                                     <div class="rowItem" style="width: 100%">
-                                        <span>토지소유권이전일</span>
+                                        <span>소유권이전일</span>
                                     </div>
-                                    <div class="rowItem" style="width: 100%">
-                                        <span>소유건물면적</span>
-                                        <span class="measure">&#13217</span>                                   
-                                    </div>
-                                    <div class="rowItem" style="width: 100%">
-                                        <span>건물관리처분가</span>                                        
-                                    </div>
-                                    <div class="rowItem" style="width: 100%">
-                                        <span>건물소유권이전일</span>                                        
-                                    </div>
-
-                                </div>                                
+                                </div>                                 
                             </div>
 
                             <div class="itemListEnd">
@@ -140,22 +134,19 @@
                                                     <span c-bind="ownername:text"></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="possessionlandmeter:text"></span>
+                                                    <span c-bind="possessionkind:text:formatPossessionKind"></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="landpurchaseprice:text:formatWon"></span>
+                                                    <span c-bind="possessionmeter:text:formatMeterSquare"></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="landtransferdate:text:formatDateNum"></span>
+                                                    <span c-bind="possessionmeter:text:formatMeterKor"></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="possessionbuildingmeter:text"></span>
-                                                </div>
-                                                <div class="rowItem" style="width: 100%;" >
-                                                    <span c-bind="buildingpurchaseprice:text:formatWon"></span>
+                                                    <span c-bind="possessionpurchaseprice:text:formatWon"></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="buildingtransferdate:text:formatDateNum"></span>
+                                                    <span c-bind="possessiontransferdate:text:formatDateNum"></span>
                                                 </div>
                                             </div>
                                         </item>                                   

@@ -639,7 +639,8 @@ function formatEntrySize(v, d, e) {
     return v + "B";
 }
 
-function formatNumber(v, d, e) {
+function formatNumber(v, d, e) {    
+    if(!v) { return; };
     return v.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
@@ -648,7 +649,15 @@ function formatWon(v, d, e) {
 }
 
 function formatMeterKor(v, d, e) {
-    return parseFloat(v) / 0.3025;
+    return (parseFloat(v) * 0.3025).toFixed(2);
+}
+function formatMeterSquare(v, d, e) {
+    return (parseFloat(v)).toFixed(2);
+}
+
+function formatPossessionKind(v, d, e) {
+    if(v == "LAND") {return "토지"}
+    if(v == "BUID") {return "건물"}
 }
 
 function formatWorkCauseKindIcon(v, d, e) {

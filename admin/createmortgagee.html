@@ -15,7 +15,7 @@
         <header loadsrc="../layout/header.html">
         </header>
         <main>
-            <nav loadsrc="../layout/nav.html" currentmenu="mortgagee.html" auth="admin"></nav>
+            <nav loadsrc="../layout/nav.html" currentmenu="realestate.html" auth="admin"></nav>
             <article>
                 <div class="contentHeader">
                     <div class="contentHeaderStartContainer">
@@ -69,7 +69,7 @@
         API.addMortgagee(formData).then(data => {
             if(data.head.status != "ok") { showToast('채권자를 만들지 못했습니다.'); return ;}
             alert('새 채권자가 만들어 졌습니다.');
-            location.href = "mortgagee.html";
+            location.href = "createmortgage.html?possessionpkey=" + getParam('possessionpkey');
         })    
     }
 </script>

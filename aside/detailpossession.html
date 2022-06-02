@@ -10,28 +10,20 @@
                 <span class="value" c-bind="ownername:text"></span>
             </div>
             <div class="propertyView">
-                <span class="key">소지토유면적</span>
-                <span class="value" c-bind="possessionlandmeter:text"></span>
+                <span class="key">소유자명</span>
+                <span class="value" c-bind="possessionkind:text:formatPossessionKind"></span>
             </div>
             <div class="propertyView">
-                <span class="key">토지관리처분가</span>
-                <span class="value" c-bind="landpurchaseprice:text:formatWon"></span>
+                <span class="key">소유면적</span>
+                <span class="value" c-bind="possessionmeter:text"></span>
             </div>
             <div class="propertyView">
-                <span class="key">토지소유권이전일</span>
-                <span class="value" c-bind="landtransferdate:text:formatDateNum"></span>
+                <span class="key">관리처분가</span>
+                <span class="value" c-bind="possessionpurchaseprice:text:formatWon"></span>
             </div>
             <div class="propertyView">
-                <span class="key">소유건물면적</span>
-                <span class="value" c-bind="possessionbuildingmeter:text"></span>
-            </div>
-            <div class="propertyView">
-                <span class="key">건물관리처분가</span>
-                <span class="value" c-bind="buildingpurchaseprice:text:formatWon"></span>
-            </div>
-            <div class="propertyView">
-                <span class="key">건물소유권이전일</span>
-                <span class="value" c-bind="buildingtransferdate:text:formatDateNum"></span>
+                <span class="key">소유권이전일</span>
+                <span class="value" c-bind="possessiontransferdate:text:formatDateNum"></span>
             </div>
         </div>
         <div class="asideFooter">
