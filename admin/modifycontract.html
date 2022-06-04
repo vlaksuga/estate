@@ -19,7 +19,7 @@
             <article>
                 <div class="contentHeader">
                     <div class="contentHeaderStartContainer">
-                        <div class="title">create contract</div>
+                        <div class="title">modify contract</div>
                     </div>
                     <div class="contentHeaderEndContainer"></div>
                 </div>
@@ -32,7 +32,7 @@
                                     <div class="cellRow">
                                         <div class="cell">
                                             <span class="cellTitle">이름</span>
-                                            <select c-bind="ownerlist:listtemplete" c-tag="c-item" style="font-size: 12px;" onchange="onSelectOwner(this)">
+                                            <select id="ownerfilter" c-bind="ownerlist:listtemplete" c-tag="c-item" style="font-size: 12px;" onchange="onSelectOwner(this)" autoset="Y">
                                                 <option value="ALL">선택</option>
                                                 <option listtempitem c-item="ownername:option, ownerpkey:value"></option>
                                             </select>
@@ -69,7 +69,7 @@
                             <div class="cellRow">
                                 <div class="cell">
                                     <span class="cellTitle">그룹</span>
-                                    <select style="font-size: 12px;" onchange="onSelectUserGroup(this)">
+                                    <select style="font-size: 12px;" c-bind="usergroup:select" onchange="onSelectUserGroup(this.value)">
                                         <option value="ALL">선택</option>
                                         <option value="A">토지작업팀</option>
                                         <option value="B">JR자산운용</option>
@@ -78,7 +78,7 @@
                                 </div>                                
                                 <div class="cell userlist">
                                     <span class="cellTitle">이름</span>
-                                    <select name="userpkey" c-bind="userlist:listtemplete" c-tag="c-item" style="font-size: 12px;" onchange="onSelectUser(this)">
+                                    <select name="userpkey" c-bind="userlist:listtemplete" id="userfilter" c-tag="c-item" style="font-size: 12px;" onchange="onSelectUser(this)" autoset="Y">
                                         <option value="ALL">선택</option>
                                         <option listtempitem c-item="username:option, userpkey:value"></option>
                                     </select>
@@ -97,7 +97,7 @@
                             <div class="cellRow">
                                 <div class="cell possessionlist">
                                     <span class="cellTitle">권리</span>
-                                    <select name="possessionpkey" c-bind="possessionlist:listtemplete" c-tag="c-item" style="font-size: 12px;" onchange="onSelectPossession(this)">
+                                    <select name="possessionpkey" id="possessionfilter" c-bind="possessionlist:listtemplete" c-tag="c-item" style="font-size: 12px;" onchange="onSelectPossession(this)" autoset="Y">
                                         <option value="ALL">선택</option>
                                         <option listtempitem c-item="townname:option:formatPossessionName, possessionpkey:value"></option>
                                     </select>
@@ -120,7 +120,7 @@
                             <div class="cellRow">
                                 <div class="cell">
                                     <span class="cellTitle">우선순위</span>
-                                    <select name="priority" style="font-size: 12px;">
+                                    <select name="priority" c-bind="priority:select" style="font-size: 12px;">
                                         <option value="1">1차 매입대상</option>
                                         <option value="2">2차 매입대상</option>
                                         <option value="3">3차 매입대상</option>
@@ -128,12 +128,13 @@
                                 </div>
                                 <div class="cell">
                                     <span class="cellTitle">메모</span>
-                                    <input type="text" name="memo" id="memo">
+                                    <input type="text" name="memo" id="memo" c-bind="memo:value">
                                 </div>
-                            </div>                                                                          
+                            </div>
+                        
                             
                             <div class="rowFlexContainer" style="justify-content: flex-end; gap:10px">
-                                <div class="buttonView" onclick="submitCreateContract()">
+                                <div class="buttonView" onclick="submitModifyContract()">
                                     <span>확인</span>
                                 </div>
                             </div>
@@ -151,7 +152,17 @@
 <script>
     function runSetup() {
         findItems(document);
-        getOwnerList();
+        getContract();
+    }
+
+    function getContract(){
+        API.getContract({contractpkey : getParam('contractpkey')})
+        .then(data => {
+            bindView($('.cellView').get(0), data.body.contract);
+            currentData.contract = data.body.contract;
+            getOwnerList();
+            getUserList(data.body.contract.usergroup);
+        });
     }
 
     function getOwnerList() {
@@ -160,6 +171,45 @@
             currentData.ownerlist = data.body.ownerlist;
             currentData.ownerlist.sort((a, b) => { return a.ownername > b.ownername ? 1 : -1})
             bindView($('.ownerlist').get(0), data.body);
+            const filter = $('#ownerfilter').get(0);
+            if(filter.getAttribute('autoset') == "Y") {
+                const option = Array.from(filter.options).find(opt => { return opt.value == currentData.contract.ownerpkey });                   
+                filter.selectedIndex = option.index;
+                filter.onchange(filter);
+                filter.setAttribute('autoset', "N");
+                getPossessionList(currentData.contract.ownerpkey);
+            }
+        })
+    }
+
+    function getUserList(usergroup) {
+        API.listUserByUserGroup({usergroup : usergroup})
+        .then(data => {
+            currentData.userlist = data.body.userlist;
+            currentData.userlist.sort((a, b) => { return a.username > b.username ? 1 : -1})
+            bindView($('.userlist').get(0), data.body);
+            const filter = $('#userfilter').get(0);
+            if(filter.getAttribute('autoset') == "Y") {
+                const option = Array.from(filter.options).find(opt => { return opt.value == currentData.contract.userpkey });                   
+                filter.selectedIndex = option.index;
+                filter.onchange(filter);
+                filter.setAttribute('autoset', "N");
+            }
+        })
+    }
+
+    function getPossessionList(ownerpkey) {
+        API.listPossessionByOwner({ownerpkey : ownerpkey})
+        .then(data => {
+            currentData.possessionlist = data.body.possessionlist;
+            bindView($('.possessionlist').get(0), data.body);
+            const filter = $('#possessionfilter').get(0);
+            if(filter.getAttribute('autoset') == "Y") {
+                const option = Array.from(filter.options).find(opt => { return opt.value == currentData.contract.possessionpkey });                   
+                filter.selectedIndex = option.index;
+                filter.onchange(filter);
+                filter.setAttribute('autoset', "N");
+            }
         })
     }
 
@@ -187,8 +237,8 @@
         bindPossessionDetail(possessiondata);
     }
 
-    function onSelectUserGroup(ele) {
-        API.listUserByUserGroup({usergroup : ele.value})
+    function onSelectUserGroup(value) {
+        API.listUserByUserGroup({usergroup : value})
         .then(data => {
             currentData.userlist = data.body.userlist;
             bindView($('.userlist').get(0), data.body);
@@ -241,17 +291,20 @@
         });
     }
 
-    function submitCreateContract() {
+    function submitModifyContract() {
         var formData = getDataFrom('.cellView');
+        formData.contractpkey = currentData.contract.contractpkey;
         formData.hasuser = "Y";                
         if(formData.userpkey == "ALL") { formData.hasuser = "N" }   
         if(formData.possessionpkey == "ALL") { showToast('소유 권리를 선택해주세요'); return;}
-        API.addContract(formData).then(data => {
-            if(data.head.status != "ok") { showToast('계약을 만들지 못했습니다.'); return ;}
-            alert('새 계약이 만들어 졌습니다.');
+        API.modifyContract(formData).then(data => {
+            if(data.head.status != "ok") { showToast('계약을 수정하지 못했습니다.'); return ;}
+            alert('계약이 수정되었습니다.');
             location.href = "contract.html";
         });    
     }
 
-    
+    function formatPossessionName(v, d, e) {
+        return v + " " + d.officialaddress + " - " + formatPossessionKind(d.possessionkind);
+    }
 </script>

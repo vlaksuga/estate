@@ -63,45 +63,27 @@
                             </div>    
                             
                             <div class="cellRowTitle">소유 권리</div>
-                            <div class="cellRow">                                
+                            <div class="cellRow">
                                 <div class="cell">
-                                    <span class="cellTitle">소유토지면적</span>
-                                    <span c-bind="possessionlandmeter:text"></span>
-                                </div>
-                                <div class="cell">
-                                    <span class="cellTitle">토지관리처분가</span>
-                                    <span c-bind="landpurchaseprice:text:formatWon"></span>
-                                </div>
-                                <div class="cell">
-                                    <span class="cellTitle">토지소유이전일</span>
-                                    <span c-bind="landtransferdate:text:formatDateNum"></span>
+                                    <span class="cellTitle">종류</span>
+                                    <span c-bind="possessionkind:text:formatPossessionKind"></span>
                                 </div>                                
-                            </div>
-                            <div class="cellRow">                                
                                 <div class="cell">
-                                    <span class="cellTitle">소유건물면적</span>
-                                    <span c-bind="possessionbuildingmeter:text"></span>
+                                    <span class="cellTitle">소유면적</span>
+                                    <span c-bind="possessionmeter:text"></span>
                                 </div>
                                 <div class="cell">
-                                    <span class="cellTitle">건물관리처분가</span>
-                                    <span c-bind="buildingpurchaseprice:text:formatWon"></span>
+                                    <span class="cellTitle">관리처분가</span>
+                                    <span c-bind="possessionpurchaseprice:text:formatWon"></span>
                                 </div>
                                 <div class="cell">
-                                    <span class="cellTitle">건물소유이전일</span>
-                                    <span c-bind="landtransferdate:text:formatDateNum"></span>
-                                </div>
+                                    <span class="cellTitle">소유이전일</span>
+                                    <span c-bind="possessiontransferdate:text:formatDateNum"></span>
+                                </div>                                
                             </div>
 
                             <span class="cellRowTitle">근저당 설정</span>                                                            
                             <div class="cellRow">
-                                <div class="cell">
-                                    <span class="cellTitle">종류</span>
-                                    <select name="mortgagekind" style="font-size: 12px;">
-                                        <option value="ALL">선택</option>
-                                        <option value="LAND">토지</option>
-                                        <option value="BUIL">건물</option>
-                                    </select>
-                                </div>
                                 <div class="cell">
                                     <span class="cellTitle">저당권자</span>
                                     <select name="mortgageepkey" c-bind="mortgageelist:listtemplete" c-tag="c-item" style="font-size: 12px;">
@@ -110,13 +92,17 @@
                                     </select>
                                 </div>
                                 <div class="cell">
+                                    <span class="cellTitle">채무자</span>
+                                    <input type="text" name="debtor" id="debtor" placeholder="채무자를 입력하세요">
+                                </div>
+                                <div class="cell">
                                     <span class="cellTitle">근저당설정일</span>
                                     <input type="date" name="mortgagedate" id="mortgagedate">
                                 </div>
                                 <div class="cell">
                                     <span class="cellTitle">근저당설정액</span>
                                     <input type="text" name="mortgageprice" id="mortgageprice" placeholder="근저당설정액을 원단위 숫자로 입력하세요. 예)8000">
-                                </div>    
+                                </div>  
                             </div>                                                                          
                             
                             <div class="rowFlexContainer" style="justify-content: flex-end; gap:10px">
@@ -148,6 +134,7 @@
         const possessionpkey = getParam('possessionpkey');
         API.getPossession({possessionpkey : possessionpkey})
         .then(data => {
+            currentData = data.body.possession;
             API.listMortgagee().then(res => {
                 data.body.possession.mortgageelist = res.body.mortgageelist;
                 bindView($('.cellView').get(0), data.body.possession);                         
@@ -158,7 +145,8 @@
     function submitCreateMortgage() {
         var formData = getDataFrom('.cellView');        
         formData.possessionpkey = getParam('possessionpkey');        
-        formData.mortgagedate = formData.mortgagedate.replace(/-/g, "");  
+        formData.mortgagedate = formData.mortgagedate.replace(/-/g, "");
+        formData.mortgagekind = currentData.possessionkind;  
         if(formData.mortgagekind == "ALL") { showToast('근저당 종류를 선택해주세요'); return;}
         if(formData.mortgageepkey == "ALL") { showToast('저당자를 선택해주세요'); return;}
         API.addMortgage(formData).then(data => {

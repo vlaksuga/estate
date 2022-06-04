@@ -30,159 +30,80 @@
                 <div class="contentMain">
                     <div class="rowFlexContainer" style="gap:16px;">
 
-                        <div class="itemList estatelist" style="transition: all 0.5s ease-in-out; width: 1000px;">
+                        <div class="itemList contractlist" style="transition: all 0.5s ease-in-out; width: 1000px;">
                             <div class="itemListStart">
                                 <div class="rowFlexContainer" style="gap:10px; align-items: center;">
                                     <span class="itemListTitle">계약 리스트</span>                                    
                                 </div>
                                 <div class="rowView header">
                                     <div class="rowItem" style="width: 100%">
-                                        <span>지번</span>
+                                        <span>계약번호</span>
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span>진행상황</span>
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span>소유주</span>                                        
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span>계약 담당자</span>                                        
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span>종류</span>                                        
                                     </div>
                                     <div class="rowItem" style="width: 100%">
                                         <span>동</span>                                        
                                     </div>
-                                    <div class="rowItem" style="width: 100%">
-                                        <span>지목</span>                                        
-                                    </div>
-                                    <div class="rowItem" style="width: 100%">
-                                        <span>건물명</span>                                        
-                                    </div>
-                                    <div class="rowItem" style="width: 100%">
-                                        <span>업종</span>                                        
-                                    </div>
                                     <div class="rowItem" style="width: 100%" >
-                                        <span>토지면적</span>
-                                        <span class="measure">&#13217</span>                                                                                
+                                        <span>지번</span>                                                                                
                                     </div>
                                     <div class="rowItem" style="width: 100%">
-                                        <span>토지가격</span>                                        
+                                        <span>권리가액</span>                                        
                                     </div>
                                     <div class="rowItem" style="width: 100%">
-                                        <span>건물면적</span>
-                                        <span class="measure">&#13217</span>                                   
+                                        <span>계약금액</span>                                   
                                     </div>
                                     <div class="rowItem" style="width: 100%">
-                                        <span>건물가격</span>                                        
+                                        <span>총 지급액</span>                                        
                                     </div>
                                 </div>                                
                             </div>
 
                             <div class="itemListEnd">
                                 <div class="overflowContainer" style="max-height: calc(100vh - 210px); overflow-y: auto;">
-                                    <div class="colFlexContainer" c-bind="estatelist:list" style="gap: 10px;">                                        
+                                    <div class="colFlexContainer" c-bind="contractlist:list" style="gap: 10px;">                                        
                                                                                 
                                         <item>
-                                            <div class="rowView light" c-bind="officialestatepkey:officialestatepkey:selectEstate" style="cursor:pointer;">
-
+                                            <div class="rowView light" c-bind="contractpkey:contractpkey:selectContract" style="cursor:pointer;">
                                                 <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="officialaddress:text"></span>
+                                                    <span c-bind="contractpkey:text"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="contractstatus:text"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="ownername:text"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="username:text:setUsername"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="possessionkind:text:formatPossessionKind"></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 100%">
                                                     <span c-bind="townname:text"></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="officialnomination:text"></span>
-                                                </div>
-                                                <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="officialbuildingname:text"></span>
-                                                </div>
-                                                <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="officialbuildingsector:text"></span>
-                                                </div>
-                                                <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="officiallandmeter:text"></span>
-                                                </div>
-                                                <div class="rowItem" style="width: 100%; display: none;" >
-                                                    <span c-bind="officiallandmeter:text:formatMeterKor"></span>
-                                                </div>
-                                                <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="officiallandprice:text:formatWon"></span>
-                                                </div>
-                                                <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="officialbuildingmeter:text"></span>
-                                                </div>
-                                                <div class="rowItem" style="width: 100%; display: none;">
-                                                    <span c-bind="officialbuildingmeter:text:formatMeterKor"></span>
-                                                </div>
-                                                <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="officialbuildingprice:text:formatWon"></span>
-                                                </div>
-                                            </div>
-                                        </item>                                   
-                                        
-                                        <emptyitem style="display: none;">
-                                            <div class="emptyContainer">
-                                                <div class="msgBox">
-                                                    <span>등록된 물건이 없습니다.</span>                                            
-                                                </div>
-                                            </div>
-                                        </emptyitem>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="itemList possessionlist" style="transition: all 0.5s ease-in-out; width: 800px; display: none;">
-                            <div class="itemListStart">
-                                <div class="rowFlexContainer" style="gap:10px; align-items: center;">                                    
-                                    <span class="material-icons" onclick="backToEstateList()" style="cursor: pointer;">chevron_left</span>
-                                    <span class="itemListTitle">소유 권리</span>                                    
-                                </div>
-                                <div class="rowView header">
-                                    <div class="rowItem" style="width: 100%">
-                                        <span>소유자명</span>
-                                    </div>
-                                    <div class="rowItem" style="width: 100%" >
-                                        <span>소유토지면적</span>
-                                        <span class="measure">&#13217</span>                                                                                
-                                    </div>
-                                    <div class="rowItem" style="width: 100%">
-                                        <span>토지관리처분가</span>                                        
-                                    </div>
-                                    <div class="rowItem" style="width: 100%">
-                                        <span>토지소유권이전일</span>
-                                    </div>
-                                    <div class="rowItem" style="width: 100%">
-                                        <span>소유건물면적</span>
-                                        <span class="measure">&#13217</span>                                   
-                                    </div>
-                                    <div class="rowItem" style="width: 100%">
-                                        <span>건물관리처분가</span>                                        
-                                    </div>
-                                    <div class="rowItem" style="width: 100%">
-                                        <span>건물소유권이전일</span>                                        
-                                    </div>
-
-                                </div>                                
-                            </div>
-
-                            <div class="itemListEnd">
-                                <div class="overflowContainer" style="max-height: calc(100vh - 210px); overflow-y: auto;">
-                                    <div class="colFlexContainer" c-bind="possessionlist:list" style="gap: 10px;">                                        
-                                                                                
-                                        <item>
-                                            <div class="rowView light" c-bind="possessionpkey:possessionpkey:selectPossession" style="cursor:pointer;">
-                                                <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="ownername:text"></span>
-                                                </div>
-                                                <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="possessionlandmeter:text"></span>
-                                                </div>
-                                                <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="landpurchaseprice:text:formatWon"></span>
-                                                </div>
-                                                <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="landtransferdate:text:formatDateNum"></span>
-                                                </div>
-                                                <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="possessionbuildingmeter:text"></span>
+                                                    <span c-bind="officialaddress:text"></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 100%;" >
-                                                    <span c-bind="buildingpurchaseprice:text:formatWon"></span>
+                                                    <span c-bind="afterprice:text:formatWon"></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="buildingtransferdate:text:formatDateNum"></span>
+                                                    <span c-bind="startprice:text:formatWon"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="totalprice:text:formatWon"></span>
                                                 </div>
                                             </div>
                                         </item>                                   
@@ -190,67 +111,7 @@
                                         <emptyitem style="display: none;">
                                             <div class="emptyContainer">
                                                 <div class="msgBox">
-                                                    <span>소유 권리가 없습니다.</span>                                            
-                                                </div>
-                                            </div>
-                                        </emptyitem>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="itemList possessionmortgagelist" style="transition: all 0.5s ease-in-out; width: 800px; display: none;">
-                            <div class="itemListStart">
-                                <div class="rowFlexContainer" style="gap:10px; align-items: center;">
-                                    <span class="material-icons" onclick="backToPossessionList()" style="cursor: pointer;">chevron_left</span>
-                                    <span class="itemListTitle">근저당권</span>                                    
-                                </div>
-                                <div class="rowView header">
-                                    <div class="rowItem" style="width: 100%">
-                                        <span>종류</span>
-                                    </div>
-                                    <div class="rowItem" style="width: 100%">
-                                        <span>저당권자</span>
-                                    </div>
-                                    <div class="rowItem" style="width: 100%" >
-                                        <span>근저당설정일</span>                                        
-                                    </div>
-                                    <div class="rowItem" style="width: 100%">
-                                        <span>근저당설정액</span>                                        
-                                    </div>
-                                    <div class="rowItem" style="width: 100%">
-                                        <span>상태</span>
-                                    </div>
-                                </div>                                
-                            </div>
-
-                            <div class="itemListEnd">
-                                <div class="overflowContainer" style="max-height: calc(100vh - 210px); overflow-y: auto;">
-                                    <div class="colFlexContainer" c-bind="possessionmortgagelist:list" style="gap: 10px;">                                                                                                                        
-                                        <item>
-                                            <div class="rowView light" style="cursor:pointer;" c-bind="mortgagepkey:mortgagepkey:selectMortgage">
-                                                <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="mortgagekind:text:formatMortgageKind"></span>
-                                                </div>
-                                                <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="mortgageename:text"></span>
-                                                </div>
-                                                <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="mortgagedate:text:formatDateNum"></span>
-                                                </div>
-                                                <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="mortgageprice:text:formatWon"></span>
-                                                </div>
-                                                <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="mortgagestatus:text"></span>
-                                                </div>
-                                            </div>
-                                        </item>                                   
-                                        
-                                        <emptyitem style="display: none;">
-                                            <div class="emptyContainer">
-                                                <div class="msgBox">
-                                                    <span>소유 권리가 없습니다.</span>                                            
+                                                    <span>계약이 없습니다.</span>                                            
                                                 </div>
                                             </div>
                                         </emptyitem>
@@ -273,78 +134,29 @@
     
     function runSetup() {
         findItems(document);
-        setListEstate();
+        setListContract();
     }    
 
-    function setListEstate() {        
-        API.listEstate().then(data => {            
-            bindView($('.estatelist').get(0), data.body);
+    function setListContract() {        
+        API.listContract().then(data => {            
+            bindView($('.contractlist').get(0), data.body);
+        });   
+    }
+
+    function selectContract(v, d, e) {
+        $(e).on('click', function(){
+            location.href = "detailcontract.html?contractpkey=" + v;
         });
-        
+        return v;
+    }
+
+    function setUsername(v, d, e) {
+        if(v) { return v }
+        else { return "미정"}
     }
 
     function createContract() {
         location.href = "createcontract.html";
-    }
-
-    function selectEstate(v, d, e){
-        $(e).on('click', function() {
-            $('.estatelist .rowView').removeClass('active');
-            $(this).addClass('active');
-
-            showAside('../aside/detailestate.html', function(){ mapAside(d)} );   
-            $('.estatelist').css('margin-left', "-1016px");
-            $('.possessionlist').show();
-            $('.possessionmortgagelist').hide();                                 
-
-            API.listPossessionByEstate({officialestatepkey : v}).then(data => {
-                console.log(data);
-                clearItems('.possessionlist');
-                bindView($('.possessionlist').get(0), data.body);            
-            });
-        })
-        return v;
-    }
-
-    function selectPossession(v, d, e){
-        $(e).on('click', function() {
-            $('.possessionlist .rowView').removeClass('active');
-            $(this).addClass('active');  
-
-            showAside('../aside/detailpossession.html', function(){ mapAside(d)} );
-            $('.possessionlist').css('margin-left', '-816px');
-            $('.possessionmortgagelist').show();                   
-                 
-            API.listMortgageByPossession({possessionpkey : v}).then(data => {
-                clearItems('.possessionmortgagelist');
-                bindView($('.possessionmortgagelist').get(0), data.body);            
-            });
-        })
-        return v;
-    }
-
-    function selectMortgage(v, d, e) {
-        $(e).on('click', function(){
-            $('.possessionmortgagelist .rowView').removeClass('active');
-            $(this).addClass('active');  
-
-            showAside('../aside/detailmortgage.html', function(){ mapAside(d)} );
-        })
-        return v;
-    }
-
-    function backToEstateList() {        
-        $('.estatelist').css('margin-left', '0');
-        $('.possessionlist').hide();
-        $('.possessionmortgagelist').hide();
-        $('.estatelist .rowView').removeClass('active');
-        hideAside();
-    }
-
-    function backToPossessionList() {        
-        $('.possessionlist').css('margin-left', '0');
-        $('.possessionmortgagelist').hide();
-        showAside('../aside/detailestate.html', function(){ mapAside($('.estatelist .rowView.active').get(0).binddata) });        
     }
 
 </script>

@@ -21,17 +21,22 @@
                 <span class="key">소유자</span>
                 <span class="value" c-bind="ownername:text"></span>
             </div>
+            
             <div class="propertyView">
                 <span class="key">소유면적</span>
-                <span class="value" c-bind="possessionpkey:text:setPossessionMeter"></span>
+                <span class="value" c-bind="possessionmeter:text"></span>
             </div>            
             <div class="propertyView">
                 <span class="key">관리처분가</span>
-                <span class="value" c-bind="possessionpkey:text:setPossessionPrice"></span>
+                <span class="value" c-bind="possessionpurchaseprice:text:formatWon"></span>
             </div>            
             <div class="propertyView">
                 <span class="key">저당권자</span>
                 <span class="value" c-bind="mortgageename:text"></span>
+            </div>
+            <div class="propertyView">
+                <span class="key">채무자</span>
+                <span class="value" c-bind="debtor:text"></span>
             </div>
             <div class="propertyView">
                 <span class="key">근저당설정일</span>
@@ -60,16 +65,5 @@
 
     function goModifyMortgage() {
         location.href = "modifymortgage.html?mortgagepkey=" + $('.asideView').get(0).adata.mortgagepkey;
-    }
-
-    function setPossessionMeter(v, d, e) {
-        if(d.mortgagekind == "LAND") { return d.possessionlandmeter; }
-        if(d.mortgagekind == "BUIL") { return d.possessionbuildingmeter; }
-    }
-
-    function setPossessionPrice(v, d, e) {
-        console.log(v)
-        if(d.mortgagekind == "LAND") { return formatWon(d.landpurchaseprice); }
-        if(d.mortgagekind == "BUIL") { return formatWon(d.buildingpurchaseprice); }
     }
 </script>

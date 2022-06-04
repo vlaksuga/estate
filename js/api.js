@@ -1,7 +1,7 @@
 const TEST_MODE = true;
 
-const IMG_SERVER = TEST_MODE ? "http://192.168.50.24:7777/" : "http://15.164.216.77:7777/" ; 
-const API_SERVER = TEST_MODE ? "http://192.168.50.24:7777/" : "http://15.164.216.77:7777/" ; 
+const IMG_SERVER = TEST_MODE ? "http://172.30.1.47:7777/" : "http://15.164.216.77:7777/" ; 
+const API_SERVER = TEST_MODE ? "http://172.30.1.47:7777/" : "http://15.164.216.77:7777/" ; 
 
 
 class Api {
@@ -71,6 +71,7 @@ class CommonApi extends Api {
     getPossession(data) { return super.get("s/getPossession.json", data) }          
     getUser(data) { return super.get("s/getUser.json", data) }
     listUser(data) { return super.get("s/listUser.json", data) }
+    listUserByUserGroup(data) { return super.get("s/listUserByUserGroup.json", data) }
     getMortgagee(data) { return super.get("s/getMortgagee.json", data) }
     listMortgagee(data) { return super.get("s/listMortgagee.json", data) }
     listMortgageByPossession(data) { return super.get("s/listMortgageByPossession.json", data) }
@@ -78,7 +79,10 @@ class CommonApi extends Api {
     getMortgage(data) { return super.get("s/getMortgage.json", data) }                            
     listProvince(data) { return super.get("s/listProvince.json", data) }    
     listArea(data) { return super.get("s/listArea.json", data) }    
-    listTown(data) { return super.get("s/listTown.json", data) }                                               
+    listTown(data) { return super.get("s/listTown.json", data) }
+    getContract(data) { return super.get("s/getContract.json", data) }
+    listContract(data) { return super.get("s/listContract.json", data) }
+                                                   
 
     /* post */
     addUser(data) { return super.post("addUser.json", data) }
@@ -93,6 +97,8 @@ class CommonApi extends Api {
     modifyMortgage(data) { return super.post("modifyMortgage.json", data) }
     addMortgagee(data) { return super.post("addMortgagee.json", data) }
     modifyMortgagee(data) { return super.post("modifyMortgagee.json", data) }
+    addContract(data) { return super.post("addContract.json", data) }
+    modifyContract(data) { return super.post("modifyContractByAdmin.json", data) }
                                                                                             
 }
 

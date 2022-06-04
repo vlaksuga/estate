@@ -30,7 +30,6 @@
                             <div class="cellRow">
                                 <div class="cell view provincelist">
                                     <span class="cellTitle">시/도</span>
-                                    
                                     <select name="provincepkey" id="provicefilter" c-bind="provincelist:listtemplete" c-tag="c-item" style="font-size: 12px;" onchange="onProvinceFilterChanged(this)" autoset="Y">
                                         <option value="ALL">선택</option>
                                         <option listtempitem c-item="provincename:option, provincepkey:value"></option>

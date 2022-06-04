@@ -102,7 +102,7 @@
                                                 <span class="cellTitle">종류</span>
                                                 <select id="possessionkind" name="possessionkind" style="font-size: 12px;" onchange="mapPossession()">
                                                     <option value="LAND">토지</option>
-                                                    <option value="BUID">건물</option>
+                                                    <option value="BUIL">건물</option>
                                                 </select> 
                                             </div>
                                         </div>
@@ -258,7 +258,7 @@
             meter.text(currentData.officiallandmeter);
             price.text(formatWon(currentData.officiallandprice));
         }
-        if(kind == "BUID") {
+        if(kind == "BUIL") {
             meter.text(currentData.officialbuildingmeter);
             price.text(formatWon(currentData.officialbuildingprice));
         }

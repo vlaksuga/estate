@@ -99,7 +99,7 @@
                                                 <span class="cellTitle">종류</span>
                                                 <select id="possessionkind" name="possessionkind"  c-bind="possessionkind:select" style="font-size: 12px;" onchange="mapPossession()">
                                                     <option value="LAND">토지</option>
-                                                    <option value="BUID">건물</option>
+                                                    <option value="BUIL">건물</option>
                                                 </select> 
                                             </div>
                                         </div>
@@ -219,7 +219,7 @@
         
         var kind;       
         if(d.possessionkind == "LAND") { kind = "land"}
-        if(d.possessionkind == "BUID") { kind = "building"}
+        if(d.possessionkind == "BUIL") { kind = "building"}
         
         const pVal = parseFloat(d.estate["official" + kind +"meter"]).toFixed(2);
         const cVal = parseFloat(v);
@@ -230,7 +230,7 @@
     function initCalcPrice(v, d, e) {
         var kind;       
         if(d.possessionkind == "LAND") { kind = "land"}
-        if(d.possessionkind == "BUID") { kind = "building"}
+        if(d.possessionkind == "BUIL") { kind = "building"}
         const pVal = parseFloat(d.estate["official" + kind +"price"]).toFixed(2);
         const cVal = parseFloat(v);
         const per =  ((cVal / pVal) * 100).toFixed(2);        
@@ -284,7 +284,7 @@
             meter.text(currentData.estate.officiallandmeter);
             price.text(formatWon(currentData.estate.officiallandprice));
         }
-        if(kind == "BUID") {
+        if(kind == "BUIL") {
             meter.text(currentData.estate.officialbuildingmeter);
             price.text(formatWon(currentData.estate.officialbuildingprice));
         }

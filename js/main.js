@@ -657,7 +657,33 @@ function formatMeterSquare(v, d, e) {
 
 function formatPossessionKind(v, d, e) {
     if(v == "LAND") {return "토지"}
-    if(v == "BUID") {return "건물"}
+    if(v == "BUIL") {return "건물"}
+}
+
+function formatContractPriority(v, d, e) {
+    return v + "차 매입대상";
+}
+
+function formatRoleName(v, d, e) {
+    if(v == "ROOT") { return "슈퍼" }
+    if(v == "ADMIN") { return "관리자" }
+    if(v == "GUEST") { return "협력사" }
+    if(v == "AGENCY") { return "매니저" }
+}
+
+function formatUserGroup(v, d, e) {
+    if(v == "A") {return "토지작업팀"}
+    if(v == "B") {return "JR자산운용"}
+    if(v == "C") {return "지평법무법인"}
+}
+
+function formatUserStatus(v, d, e) {
+    if(v == "NORMAL") { return "접속가능" }
+    if(v == "BAN") { return "접속불가" }
+}
+
+function formatPossessionName(v, d, e) {
+    return v + " " + d.officialaddress + " - " + formatPossessionKind(d.possessionkind);
 }
 
 function formatWorkCauseKindIcon(v, d, e) {

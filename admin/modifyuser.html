@@ -40,19 +40,34 @@
                                 </label>
                             </div>
                             <div class="cellRow">
-                                <label class="cell" for="userpw">
-                                    <span class="cellTitle">패스워드</span>
-                                    <input type="password" name="userpw" id="userpw" placeholder="패스워드를 입력하세요" autocomplete="new-password">
+                                <label class="cell" for="userphone">
+                                    <span class="cellTitle">전화번호</span>
+                                    <input type="text" name="userphone" c-bind="userphone:value" id="userphone" placeholder="전화번호를 입력하세요" autocomplete="no">
                                 </label>
                             </div>
+
                             <div class="cellRow">
-                                <label class="cell" for="userpw2">
-                                    <span class="cellTitle">패스워드 확인</span>
-                                    <input type="password" name="userpw2" id="userpw2" placeholder="패스워드를 입력하세요" autocomplete="new-password">
+                                <div class="cell view teamlist">
+                                    <span class="cellTitle">팀</span>                                    
+                                    <select name="usergroup" id="usergroup" c-bind="usergroup:select" style="font-size: 12px;">                                   
+                                        <option value="A">토지작업팀</option>                                        
+                                        <option value="B">JR자산운용</option>                                        
+                                        <option value="C">지평법무법인</option>                                        
+                                    </select>
+                                </div>                                
+                            </div>
+
+                            <div class="cellRow">
+                                <label class="cell" for="userstatus">
+                                    <span class="cellTitle">사용설정</span>                                    
+                                    <select name="userstatus" id="userstatus" c-bind="userstatus:select" style="font-size: 12px;">
+                                        <option value="NORMAL">접속가능</option>                                        
+                                        <option value="BAN">접속불가</option>                                        
+                                    </select>
                                 </label>
                             </div>                            
                             <div class="cellRow">
-                                <div class="cell view provincelist">
+                                <div class="cell view">
                                     <span class="cellTitle">권한</span>                                    
                                     <select name="rolepkey" id="rolepkey" c-bind="rolepkey:select" style="font-size: 12px;">
                                         <option value="ALL">선택</option>                                        
@@ -61,7 +76,6 @@
                                         <option value="3">협력사</option>                                        
                                     </select>
                                 </div>
-                                
                             </div>
 
                             
@@ -95,9 +109,7 @@
 
     function submitModifyUser() {
         var formData = getDataFrom('.cellView');        
-        if(!formData.username || formData.username.trim() == "") { showToast("이름을 입력하세요"); return; }        
-        if(!formData.userpw || formData.userpw.trim() == "") { showToast("패스워드를 입력하세요"); return; }
-        if(!formData.userpw2 || formData.userpw2.trim() == "") { showToast("패스워드를 입력하세요"); return; }
+        if(!formData.username || formData.username.trim() == "") { showToast("이름을 입력하세요"); return; }
         if(!formData.rolepkey || formData.rolepkey == "ALL") { showToast("권한을 선택하세요"); return; }
         API.modifyUser(formData).then(data => {
             if(data.head.status != "ok") { showToast('사용자를 수정하지 못했습니다.'); return ;}
