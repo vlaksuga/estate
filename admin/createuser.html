@@ -59,7 +59,8 @@
                             <div class="cellRow">
                                 <div class="cell view teamlist">
                                     <span class="cellTitle">팀</span>                                    
-                                    <select name="usergroup" id="usergroup" style="font-size: 12px;">                                   
+                                    <select name="usergroup" id="usergroup" style="font-size: 12px;">
+                                        <option value="AA">관리팀</option>                                   
                                         <option value="A">토지작업팀</option>                                        
                                         <option value="B">JR자산운용</option>                                        
                                         <option value="C">지평법무법인</option>                                        
@@ -104,6 +105,7 @@
         if(!formData.username || formData.username.trim() == "") { showToast("이름을 입력하세요"); return; }        
         if(!formData.userpw || formData.userpw.trim() == "") { showToast("패스워드를 입력하세요"); return; }
         if(!formData.userpw2 || formData.userpw2.trim() == "") { showToast("패스워드를 입력하세요"); return; }
+        if(formData.usergroup != "AA" && formData.rolepkey == "1") { showToast("관리자는 관리팀에만 속할 수 있습니다."); return;}
         API.addUser(formData).then(data => {
             if(data.head.status != "ok") { showToast('사용자를 만들지 못했습니다.'); return ;}
             alert('새 사용자가 만들어 졌습니다.');

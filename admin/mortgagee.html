@@ -21,7 +21,7 @@
             <article>
                 <div class="contentHeader">
                     <div class="contentHeaderStartContainer">
-                        <div class="title">mortgagee</div>
+                        <div class="title">저당권자</div>
                     </div>
                     <div class="contentHeaderEndContainer">
                         <span class="material-icons" style="font-size: 18px; cursor: pointer;" onclick="createMortgagee()">add</span>
@@ -30,20 +30,20 @@
                 <div class="contentMain">
                     <div class="rowFlexContainer" style="gap:16px;">
 
-                        <div class="itemList mortgageelist" style="max-width: 320px; min-width: 320px; transition: all 0.5s ease-in-out;">
-                            <div class="itemListStart">
-                                <div class="rowFlexContainer" style="gap:10px; align-items: center;">
+                        <div class="itemList mortgageelist">
+                            <div class="itemListStart" style="min-height: 0;">
+                                <!-- <div class="rowFlexContainer" style="gap:10px; align-items: center;">
                                     <span class="itemListTitle">저당권자</span>                                    
-                                </div>
-                                <div class="rowView header">
+                                </div> -->
+                                <!-- <div class="rowView header">
                                     <div class="rowItem">
                                         <span>리스트</span>
                                     </div>
-                                </div>                                
+                                </div>  -->                               
                             </div>
 
                             <div class="itemListEnd">
-                                <div class="overflowContainer" style="max-height: calc(100vh - 210px); overflow-y: auto;">
+                                <div class="overflowContainer" style="max-height: calc(100vh - 88px); overflow-y: auto;">
                                     <div class="colFlexContainer" c-bind="mortgageelist:list" style="gap: 10px;">                                        
                                         <item>
                                             <div class="profileView" c-bind="mortgageepkey:mortgageepkey:onSelectMortgagee" style="cursor: pointer;">
@@ -77,7 +77,7 @@
                             </div>
                         </div>
 
-                        <div class="itemList mortgagelist" style="display: none;">
+                        <!-- <div class="itemList mortgagelist" style="display: none;">
                             <div class="itemListStart">
                                 <div class="rowFlexContainer" style="gap:10px; align-items: center;">                                    
                                     <span class="itemListTitle">근저당권</span>                                    
@@ -140,7 +140,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
                     </div>
                 </div>                 
@@ -165,13 +165,7 @@
 
     function onSelectMortgagee(v, d, e) {
         $(e).on('click', function(){
-            clearItems('.mortgagelist');
-            $('.mortgagelist').show();
-            showAside('../aside/detailmortgagee.html', function(){ mapAside(d)});
-            API.listMortgageByMortgagee({mortgageepkey : v}).then(data => {
-                console.log(data);
-                bindView($('.mortgagelist').get(0), data.body);
-            })
+            location.href = "detailmortgagee.html?mortgageepkey=" + v;
         });
         return v;
     }

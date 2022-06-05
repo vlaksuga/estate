@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/main.css">    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/js/api.js"></script>    
+    <script src="/js/main.js"></script>    
+    <title>SEUM RMS</title>
+</head>
+<body>
+    <div id="app" user="admin">
+        <header loadsrc="../layout/header.html">
+        </header>
+        <main>
+            <nav loadsrc="../layout/nav.html" currentmenu="owner.html" auth="admin"></nav>
+            <article>
+                <div class="contentHeader">
+                    <div class="contentHeaderStartContainer">
+                        <div class="title">소유자 상세</div>
+                    </div>
+                    <div class="contentHeaderEndContainer"></div>
+                </div>
+                <div class="contentMain">
+                    <div class="cellView" style="max-width: 1000px;">
+                        <input type="hidden" name="ownerpkey" c-bind="ownerpkey:value">
+                        <div class="cellCol">
+                            
+                            <div class="cellRow">
+                                <div class="cell">
+                                    <span class="cellTitle">이름</span>
+                                    <span class="ownername" c-bind="ownername:text"></span>
+                                </div>
+                                <div class="cell">
+                                    <span class="cellTitle">구분</span>
+                                    <span class="ownerkind" c-bind="ownerkind:text:formatOwnerKind"></span>
+                                </div>
+                                <div class="cell" for="owneridnumber">
+                                    <span class="cellTitle">식별번호</span>
+                                    <span class="owneridnumber" c-bind="owneridnumber:text"></span>
+                                </div>
+                            </div>
+                            
+                            
+                            <div class="cellRow">
+                                <div class="cell view provincelist">
+                                    <span class="cellTitle">시/도</span>
+                                    <span class="provincename" c-bind="provincename:text"></span>
+                                </div>
+                                <div class="cell view arealist">
+                                    <span class="cellTitle">구/군</span>
+                                    <span class="areaname" c-bind="areaname:text"></span>
+                                </div>
+                                <div class="cell">
+                                    <span class="cellTitle">상세주소</span>
+                                    <span class="addressdetail" c-bind="townname:text:formatOnwerAddress"></span>
+                                </div>
+                            </div>
+
+                            <div class="cellRow">                                
+                                <div class="cell">
+                                    <span class="cellTitle">TEL</span>
+                                    <span class="ownertel" c-bind="ownertel:text:formatTel"></span>
+                                </div>
+                                <div class="cell">
+                                    <span class="cellTitle">PHONE</span>
+                                    <span class="ownerphone" c-bind="ownerphone:text:formatTel"></span>
+                                </div>
+                            </div>                      
+
+                            
+                            <div class="rowFlexContainer" style="justify-content: flex-end; gap :10px">
+                                <div class="buttonView" onclick="goBack()">
+                                    <span>뒤로</span>
+                                </div>
+                                <div class="buttonView" onclick="goModifyOwner()">
+                                    <span>수정</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>                
+            </article>
+            <aside></aside>
+        </main>
+    </div>
+</body>
+</html>
+
+<script>
+    function runSetup() {
+        findItems(document);
+        setOwner();        
+    }
+
+    function setOwner() {
+        API.getOwner({ownerpkey : getParam('ownerpkey')}).then(data => {
+            bindView($('.cellView').get(0), data.body.owner);
+            currentData = data.body.owner;          
+        })
+    }
+
+    function goModifyOwner() {
+        location.href = "modifyowner.html?ownerpkey=" + currentData.ownerpkey;
+    }
+
+    function formatOnwerAddress(v, d, e) {
+        let address = v.split(' ');
+        let ret = [];
+        for(i=2; i<address.length; i++) {
+            ret.push(address[i]);
+        }
+        ret = ret.join(' ');
+        return ret;
+    }
+</script>

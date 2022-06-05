@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/main.css">    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/js/api.js"></script>    
+    <script src="/js/main.js"></script>    
+    <title>SEUM RMS</title>
+</head>
+<body>
+    <div id="app" user="admin">
+        <header loadsrc="../layout/header.html">
+        </header>
+        <main>
+            <nav loadsrc="../layout/nav.html" currentmenu="realestate.html" auth="admin"></nav>
+            <article>
+                <div class="contentHeader">
+                    <div class="contentHeaderStartContainer">
+                        <div class="title">공시물건 상세</div>
+                    </div>
+                    <div class="contentHeaderEndContainer"></div>
+                </div>
+                <div class="contentMain">
+                    <div class="cellView" style="max-width:1000px">
+                        <div class="cellCol">
+                            <div class="cellRow">
+                                <div class="cell view provincelist">
+                                    <span class="cellTitle">시/도</span>
+                                    <span class="provincename" c-bind="provincename:text"></span>
+                                </div>
+                                <div class="cell view arealist">
+                                    <span class="cellTitle">구/군</span>
+                                    <span class="areaname" c-bind="areaname:text"></span>
+                                </div>
+                                <div class="cell view townlist">
+                                    <span class="cellTitle">읍/동/면</span>
+                                    <span class="townname" c-bind="townname:text"></span>
+                                </div>
+                                
+                            </div>
+
+                            <div class="cellRow">
+                                <div class="cell">
+                                    <span class="cellTitle">지번</span>
+                                    <span class="officialaddress" c-bind="officialaddress:text">
+                                </div>
+                                <div class="cell">
+                                    <span class="cellTitle">지대</span>
+                                    <span class="officialnomination" c-bind="officialnomination:text"></span>                                          
+                                </div>
+                                <div class="cell">
+                                    <span class="cellTitle">건물명</span>
+                                    <span class="officialbuildingname" c-bind="officialbuildingname:text"></span>
+                                </div>
+                                <div class="cell">
+                                    <span class="cellTitle">업종</span>
+                                    <span class="officialbuildingsector" c-bind="officialbuildingsector:text"></span>
+                                </div>
+                            </div>
+                            <div class="cellRow">
+                                <div class="cell">
+                                    <span class="cellTitle">토지면적</span>
+                                    <span class="officiallandmeter" c-bind="officiallandmeter:text"></span>
+                                </div>
+                                <div class="cell">
+                                    <span class="cellTitle">토지가격</span>
+                                    <span class="officiallandprice" c-bind="officiallandprice:text:formatWon"></span>
+                                </div>
+                            </div>
+                            <div class="cellRow">
+                                <div class="cell">
+                                    <span class="cellTitle">건물면적</span>
+                                    <span class="officialbuildingmeter" c-bind="officialbuildingmeter:text"></span>
+                                </div>
+                                <div class="cell">
+                                    <span class="cellTitle">건물가격</span>
+                                    <span class="officialbuildingprice" c-bind="officialbuildingprice:text:formatWon"></span>
+                                </div>
+                            </div>
+                            <div class="rowFlexContainer" style="justify-content: flex-end; gap:10px;">
+                                <div class="buttonView" onclick="goBack()">
+                                    <span>뒤로</span>
+                                </div>
+                                <div class="buttonView" onclick="goModifyEstate()">
+                                    <span>수정</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>                
+            </article>
+            <aside></aside>
+        </main>
+    </div>
+</body>
+</html>
+
+<script>
+    function runSetup() {
+        findItems(document);
+        setEstate();        
+    }
+
+    function setEstate() {
+        API.getEstate({ officialestatepkey : getParam('estatepkey')}).then(data => {
+            bindView($('.cellView').get(0), data.body.estate);
+            currentData = data.body.estate;         
+        });
+    }
+
+    function goModifyEstate() {
+        location.href = "modifyestate.html?estatepkey=" + currentData.officialestatepkey;    
+    }
+</script>

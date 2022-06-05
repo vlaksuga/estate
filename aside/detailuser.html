@@ -30,6 +30,9 @@
             <div class="buttonView" onclick="goModifyUser()">
                 <span>사용자 수정</span>
             </div>
+            <div class="buttonView" onclick="goModifyUserPassword()">
+                <span>비밀번호 변경</span>
+            </div>
         </div>
         
     </div>
@@ -43,5 +46,9 @@
 
     function goModifyUser() {
         location.href = "modifyuser.html?userpkey=" + $('.asideView').get(0).adata.userpkey;
+    }
+
+    function goModifyUserPassword() {
+        location.href = "modifyuserpassword.html?userpkey=" + $('.asideView').get(0).adata.userpkey;
     }
 </script>

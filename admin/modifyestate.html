@@ -19,12 +19,12 @@
             <article>
                 <div class="contentHeader">
                     <div class="contentHeaderStartContainer">
-                        <div class="title">edit real estate</div>
+                        <div class="title">공시물건 수정</div>
                     </div>
                     <div class="contentHeaderEndContainer"></div>
                 </div>
                 <div class="contentMain">
-                    <div class="cellView" style="width:75%">
+                    <div class="cellView" style="max-width:1000px;">
                         <input type="hidden" name="officialestatepkey" c-bind="officialestatepkey:value">
                         <div class="cellCol">
                             <div class="cellRow">
@@ -91,7 +91,7 @@
                                 </label>
                                 <label class="cell" for="officiallandprice">
                                     <span class="cellTitle">토지가격</span>
-                                    <input type="text" name="officiallandprice" id="officiallandprice" c-bind="officiallandprice:value" placeholder="토지가격을 원단위의 숫자로 입력하세요. 예)2000000" value="0">
+                                    <input type="text" name="officiallandprice" id="officiallandprice" c-bind="officiallandprice:value:formatWon" placeholder="토지가격을 원단위의 숫자로 입력하세요. 예)2000000" value="0">
                                 </label>
                             </div>
                             <div class="cellRow">
@@ -101,12 +101,15 @@
                                 </label>
                                 <label class="cell" for="officialbuildingprice">
                                     <span class="cellTitle">건물가격</span>
-                                    <input type="text" name="officialbuildingprice" id="officialbuildingprice" c-bind="officialbuildingprice:value" placeholder="건물가격을 원단위의 숫자로 입력하세요. 예)200000" value="0">
+                                    <input type="text" name="officialbuildingprice" id="officialbuildingprice" c-bind="officialbuildingprice:value:formatWon" placeholder="건물가격을 원단위의 숫자로 입력하세요. 예)200000" value="0">
                                 </label>
                             </div>
-                            <div class="rowFlexContainer" style="justify-content: flex-end;">
+                            <div class="rowFlexContainer" style="justify-content: flex-end; gap:10px">
+                                <div class="buttonView" onclick="goBack()">
+                                    <span>취소</span>
+                                </div>
                                 <div class="buttonView" onclick="submitModifyEstate()">
-                                    <span>확인</span>
+                                    <span>적용</span>
                                 </div>
                             </div>
                         </div>

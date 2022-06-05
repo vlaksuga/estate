@@ -15,11 +15,11 @@
         <header loadsrc="../layout/header.html">
         </header>
         <main>
-            <nav loadsrc="../layout/nav.html" currentmenu="realestate.html" auth="admin"></nav>
+            <nav loadsrc="../layout/nav.html" currentmenu="possession.html" auth="admin"></nav>
             <article>
                 <div class="contentHeader">
                     <div class="contentHeaderStartContainer">
-                        <div class="title">create possession</div>
+                        <div class="title">소유권 추가</div>
                     </div>
                     <div class="contentHeaderEndContainer"></div>
                 </div>
@@ -29,33 +29,32 @@
                             <div class="cellCol">
                                 <div class="cellRowTitle">공시 정보</div>
                                 <div class="cellRow">                                
-                                    <div class="cell view">
-                                        <span class="cellTitle">지번</span>
-                                        <span c-bind="officialaddress:text"></span>
-                                    </div>
-                                    <div class="cell">
-                                        <span class="cellTitle">동</span>
-                                        <span c-bind="townname:text"></span>
+                                    <div class="cell view estatelist">
+                                        <span class="cellTitle">소재지</span>
+                                        <select name="officialestatepkey" c-bind="estatelist:listtemplete" c-tag="c-item" style="font-size: 12px;" onchange="onSelectAddress(this)">
+                                            <option value="ALL">선택</option>
+                                            <option listtempitem c-item="townname:option:formatAddress, officialestatepkey:value"></option>
+                                        </select>
                                     </div>
                                     <div class="cell">
                                         <span class="cellTitle">지목</span>
-                                        <span c-bind="officialnomination:text"></span>
+                                        <span class="officialnomination"></span>
                                     </div>
                                     <div class="cell">
                                         <span class="cellTitle">건물명</span>
-                                        <span c-bind="officialbuildingname:text"></span>
+                                        <span class="officialbuildingname"></span>
                                     </div>
                                     <div class="cell">
                                         <span class="cellTitle">업종</span>
-                                        <span c-bind="officialbuildingsector:text"></span>
+                                        <span class="officialbuildingsector"></span>
                                     </div>                            
                                 </div>
     
                                 <div class="cellRowTitle">소유자</div>
-                                <div class="cellRow ownerlist">
+                                <div class="cellRow">
                                     <div class="cellCol" style="width: 33%;">
                                         <div class="cellRow">
-                                            <div class="cell">
+                                            <div class="cell ownerlist">
                                                 <span class="cellTitle">이름</span>
                                                 <select name="ownerpkey" c-bind="ownerlist:listtemplete" c-tag="c-item" style="font-size: 12px;" onchange="onSelectOnwer(this)">
                                                     <option value="ALL">선택</option>
@@ -122,7 +121,7 @@
                                         </div>
                                         <div class="cellRow">
                                             <div class="cell">
-                                                <span class="cellTitle">공시가격</span>
+                                                <span class="cellTitle">공시평단가</span>
                                                 <span id="officialprice"></span>
                                             </div>
                                         </div>
@@ -136,7 +135,7 @@
                                         </div>
                                         <div class="cellRow">
                                             <label class="cell" for="landpurchaseprice">
-                                                <span class="cellTitle">관리처분가</span>
+                                                <span class="cellTitle">소유평단가</span>
                                                 <input type="text" name="possessionpurchaseprice" id="possessionpurchaseprice" placeholder="소유면적을 &#13217 단위의 숫자로 입력하세요. 예)8000" onfocus="this.value = ''" oninput="calcPercentPrice('officialprice', this, 'pricepercent')" value="0" onblur="this.value = formatWon(this.value)">
                                             </label>
                                         </div>
@@ -159,7 +158,7 @@
                                 
                                 <div class="rowFlexContainer" style="justify-content: flex-end;">
                                     <div class="buttonView" onclick="submitCreatePossession()">
-                                        <span>확인</span>
+                                        <span>추가</span>
                                     </div>
                                 </div>
                                 
@@ -178,20 +177,51 @@
 <script>
     function runSetup() {
         findItems(document);
-        getEstate();
+        setListEstate();
+        setListOwner();
     }
 
-    function getEstate() {
-        API.getEstate({officialestatepkey : getParam('estatepkey')}).then(data => {
-            currentData = data.body.estate;
-            API.listOwner().then(res => {
-                currentData.ownerlist = res.body.ownerlist;
-                currentData.ownerlist.sort((a, b) => { return a.ownername > b.ownername ? 1 : -1})
-                bindView($('.cellView').get(0), currentData);
-                mapPossession();
-            })
-            
+    function setListEstate() {
+        API.listEstate().then(data => {
+            bindView($('.estatelist').get(0), data.body)
+            currentData.estatelist = data.body.estatelist;
         })
+    }
+
+    function setListOwner() {
+        API.listOwner().then(data => {
+            data.body.ownerlist.sort((a, b) => { return a.ownername > b.ownername ? 1 : -1});
+            console.log(data);
+
+            bindView($('.ownerlist').get(0), data.body);
+            currentData.ownerlist = data.body.ownerlist;
+        })
+    }
+
+
+    
+
+    function onSelectAddress(ele) {
+        let estatedata = {};
+        currentData.estatelist.forEach(estate => {
+            if(estate.officialestatepkey == ele.value) {
+                estatedata = estate;
+            }
+        });              
+        currentData.estatedata = estatedata;  
+        bindEstate(estatedata);      
+    }
+    
+    function bindEstate(estatedata) {
+        const kind = $('#possessionkind').val();
+        const price = $('#officialprice');
+        const meter = $('#officialmeter');
+        for(const [k, v]  of Object.entries(estatedata)) {
+            let val = v;
+            if(k == "ownertel" || k == "ownerphone") { val = formatTel(v); }
+            $('.' + k).text(val);
+        }
+        mapPossession();
     }
 
     function onSelectOnwer(ele) {
@@ -210,7 +240,6 @@
             if(k == "ownertel" || k == "ownerphone") { val = formatTel(v); }
             $('.' + k).text(val);
         }
-        
     }
 
     function calcPercentMeter(p, c, t) {
@@ -237,16 +266,14 @@
 
     function submitCreatePossession() {
         var formData = getDataFrom('.cellView');
-        
-        formData.officialestatepkey = getParam('estatepkey');
         formData.possessionmeter = formData.possessionmeter.replace(",", "");
         formData.possessiontransferdate = formData.possessiontransferdate.replace(/-/g, ""); 
         formData.possessionpurchaseprice = formData.possessionpurchaseprice.replace(/,/g, "").replace("원", "");        
         if(!formData.possessiontransferdate || formData.possessiontransferdate == "") { formData.possessiontransferdate = "99991231"}        
         API.addPossession(formData).then(data => {
-            if(data.head.status != "ok") { showToast('소유 권리를 만들지 못했습니다.'); return ;}
-            alert('새 소유 권리가 만들어 졌습니다.');
-            location.href = "realestate.html";
+            if(data.head.status != "ok") { showToast('소유권을 만들지 못했습니다.'); return ;}
+            alert('새 소유권이 만들어 졌습니다.');
+            location.href = "possession.html";
         });
     }
 
@@ -255,13 +282,21 @@
         const meter = $('#officialmeter');
         const price = $('#officialprice');
         if(kind == "LAND") {
-            meter.text(currentData.officiallandmeter);
-            price.text(formatWon(currentData.officiallandprice));
+            meter.text(currentData.estatedata.officiallandmeter);
+            price.text(formatWon(currentData.estatedata.officiallandprice));
         }
         if(kind == "BUIL") {
-            meter.text(currentData.officialbuildingmeter);
-            price.text(formatWon(currentData.officialbuildingprice));
+            meter.text(currentData.estatedata.officialbuildingmeter);
+            price.text(formatWon(currentData.estatedata.officialbuildingprice));
         }
+    }
+
+    function formatEstateName(v, d, e) {
+        return "(" + v + ")";
+    }
+
+    function formatAddress(v, d, e) {
+        return v + " " + d.officialaddress + "지번";
     }
 
 

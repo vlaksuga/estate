@@ -21,7 +21,7 @@
             <article>
                 <div class="contentHeader">
                     <div class="contentHeaderStartContainer">
-                        <div class="title">owner</div>
+                        <div class="title">소유자</div>
                     </div>
                     <div class="contentHeaderEndContainer">
                         <span class="material-icons" style="font-size: 18px; cursor: pointer;" onclick="createOwner()">add</span>
@@ -29,13 +29,15 @@
                 </div>
                 <div class="contentMain">
                     <div class="rowFlexContainer" style="gap:16px;">
-
-                        <div class="itemList ownerlist" style="transition: all 0.5s ease-in-out; width: 1000px; ">
-                            <div class="itemListStart" >
-                                <div class="rowFlexContainer" style="gap:10px; align-items: center;">
+                        <div class="itemList ownerlist">
+                            <div class="itemListStart" style="min-height: 0;">
+                                <!-- <div class="rowFlexContainer">
                                     <span class="itemListTitle">소유자</span>                                    
-                                </div>
+                                </div> -->
                                 <div class="rowView header">
+                                    <div class="rowItem" style="width: 10%">
+                                        <span>순번</span>
+                                    </div>
                                     <div class="rowItem" style="width: 10%">
                                         <span>구분</span>
                                     </div>
@@ -63,6 +65,9 @@
                                                                                 
                                         <item>
                                             <div class="rowView light" c-bind="ownerpkey:ownerpkey:selectOwner" style="cursor:pointer;">
+                                                <div class="rowItem" style="width: 10%">
+                                                    <span c-bind="ownerpkey:text"></span>
+                                                </div>
                                                 <div class="rowItem" style="width: 10%">
                                                     <span c-bind="ownerkind:text:formatOwnerKind"></span>
                                                 </div>
@@ -96,7 +101,7 @@
                             </div>
                         </div>
 
-                        <div class="itemList possessionlist" style="transition: all 0.5s ease-in-out; width: 800px; display: none;">
+                        <!-- <div class="itemList possessionlist" style="transition: all 0.5s ease-in-out; width: 800px; display: none;">
                             <div class="itemListStart">
                                 <div class="rowFlexContainer" style="gap:10px; align-items: center;">                                    
                                     <span class="material-icons" onclick="backToOwnerList()" style="cursor: pointer;">chevron_left</span>
@@ -216,7 +221,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>                 
             </article>
@@ -235,8 +240,7 @@
     }    
 
     function setListOwner() {
-        API.listOwner().then(data => {
-            console.log(data);            
+        API.listOwner().then(data => {           
             data.body.ownerlist.sort((a, b) => { return a.ownername > b.ownername ? 1 : -1 });
             bindView($('.ownerlist').get(0), data.body);
         });
@@ -248,18 +252,7 @@
 
     function selectOwner(v, d, e){
         $(e).on('click', function() {
-            $('.ownerlist .rowView').removeClass('active');
-            $(this).addClass('active');
-
-            showAside('../aside/detailowner.html', function(){ mapAside(d)} );            
-            $('.ownerlist').css('margin-left', '-1016px');
-            $('.possessionlist').show();            
-            
-
-            API.listPossessionByOwner({ownerpkey : v}).then(data => {
-                clearItems('.possessionlist');
-                bindView($('.possessionlist').get(0), data.body);            
-            });
+            location.href = "detailowner.html?ownerpkey=" + v;
         })
         return v;
     }

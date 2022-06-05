@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/main.css">    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/js/api.js"></script>    
+    <script src="/js/main.js"></script>    
+    <title>SEUM RMS</title>
+</head>
+<body>
+    <div id="app" user="admin">
+        <header loadsrc="../layout/header.html">
+        </header>
+        <main>
+            <nav loadsrc="../layout/nav.html" currentmenu="mortgagee.html" auth="admin"></nav>
+            <article>
+                <div class="contentHeader">
+                    <div class="contentHeaderStartContainer">
+                        <div class="title">저당권자 상세</div>
+                    </div>
+                    <div class="contentHeaderEndContainer"></div>
+                </div>
+                <div class="contentMain">
+                    <div class="cellView" style="max-width:500px">
+                        <div class="cellCol">
+                            <div class="cell">
+                                <span class="cellTitle">종류</span>
+                                <span class="mortgageekind" c-bind="mortgageekind:text:formatOwnerKind"></span>
+                            </div>
+                            <div class="cell">
+                                <span class="cellTitle">이름</span>
+                                <span class="mortgageename" c-bind="mortgageename:text"></span>
+                            </div>                           
+                            
+                            <div class="rowFlexContainer" style="justify-content: flex-end; gap: 10px">
+                                <div class="buttonView" onclick="goBack()">
+                                    <span>뒤로</span>
+                                </div>
+                                <div class="buttonView" onclick="goModifyMortgagee()">
+                                    <span>수정</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>                
+            </article>
+            <aside></aside>
+        </main>
+    </div>
+</body>
+</html>
+
+<script>
+    function runSetup() {
+        findItems(document);
+        setMortgagee();   
+    }
+
+    function setMortgagee() {
+        API.getMortgagee({mortgageepkey : getParam('mortgageepkey')}).then(data => {
+            console.log(data);
+            currentData = data.body.mortgagee;
+            bindView($('.cellView').get(0), data.body.mortgagee);
+        });
+    }
+
+    function goModifyMortgagee() {
+        location.href = "modifymortgagee.html?mortgageepkey=" + currentData.mortgageepkey;
+    }
+</script>

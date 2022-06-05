@@ -19,12 +19,12 @@
             <article>
                 <div class="contentHeader">
                     <div class="contentHeaderStartContainer">
-                        <div class="title">edit mortgagee</div>
+                        <div class="title">저당권자 수정</div>
                     </div>
                     <div class="contentHeaderEndContainer"></div>
                 </div>
                 <div class="contentMain">
-                    <div class="cellView" style="width:500px">
+                    <div class="cellView" style="max-width:500px">
                         <div class="cellCol">
                             <input type="hidden" name="mortgageepkey" c-bind="mortgageepkey:value">
                             <div class="cell">
@@ -41,7 +41,10 @@
                                 </label>                            
                             </div>                            
                             
-                            <div class="rowFlexContainer" style="justify-content: flex-end;">
+                            <div class="rowFlexContainer" style="justify-content: flex-end; gap:10px">
+                                <div class="buttonView" onclick="goBack()">
+                                    <span>취소</span>
+                                </div>
                                 <div class="buttonView" onclick="submitModifyMortgagee()">
                                     <span>확인</span>
                                 </div>
@@ -64,8 +67,7 @@
     }
 
     function setMortgagee() {
-        API.getMortgagee({mortgageepkey : getParam('mortgageepkey')}).then(data => {
-            console.log(data.body); 
+        API.getMortgagee({mortgageepkey : getParam('mortgageepkey')}).then(data => { 
             bindView($('.cellView').get(0), data.body.mortgagee);
         });
     }
@@ -75,7 +77,6 @@
         if(!formData.mortgageekind || formData.mortgageekind == "ALL") { showToast("종류를 선택해주세요"); return; }
         if(!formData.mortgageename || formData.mortgageename.trim() == "") { showToast("이름을 입력하세요"); return; }        
         API.modifyMortgagee(formData).then(data => {
-            console.log(data);
             if(data.head.status != "ok") { showToast('저당권자를 수정하지 못했습니다.'); return ;}
             alert('저당권자가 수정되었습니다.');
             location.href = "mortgagee.html";

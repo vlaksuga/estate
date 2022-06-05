@@ -1,7 +1,7 @@
 const TEST_MODE = true;
 
-const IMG_SERVER = TEST_MODE ? "http://172.30.1.47:7777/" : "http://15.164.216.77:7777/" ; 
-const API_SERVER = TEST_MODE ? "http://172.30.1.47:7777/" : "http://15.164.216.77:7777/" ; 
+const IMG_SERVER = TEST_MODE ? "http://172.30.1.36:7777/" : "http://15.164.216.77:7777/" ; 
+const API_SERVER = TEST_MODE ? "http://172.30.1.36:7777/" : "http://15.164.216.77:7777/" ; 
 
 
 class Api {
@@ -66,6 +66,7 @@ class CommonApi extends Api {
     getOwner(data) { return super.get("s/getOwner.json", data) }
     listEstate(data) { return super.get("s/listEstate.json", data) }    
     getEstate(data) { return super.get("s/getEstate.json", data) }
+    listPossession(data) { return super.get("s/listPossession.json", data) }    
     listPossessionByEstate(data) { return super.get("s/listPossessionByEstate.json", data) }    
     listPossessionByOwner(data) { return super.get("s/listPossessionByOwner.json", data) }    
     getPossession(data) { return super.get("s/getPossession.json", data) }          
@@ -87,6 +88,7 @@ class CommonApi extends Api {
     /* post */
     addUser(data) { return super.post("addUser.json", data) }
     modifyUser(data) { return super.post("modifyUser.json", data) }
+    modifyUserPasswordByRoot(data) { return super.post("modifyUserPasswordByRoot.json", data) }
     addEstate(data) { return super.post("addEstate.json", data) }
     modifyEstate(data) { return super.post("modifyEstate.json", data) }
     addOwner(data) { return super.post("addOwner.json", data) }

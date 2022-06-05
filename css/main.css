@@ -139,6 +139,9 @@ nav .navStartContainer .userContainer {
     padding: 16px;
     gap: 16px;
 }
+nav.shrink hr {
+    display: none;
+}
 
 nav.shrink .navStartContainer .userContainer {    
     display: none;
@@ -162,6 +165,10 @@ nav .navStartContainer .menuContainer .menuView {
     justify-content: flex-start;
     align-items: center;
     gap: 16px
+}
+
+nav.shrink .navStartContainer .menuContainer .menuView.sub {
+    display: none;
 }
 
 nav .navStartContainer .menuContainer .menuView:hover {

@@ -88,6 +88,8 @@ function clearItems(selector) {
     }
 }
 
+
+
 function clearOptions(selector) {
     let item = selector == undefined ?  "option[c-item]" : selector + ' option[c-item]' ;    
     if(item) {$(item).remove()};    
@@ -483,6 +485,10 @@ function getUniqueList(list, key) {
 
 }
 
+function goBack() {
+    history.back();
+}
+
 function getChildList(parentlist, childlist, sortkey) {
     let ret = [];            
     parentlist.forEach(item => {                
@@ -546,6 +552,11 @@ function formatTaskStatus(v, d, e) {
 function formatOwnerKind(v, d, e) {
     if(v == "PERSONAL") { return "개인" }
     if(v == "CORPORATION") { return "법인" }
+}
+
+function formatHistoryKind(v, d, e) {
+    if(v == "POSSESSION") { return "소유권" }
+    if(v == "MORTGAGE") { return "저당권" }
 }
 
 function formatWorkStatus(v, d, e) {
@@ -672,6 +683,7 @@ function formatRoleName(v, d, e) {
 }
 
 function formatUserGroup(v, d, e) {
+    if(v == "AA") {return "관리팀"}
     if(v == "A") {return "토지작업팀"}
     if(v == "B") {return "JR자산운용"}
     if(v == "C") {return "지평법무법인"}

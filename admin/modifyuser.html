@@ -50,6 +50,7 @@
                                 <div class="cell view teamlist">
                                     <span class="cellTitle">팀</span>                                    
                                     <select name="usergroup" id="usergroup" c-bind="usergroup:select" style="font-size: 12px;">                                   
+                                        <option value="AA">관리팀</option>                                        
                                         <option value="A">토지작업팀</option>                                        
                                         <option value="B">JR자산운용</option>                                        
                                         <option value="C">지평법무법인</option>                                        
@@ -111,9 +112,10 @@
         var formData = getDataFrom('.cellView');        
         if(!formData.username || formData.username.trim() == "") { showToast("이름을 입력하세요"); return; }
         if(!formData.rolepkey || formData.rolepkey == "ALL") { showToast("권한을 선택하세요"); return; }
+        if(formData.usergroup != "AA" && formData.rolepkey == "1") { showToast("관리자는 관리팀에만 속할 수 있습니다."); return;}
         API.modifyUser(formData).then(data => {
             if(data.head.status != "ok") { showToast('사용자를 수정하지 못했습니다.'); return ;}
-            alert('사용자가 수정되었니다.');
+            alert('사용자가 수정되었습니다.');
             location.href = "user.html";
         })    
     }
