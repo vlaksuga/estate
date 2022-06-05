@@ -1,7 +1,7 @@
-const TEST_MODE = true;
+const TEST_MODE = false;
 
-const IMG_SERVER = TEST_MODE ? "http://172.30.1.36:7777/" : "http://15.164.216.77:7777/" ; 
-const API_SERVER = TEST_MODE ? "http://172.30.1.36:7777/" : "http://15.164.216.77:7777/" ; 
+const IMG_SERVER = TEST_MODE ? "http://172.30.1.36:7777/" : "https://rms.seumjnd.com:7777/" ; 
+const API_SERVER = TEST_MODE ? "http://172.30.1.36:7777/" : "https://rms.seumjnd.com:7777/" ; 
 
 
 class Api {
