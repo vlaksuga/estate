@@ -571,6 +571,16 @@ function formatWorkStatus(v, d, e) {
     return v;
 }
 
+function formatContractStatus(v, d, e) {
+    if(v == "REG") { return "협의" }
+    if(v == "ACCEPT") { return "진행전" }
+    if(v == "ING") { return "실행" }
+    if(v == "DONE") { return "계약완료" }
+    if(v == "CONFIRM") { return "서면결의" }
+    if(v == "ETC") { return "기타" }
+    if(v == "TOTAL") { return "종합" }
+}
+
 function formatPriority(v, d, e) {
     if(v == "100") { return "낮음"; }
     if(v == "200") { return "보통"; }    

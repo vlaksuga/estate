@@ -19,7 +19,7 @@
             <article>
                 <div class="contentHeader">
                     <div class="contentHeaderStartContainer">
-                        <div class="title">contract detail</div>
+                        <div class="title">계약 상세</div>
                     </div>
                     <div class="contentHeaderEndContainer"></div>
                 </div>
@@ -144,6 +144,9 @@
                                 </div>    
                             </div>
                             <div class="rowFlexContainer" style="justify-content: flex-end; gap:10px">
+                                <div class="buttonView" onclick="goBack()">
+                                    <span>뒤로</span>
+                                </div>
                                 <div class="buttonView" onclick="goModifyContract()">
                                     <span>수정</span>
                                 </div>
@@ -168,8 +171,8 @@
     function getContract() {
         API.getContract({contractpkey : getParam('contractpkey')})
         .then(data => {
-            currentData = data.body.contract;
             bindView($('.cellView').get(0), data.body.contract);
+            currentData = data.body.contract;
         })
     }
 

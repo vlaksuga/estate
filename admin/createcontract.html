@@ -242,10 +242,10 @@
     }
 
     function submitCreateContract() {
-        var formData = getDataFrom('.cellView');
-        formData.hasuser = "Y";                
-        if(formData.userpkey == "ALL") { formData.hasuser = "N" }   
+        var formData = getDataFrom('.cellView');               
+        if(!formData.userpkey || formData.userpkey == "ALL") { showToast('계약담당자를 선택해주세요.'); return; }   
         if(formData.possessionpkey == "ALL") { showToast('소유 권리를 선택해주세요'); return;}
+        
         API.addContract(formData).then(data => {
             if(data.head.status != "ok") { showToast('계약을 만들지 못했습니다.'); return ;}
             alert('새 계약이 만들어 졌습니다.');
