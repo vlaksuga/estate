@@ -131,6 +131,7 @@
 
     function setEstate() {
         API.getEstate({ officialestatepkey : getParam('estatepkey')}).then(data => {
+            console.log(data);
             bindView($('.cellView').get(0), data.body.estate);
             currentData = data.body.estate;
             setListProvince();            
@@ -142,7 +143,9 @@
             bindView($('.provincelist').get(0), data.body);
             const filter = $('#provicefilter').get(0);
             if(filter.getAttribute('autoset') == "Y") {
-                const option = Array.from(filter.options).find(opt => { return opt.value == currentData.provincepkey });                    
+                console.log(currentData);
+                const option = Array.from(filter.options).find(opt => { return opt.value == currentData.provincepkey });
+                                    
                 filter.selectedIndex = option.index;
                 filter.onchange(filter);
                 filter.setAttribute('autoset', "N");
@@ -181,7 +184,9 @@
 
     function submitModifyEstate() {
         var formData = getDataFrom('.cellView');
-        console.log(formData);
+        formData.officiallandprice = formData.officiallandprice.replace(/,/g, "").replace("원", "");
+        formData.officialbuildingprice = formData.officialbuildingprice.replace(/,/g, "").replace("원", "");
+        
         if(!formData.provincepkey || formData.provincepkey=="ALL") { showToast("시/도를 선택하세요"); return; }
         if(!formData.areapkey || formData.areapkey=="ALL") { showToast("구/군을 선택하세요"); return; }
         if(!formData.townpkey || formData.townpkey=="ALL") { showToast("읍/면/동을 선택하세요"); return; }
@@ -196,4 +201,6 @@
             location.href = "realestate.html";
         })    
     }
+
+    
 </script>

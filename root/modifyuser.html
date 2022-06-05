@@ -11,15 +11,15 @@
     <title>SEUM RMS</title>
 </head>
 <body>
-    <div id="app" user="admin">
+    <div id="app" user="root">
         <header loadsrc="../layout/header.html">
         </header>
         <main>
-            <nav loadsrc="../layout/nav.html" currentmenu="owner.html" auth="admin"></nav>
+            <nav loadsrc="../layout/nav.html" currentmenu="user.html" auth="root"></nav>
             <article>
                 <div class="contentHeader">
                     <div class="contentHeaderStartContainer">
-                        <div class="title">edit user</div>
+                        <div class="title">계정 수정</div>
                     </div>
                     <div class="contentHeaderEndContainer"></div>
                 </div>
@@ -80,7 +80,10 @@
                             </div>
 
                             
-                            <div class="rowFlexContainer" style="justify-content: flex-end;">
+                            <div class="rowFlexContainer" style="justify-content: flex-end; gap:10px">
+                                <div class="buttonView" onclick="goBack()">
+                                    <span>취소</span>
+                                </div>
                                 <div class="buttonView" onclick="submitModifyUser()">
                                     <span>확인</span>
                                 </div>

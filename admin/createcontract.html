@@ -107,7 +107,7 @@
                                     <span class="possessionmeter"></span>
                                 </div>
                                 <div class="cell">
-                                    <span class="cellTitle">관리처분가</span>
+                                    <span class="cellTitle">소유평단가</span>
                                     <span class="possessionpurchaseprice"></span>
                                 </div>
                                 <div class="cell">
@@ -188,7 +188,7 @@
     }
 
     function onSelectUserGroup(ele) {
-        API.listUserByUserGroup({usergroup : ele.value})
+        API.listAgencyByUserGroup({usergroup : ele.value})
         .then(data => {
             currentData.userlist = data.body.userlist;
             bindView($('.userlist').get(0), data.body);

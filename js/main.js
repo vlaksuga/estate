@@ -2,8 +2,8 @@ var currentData = {};
 var currentUser = null;
 
 function init() {             
-    currentUser = {t : getStorageToken(getStorageToken('lastlogin') + '.t')};
-    //if(!currentUser.t) { location.href = 'login.html'; return;}    
+    currentUser = {t : getStorageToken('t')};
+    if(!currentUser.t) { location.href = "/index.html"; return;}    
     loadFragments().then(runSetup());
 }
 
@@ -24,33 +24,50 @@ function filterRole(selector) {
     });
 }
 
-function setCurrentUser(role){    
-    const API = getAPI(role);
-    API.getUser(currentUser).then(res => {
+function setCurrentUser(){    
+    API.getUserInfo().then(res => {
         if(res.body.islogin != "Y") {
             alert("세션이 만료되었거나 로그인이 필요합니다.");
-            logout(role);
-            return ;
+            logout();
+            return;
         }
-        Object.assign(currentUser, res.body);
-        currentUser.auth = role;            
+        Object.assign(currentUser, res.body);            
         bindView($('nav')[0], currentUser);
         bindView($('header')[0], currentUser);            
     });
 }
 
-function login(key, name){
-    sessionStorage.setItem(key + '.t', name);
-    sessionStorage.setItem("lastlogin", key);
-    location.href="overview.html";
+function login(data) {
+    sessionStorage.setItem('t', data.t);
+    switch(data.rolepkey) {
+        case "-1" : {
+            location.href = "root/user.html"
+            break;
+        }
+        case "1" : {
+            location.href = "admin/home.html"
+            break;
+        }
+        case "2" : {
+            location.href = "guest/home.html"
+            break;
+        }
+        case "3" : {
+            location.href = "agency/home.html"
+            break;
+        }
+        default : {
+            showToast('알 수 없는 오류가 발생했습니다.');
+            break;
+        }
+    }
 }
 
-function logout(role) {
-    const API = getAPI(role);    
-    API.userLogout().finally(res => {
+function logout() {   
+    API.logout().finally(res => {
         currentUser = null;
-        sessionStorage.removeItem(role + '.t');
-        location.href = "login.html";
+        sessionStorage.removeItem('t');
+        location.href = "/index.html";
     });
 }
 
@@ -454,6 +471,13 @@ function formatSizeMeter(v, d, e) {
 function formatMortgageKind(v, d, e) {
     if(v == "LAND") {return "토지"}
     if(v == "BUIL") {return "건물"}
+}
+
+function formatRole(v, d, e) {
+    if(v == "-1") {return "슈퍼"}
+    if(v == "1") {return "관리자"}
+    if(v == "2") {return "협력사"}
+    if(v == "3") {return "매니저"}
 }
 
 function getTreeFromArray(list, rel, depth, parentPath) {    

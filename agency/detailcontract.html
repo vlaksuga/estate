@@ -11,11 +11,11 @@
     <title>SEUM RMS</title>
 </head>
 <body>
-    <div id="app" user="admin">
+    <div id="app" user="agency">
         <header loadsrc="../layout/header.html">
         </header>
         <main>
-            <nav loadsrc="../layout/nav.html" currentmenu="contract.html" auth="admin"></nav>
+            <nav loadsrc="../layout/nav.html" currentmenu="mycontract.html" auth="agency"></nav>
             <article>
                 <div class="contentHeader">
                     <div class="contentHeaderStartContainer">
@@ -62,32 +62,40 @@
                                 </div>                                                                
                             </div>    
 
-                            <div class="cellRowTitle">계약 담당자</div>
+                                                        
+                            <div class="cellRowTitle">공시 물건</div>
                             <div class="cellRow">
+                                                               
                                 <div class="cell">
-                                    <span class="cellTitle">그룹</span>
-                                    <span class="usergroup" c-bind="usergroup:text:formatUserGroup"></span>
-                                </div>                                
-                                <div class="cell userlist">
-                                    <span class="cellTitle">이름</span>
-                                    <span class="username" c-bind="username:text"></span>
+                                    <span class="cellTitle">공시면적</span>
+                                    <span class="officialmeter" c-bind="officiallandmeter:text:setOffMeter"></span>
                                 </div>
                                 <div class="cell">
-                                    <span class="cellTitle">아이디</span>
-                                    <span class="userid" c-bind="userid:text"></span>
-                                </div>
-                                <div class="cell">
-                                    <span class="cellTitle">전화번호</span>
-                                    <span class="userphone" c-bind="userphone:text:formatTel"></span>
+                                    <span class="cellTitle">공시평단가</span>
+                                    <span class="officialprice" c-bind="officiallandprice:text:setOffPrice"></span>
                                 </div>                                
                             </div>
-                            
+
                             <div class="cellRowTitle">소유 권리</div>
                             <div class="cellRow">
                                 <div class="cell possessionlist">
-                                    <span class="cellTitle">권리</span>
+                                    <span class="cellTitle">소재지</span>
                                     <span class="possessionname" c-bind="townname:text:formatPossessionName"></span>
-                                </div>                                
+                                </div>                
+                                <div class="cell">
+                                    <span class="cellTitle">종류</span>
+                                    <span class="possessionkind" c-bind="possessionkind:text:formatPossessionKind"></span>
+                                </div>
+                                <div class="cell">
+                                    <span class="cellTitle">종전가액</span>
+                                    <span class="beforeprice" c-bind="beforeprice:text:formatWon"></span>
+                                </div>
+                                <div class="cell">
+                                    <span class="cellTitle">권리가액</span>
+                                    <span class="afterprice" c-bind="afterprice:text:formatWon"></span>
+                                </div>
+                            </div>
+                            <div class="cellRow">                
                                 <div class="cell">
                                     <span class="cellTitle">소유면적</span>
                                     <span class="possessionmeter" c-bind="possessionmeter:text"></span>
@@ -169,7 +177,7 @@
     }
 
     function getContract() {
-        API.getContract({contractpkey : getParam('contractpkey')})
+        API.getContractByAgency ({contractpkey : getParam('contractpkey')})
         .then(data => {
             bindView($('.cellView').get(0), data.body.contract);
             currentData = data.body.contract;
@@ -178,6 +186,16 @@
 
     function goModifyContract() {
         location.href = "modifycontract.html?contractpkey=" + currentData.contractpkey; 
+    }
+
+    function setOffMeter(v, d, e) {
+        if(d.possessionkind == "LAND") { return v; }
+        if(d.possessionkind == "BUIL") { return d.officialbuildingmeter; }
+    }
+
+    function setOffPrice(v, d, e) {
+        if(d.possessionkind == "LAND") { return formatWon(v); }
+        if(d.possessionkind == "BUIL") { return formatWon(d.officialbuildingprice); }
     }
 
 </script>

@@ -2,13 +2,12 @@
     <div class="userContainer" style="cursor: pointer;">
         <div class="profileView">
             <div class="thumb">
-                <span class="thumb material-icons" style="background-color: var(--theme-color-prime); display: none;" c-bind="auth:text:setUserThumb">setUserThumb</span>
-                <span class="thumb material-icons" style="background-color: var(--theme-color-prime);">storefront</span>
+                <span class="thumb material-icons" style="background-color: var(--theme-color-prime);" c-bind="rolepkey:text:setUserThumb"></span>
             </div>
             <div class="infoContainer">
                 <div class="info">
-                    <span class="name">유바울</span>
-                    <div class="detail">관리자</div>
+                    <span class="name" c-bind="username:text"></span>
+                    <div class="detail" c-bind="rolepkey:text:formatRole"></div>
                 </div>
                 <div class="actions"></div>
             </div>
@@ -16,53 +15,50 @@
     </div>
     <div class="menuContainer">
 
-        <div class="menuView" id="menu_overview" viewlink="home.html" auth="all">
+        <div class="menuView" id="menu_overview" viewlink="home.html" auth="admin" style="display:none">
             <span class="material-icons thumb">dashboard</span>
             <span class="name">홈</span>
         </div>
-        <hr>
-        <div class="menuView sub" id="menu_overview" viewlink="home.html" auth="all">
-            <span class="name">계정</span>
+        <div class="menuView" id="menu_overview" viewlink="home.html" auth="agency" style="display:none">
+            <span class="material-icons thumb">dashboard</span>
+            <span class="name">홈</span>
         </div>
-        <hr>
-        <div class="menuView" id="menu_overview" viewlink="user.html" auth="all">
+        <div class="menuView" id="menu_overview" viewlink="home.html" auth="guest" style="display: none;">
+            <span class="material-icons thumb">dashboard</span>
+            <span class="name">홈</span>
+        </div>
+        <div class="menuView" id="menu_overview" viewlink="user.html" auth="root" style="display: none;">
             <span class="material-icons thumb">manage_accounts</span>
-            <span class="name">계정</span>
+            <span class="name">계정 관리</span>
         </div>
-        <hr>
-        <div class="menuView sub" id="menu_overview" viewlink="home.html" auth="all">
-            <span class="name">관리</span>
-        </div>
-        <hr>
-        <div class="menuView" id="menu_overview" viewlink="realestate.html" auth="all">
+        <div class="menuView" id="menu_overview" viewlink="realestate.html" auth="admin" style="display: none;">
             <span class="material-icons thumb">where_to_vote</span>
             <span class="name">공시 물건</span>
         </div>
-        <div class="menuView" id="menu_overview" viewlink="possession.html" auth="all">
+        <div class="menuView" id="menu_overview" viewlink="possession.html" auth="admin" style="display: none;">
             <span class="material-icons thumb">real_estate_agent</span>
             <span class="name">소유권</span>
         </div>
-        <div class="menuView" id="menu_overview" viewlink="owner.html" auth="all">
+        <div class="menuView" id="menu_overview" viewlink="owner.html" auth="admin"  style="display: none;">
             <span class="material-icons thumb">person</span>
             <span class="name">소유자</span>
         </div>
-        <div class="menuView" id="menu_overview" viewlink="mortgagee.html" auth="all">
+        <div class="menuView" id="menu_overview" viewlink="mortgagee.html" auth="admin"  style="display: none;">
             <span class="material-icons thumb">paid</span>
             <span class="name">저당권자</span>
         </div>
-        <div class="menuView" id="menu_overview" viewlink="contract.html" auth="all">
+        <div class="menuView" id="menu_overview" viewlink="mycontract.html" auth="agency"  style="display: none;">
+            <span class="material-icons thumb">handshake</span>
+            <span class="name">계약</span>
+        </div>
+        <div class="menuView" id="menu_overview" viewlink="contract.html" auth="admin"  style="display: none;">
             <span class="material-icons thumb">handshake</span>
             <span class="name">계약</span>
         </div>
         
-        <hr>
-        <div class="menuView sub" id="menu_overview" viewlink="home.html" auth="all">
+        <div class="menuView" id="menu_overview" viewlink="searchcontract.html" auth="admin" style="display: none;">
+            <span class="material-icons thumb">search</span>
             <span class="name">열람</span>
-        </div>
-        <hr>
-        <div class="menuView" id="menu_overview" viewlink="user.html" auth="all">
-            <span class="material-icons thumb">real_estate_agent</span>
-            <span class="name">소유권</span>
         </div>
         
     </div>
@@ -73,8 +69,8 @@
 
 
 <script>
-    //checkNavToken();    
-    //setCurrentUser($('#app').attr('user'));
+    checkNavToken();    
+    setCurrentUser();
     let auth = $('nav').attr('auth');    
     $(".menuView[auth='"+ auth +"']").show();
     $('[viewlink]').each(function(){
@@ -84,7 +80,7 @@
     });
 
     let currentMenuId = $('nav').attr('currentmenu');  
-    document.querySelector(".menuView[viewlink='"+ currentMenuId +"']").classList.add('active');
+    document.querySelector(".menuView[viewlink='"+ currentMenuId +"'][auth='" + auth + "']").classList.add('active');
     
     
     function editProfile() {
@@ -116,9 +112,10 @@
     }
 
     function setUserThumb(v, d, e) {
-        if(v == "com") { return "storefront" }
-        if(v == "tm") { return "assignment_ind" }
-        if(v == "me") { return "person" }
+        if(v == "-1") { return "settings" }
+        if(v == "1") { return "storefront" }
+        if(v == "2") { return "assignment_ind" }
+        if(v == "3") { return "person" }
         return v;
     }    
     

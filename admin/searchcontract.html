@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/main.css">    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/js/api.js"></script>    
+    <script src="/js/main.js"></script>
+    <title>SEUM RMS</title>
+</head>
+
+<body>
+    <div id="app" user="admin">
+        <header loadsrc="../layout/header.html">
+        </header>
+        <main>
+            <nav loadsrc="../layout/nav.html" currentmenu="searchcontract.html" auth="admin"></nav>
+            <article>
+                <div class="contentHeader">
+                    <div class="contentHeaderStartContainer">
+                        <div class="title">계약 열람</div>
+                    </div>
+                    <div class="contentHeaderEndContainer">
+
+                    </div>
+                </div>
+                <div class="contentMain" style="max-width: calc(100vw - 256px); overflow-x: auto;">
+                    <div class="rowFlexContainer" style="width: 2000px;">
+                        <div class="itemList contractlist">
+                            <div class="itemListStart" style="min-height: 0;">
+                                <div class="rowView header">
+                                    <div class="rowItem" style="width: 100%">
+                                        <span>순번</span>
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span>동</span>                                        
+                                    </div>
+                                    <div class="rowItem" style="width: 100%" >
+                                        <span>지번</span>                                                                                
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span>소유자</span>                                        
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span>종류</span>                                        
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span>지목</span>                                        
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span>공시면적</span>                                        
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span>공시평단가</span>                                        
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span>소유면적</span>                                        
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span>소유평단가</span>                                        
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span>종전자산</span>
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span>권리가액</span>                                        
+                                    </div>
+                                    <!-- <div class="rowItem" style="width: 100%">
+                                        <span>매입예상가??</span>                                        
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span>매입그룹??</span>                                        
+                                    </div> -->
+                                    <div class="rowItem" style="width: 100%">
+                                        <span>팀</span>                                        
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span>계약담당자</span>                                        
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span>우선순위</span>                                        
+                                    </div>
+                                </div>                                
+                            </div>
+
+                            <div class="itemListEnd">
+                                <div class="overflowContainer" style="max-height: calc(100vh - 210px); overflow-y: auto;">
+                                    <div class="colFlexContainer" c-bind="contractlist:list" style="gap: 10px;">                                        
+                                                                                
+                                        <item>
+                                            <div class="rowView light" c-bind="contractpkey:contractpkey:selectContract" style="cursor:pointer;">
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="contractpkey:text"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="townname:text"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="officialaddress:text"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="ownername:text"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="possessionkind:text:formatPossessionKind"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="officialnomination:text"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="officiallandmeter:text:setOffMeter"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="officiallandprice:text:setOffPrice"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="possessionmeter:text"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="possessionpurchaseprice:text:formatWon"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="beforeprice:text:formatWon"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="afterprice:text:formatWon"></span>
+                                                </div>
+
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="usergroup:text:formatUserGroup"></span>
+                                                </div>
+                                                
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="username:text:setUsername"></span>
+                                                </div>
+                                                
+                                                <div class="rowItem" style="width: 100%;" >
+                                                    <span c-bind="priority:text:formatContractPriority"></span>
+                                                </div>
+                                                
+                                            </div>
+                                        </item>                                   
+                                        
+                                        <emptyitem style="display: none;">
+                                            <div class="emptyContainer">
+                                                <div class="msgBox">
+                                                    <span>계약이 없습니다.</span>                                            
+                                                </div>
+                                            </div>
+                                        </emptyitem>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>                 
+            </article>
+            <aside></aside>
+        </main>
+    </div>
+</body>
+
+</html>
+
+<script>
+    
+    function runSetup() {
+        findItems(document);
+        setListContract();
+    }    
+
+    function setListContract() {        
+        API.listContract().then(data => {            
+            bindView($('.contractlist').get(0), data.body);
+        });   
+    }
+
+    function selectContract(v, d, e) {
+        $(e).on('click', function(){
+            location.href = "detailcontract.html?contractpkey=" + v;
+        });
+        return v;
+    }
+
+    function setUsername(v, d, e) {
+        if(v) { return v }
+        else { return "미정"}
+    }
+
+    function createContract() {
+        location.href = "createcontract.html";
+    }
+
+    function onNavShrink() {
+        $('.contentMain').css('max-width', "calc(100vw - 62px)");
+    }
+
+    function onNavExpand() {
+        $('.contentMain').css('max-width', "calc(100vw - 256px)");
+    }
+
+    function setOffMeter(v, d, e) {
+        if(d.possessionkind == "LAND") { return v; }
+        if(d.possessionkind == "BUIL") { return d.officialbuildingmeter; }
+    }
+
+    function setOffPrice(v, d, e) {
+        if(d.possessionkind == "LAND") { return formatWon(v); }
+        if(d.possessionkind == "BUIL") { return formatWon(d.officialbuildingprice); }
+    }
+
+</script>

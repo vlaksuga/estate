@@ -73,6 +73,7 @@ class CommonApi extends Api {
     getUser(data) { return super.get("s/getUser.json", data) }
     listUser(data) { return super.get("s/listUser.json", data) }
     listUserByUserGroup(data) { return super.get("s/listUserByUserGroup.json", data) }
+    listAgencyByUserGroup(data) { return super.get("s/listAgencyByUserGroup.json", data) }
     getMortgagee(data) { return super.get("s/getMortgagee.json", data) }
     listMortgagee(data) { return super.get("s/listMortgagee.json", data) }
     listMortgageByPossession(data) { return super.get("s/listMortgageByPossession.json", data) }
@@ -82,10 +83,15 @@ class CommonApi extends Api {
     listArea(data) { return super.get("s/listArea.json", data) }    
     listTown(data) { return super.get("s/listTown.json", data) }
     getContract(data) { return super.get("s/getContract.json", data) }
+    getContractByAgency(data) { return super.get("s/getContractByAgency.json", data) }
     listContract(data) { return super.get("s/listContract.json", data) }
+    listContractByAgency(data) { return super.get("s/listContractByAgency.json", data) }
                                                    
 
     /* post */
+    getUserInfo(data) { return super.post("getUserInfo.json", data) }
+    login(data) { return super.post("login.json", data) }
+    logout(data) { return super.post("logout.json", data) }
     addUser(data) { return super.post("addUser.json", data) }
     modifyUser(data) { return super.post("modifyUser.json", data) }
     modifyUserPasswordByRoot(data) { return super.post("modifyUserPasswordByRoot.json", data) }
@@ -101,6 +107,7 @@ class CommonApi extends Api {
     modifyMortgagee(data) { return super.post("modifyMortgagee.json", data) }
     addContract(data) { return super.post("addContract.json", data) }
     modifyContract(data) { return super.post("modifyContractByAdmin.json", data) }
+    modifyContractByAgency(data) { return super.post("modifyContractByAgency.json", data) }
                                                                                             
 }
 
