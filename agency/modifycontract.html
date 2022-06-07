@@ -111,14 +111,23 @@
 
                             <span class="cellRowTitle">계약 설정</span>                                                            
                             <div class="cellRow">
+                                <div class="cell">
+                                    <span class="cellTitle">진행상태</span>
+                                    <select class="contractstatus" name="contractstatus" c-bind="contractstatus:select">
+                                        <option value="REG">협의</option>                                        
+                                        <option value="ACCEPT">진행전</option>                                        
+                                        <option value="ING">실행</option>                                        
+                                        <option value="DONE">계약완료</option>                                        
+                                        <option value="CONFIRM">서면결의</option>                                        
+                                        <option value="ETC">기타</option>                                        
+                                        <option value="TOTAL">종합</option>                                                                                
+                                    </select>                                    
+                                </div>
                                 <div class="cell view">
                                     <span class="cellTitle">우선순위</span>
                                     <span class="priority" c-bind="priority:text:formatContractPriority"></span>
                                 </div>
-                                <div class="cell view">
-                                    <span class="cellTitle">메모</span>
-                                    <span class="memo" c-bind="memo:text"></span>
-                                </div>
+                                
                             </div>
                             <div class="cellRow">
                                 <div class="cell">
@@ -149,6 +158,12 @@
                                     <span class="cellTitle">잔금 지급일</span>
                                     <input type="date" name="enddate" id="enddate" c-bind="enddate:value:formatDateNum">
                                 </div>    
+                            </div>
+                            <div class="cellRow">
+                                <div class="cell view">
+                                    <span class="cellTitle">메모</span>
+                                    <span class="memo" c-bind="memo:text"></span>
+                                </div>
                             </div>
                         
                             

@@ -113,13 +113,14 @@
                             <span class="cellRowTitle">계약 설정</span>                                                            
                             <div class="cellRow">
                                 <div class="cell">
+                                    <span class="cellTitle">진행상태</span>
+                                    <span class="contractstatus" c-bind="contractstatus:text:formatContractStatus">
+                                </div>
+                                <div class="cell">
                                     <span class="cellTitle">우선순위</span>
                                     <span class="priority" c-bind="priority:text:formatContractPriority"></span>
                                 </div>
-                                <div class="cell">
-                                    <span class="cellTitle">메모</span>
-                                    <span class="memo" c-bind="memo:text">
-                                </div>
+                                
                             </div>
                             <div class="cellRow">
                                 <div class="cell">
@@ -150,6 +151,12 @@
                                     <span class="cellTitle">잔금 지급일</span>
                                     <span class="enddate" c-bind="enddate:text:formatDateNum"></span>
                                 </div>    
+                            </div>
+                            <div class="cellRow">
+                                <div class="cell">
+                                    <span class="cellTitle">메모</span>
+                                    <span class="memo" c-bind="memo:text">
+                                </div>
                             </div>
                             <div class="rowFlexContainer" style="justify-content: flex-end; gap:10px">
                                 <div class="buttonView" onclick="goBack()">
