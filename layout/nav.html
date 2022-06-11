@@ -44,8 +44,12 @@
             <span class="name">소유자</span>
         </div>
         <div class="menuView" id="menu_overview" viewlink="mortgagee.html" auth="admin"  style="display: none;">
-            <span class="material-icons thumb">paid</span>
+            <span class="material-icons thumb">account_balance</span>
             <span class="name">저당권자</span>
+        </div>
+        <div class="menuView" id="menu_overview" viewlink="mortgage.html" auth="admin"  style="display: none;">
+            <span class="material-icons thumb">paid</span>
+            <span class="name">근저당권</span>
         </div>
         <div class="menuView" id="menu_overview" viewlink="mycontract.html" auth="agency"  style="display: none;">
             <span class="material-icons thumb">handshake</span>
@@ -70,7 +74,7 @@
 
 <script>
     checkNavToken();    
-    setCurrentUser();
+    
     let auth = $('nav').attr('auth');    
     $(".menuView[auth='"+ auth +"']").show();
     $('[viewlink]').each(function(){

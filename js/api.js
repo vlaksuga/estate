@@ -1,8 +1,8 @@
-/* version : 2.0 */
+/* version : 2.1 */
 const TEST_MODE = false;
 
-const IMG_SERVER = TEST_MODE ? "http://172.30.1.36:7777/" : "https://rms.seumjnd.com:7777/" ; 
-const API_SERVER = TEST_MODE ? "http://172.30.1.36:7777/" : "https://rms.seumjnd.com:7777/" ; 
+const IMG_SERVER = TEST_MODE ? "http://192.168.50.24:7777/" : "https://rms.seumjnd.com:7777/" ; 
+const API_SERVER = TEST_MODE ? "http://192.168.50.24:7777/" : "https://rms.seumjnd.com:7777/" ; 
 
 
 class Api {
@@ -63,6 +63,7 @@ class CommonApi extends Api {
     }
 
     /* get */
+    getAdminDashBoard(data) { return super.get("s/getAdminDashBoard.json", data) }    
     listOwner(data) { return super.get("s/listOwner.json", data) }    
     getOwner(data) { return super.get("s/getOwner.json", data) }
     listEstate(data) { return super.get("s/listEstate.json", data) }    
@@ -77,6 +78,7 @@ class CommonApi extends Api {
     listAgencyByUserGroup(data) { return super.get("s/listAgencyByUserGroup.json", data) }
     getMortgagee(data) { return super.get("s/getMortgagee.json", data) }
     listMortgagee(data) { return super.get("s/listMortgagee.json", data) }
+    listMortgage(data) { return super.get("s/listMortgage.json", data) }
     listMortgageByPossession(data) { return super.get("s/listMortgageByPossession.json", data) }
     listMortgageByMortgagee(data) { return super.get("s/listMortgageByMortgagee.json", data) }
     getMortgage(data) { return super.get("s/getMortgage.json", data) }                            

@@ -114,10 +114,21 @@
                                     <span class="cellTitle">소유이전일</span>
                                     <span class="possessiontransferdate"></span>
                                 </div>                                
-                            </div>
-
+                            </div>                             
+                            
                             <span class="cellRowTitle">계약 설정</span>                                                            
                             <div class="cellRow">
+                                <div class="cell">
+                                    <span class="cellTitle">진행상태</span>
+                                    <select class="contractstatus" name="contractstatus" c-bind="contractstatus:select">
+                                        <option value="REG">협의</option>                                        
+                                        <option value="START">계약 후 관리 (계약금 지급)</option>                                        
+                                        <option value="MANAGE">서면 결의 관리</option>                                        
+                                        <option value="PENDING">잔금 지급 대기</option>                                        
+                                        <option value="DONE">잔금 지급 완료</option>                                        
+                                        <option value="FINISH">소유권 이전</option>                                                                                                                                                              
+                                    </select>                                    
+                                </div>
                                 <div class="cell">
                                     <span class="cellTitle">우선순위</span>
                                     <select name="priority" style="font-size: 12px;">
@@ -126,13 +137,53 @@
                                         <option value="3">3차 매입대상</option>
                                     </select>
                                 </div>
+                                
+                            </div>
+                            <div class="cellRow">
                                 <div class="cell">
-                                    <span class="cellTitle">메모</span>
-                                    <input type="text" name="memo" id="memo">
+                                    <span class="cellTitle">계약금</span>
+                                    <input type="text" name="startprice" id="startprice" c-bind="startprice:value" value="0" placeholder="계약금을 입력하세요">
                                 </div>
-                            </div>                                                                          
+                                <div class="cell">
+                                    <span class="cellTitle">계약금 지급일</span>
+                                    <input type="date" name="startdate" id="startdate" c-bind="startdate:value:formatDateNum">
+                                </div>    
+                            </div>
+                            <div class="cellRow">
+                                <div class="cell">
+                                    <span class="cellTitle">중도금</span>
+                                    <input type="text" name="ingprice" id="ingprice" c-bind="ingprice:value" placeholder="중도금을 입력하세요" value="0">
+                                </div>
+                                <div class="cell">
+                                    <span class="cellTitle">중도금 지급일</span>
+                                    <input type="date" name="ingdate" id="ingdate" c-bind="ingdate:value:formatDateNum">
+                                </div>    
+                            </div>
+                            <div class="cellRow">
+                                <div class="cell">
+                                    <span class="cellTitle">잔금</span>
+                                    <input type="text" name="endprice" id="endprice" c-bind="endprice:value" placeholder="잔금을 입력하세요" value="0">
+                                </div>
+                                <div class="cell">
+                                    <span class="cellTitle">잔금 지급일</span>
+                                    <input type="date" name="enddate" id="enddate" c-bind="enddate:value:formatDateNum">
+                                </div>    
+                            </div>
+                            <div class="cellRow">
+                                <div class="cell">
+                                    <span class="cellTitle">매입예정액</span>
+                                    <input type="text" name="regprice" id="regprice" c-bind="regprice:value" value="0" placeholder="매입예정액을 입력하세요">
+                                </div>
+                                <div class="cell view">
+                                    <span class="cellTitle">메모</span>
+                                    <input type="text" class="memo" placeholder="압류, 가압류 등 기타 권리관계, 담당자에게 전달할 사항 등 기재"></span>
+                                </div>
+                            </div>
                             
                             <div class="rowFlexContainer" style="justify-content: flex-end; gap:10px">
+                                <div class="buttonView" onclick="goBack()">
+                                    <span>취소</span>
+                                </div>
                                 <div class="buttonView" onclick="submitCreateContract()">
                                     <span>확인</span>
                                 </div>
@@ -243,9 +294,14 @@
 
     function submitCreateContract() {
         var formData = getDataFrom('.cellView');               
+        formData.startdate = formData.startdate.replace(/-/g, "");
+        formData.ingdate = formData.ingdate.replace(/-/g, "");
+        formData.enddate = formData.enddate.replace(/-/g, "");
         if(!formData.userpkey || formData.userpkey == "ALL") { showToast('계약담당자를 선택해주세요.'); return; }   
         if(formData.possessionpkey == "ALL") { showToast('소유 권리를 선택해주세요'); return;}
-        
+        if(formData.startdate == "") { formData.startdate == "99991231"}
+        if(formData.ingdate == "") { formData.ingdate == "99991231"}
+        if(formData.enddate == "") { formData.enddate == "99991231"}
         API.addContract(formData).then(data => {
             if(data.head.status != "ok") { showToast('계약을 만들지 못했습니다.'); return ;}
             alert('새 계약이 만들어 졌습니다.');

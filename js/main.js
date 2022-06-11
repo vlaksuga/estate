@@ -1,32 +1,15 @@
 var currentData = {};
-var currentUser = null;
+var currentUser = {t : getStorageToken('t')};
 
-function init() {             
-    currentUser = {t : getStorageToken('t')};
-    if(!currentUser.t) { location.href = "/index.html"; return;}    
+function init() {
+    setCurrentUser();        
     loadFragments().then(runSetup());
-}
-
-function getAPI(role) {
-    switch (role) {
-        case "com" : { return COMAPI; }
-        case "tm" : { return TMAPI; }
-        case "me" : { return MEAPI; }
-    }    
-}
-
-function filterRole(selector) {
-    const roleElements = document.querySelectorAll(selector + ' [role]');
-    roleElements.forEach(ele => {        
-        const rolelist = ele.getAttribute('role').split(', ');
-        if(!rolelist.includes(currentUser.auth)) { $(ele).hide(); return;}
-        $(ele).show();
-    });
 }
 
 function setCurrentUser(){    
     API.getUserInfo().then(res => {
         if(res.body.islogin != "Y") {
+            console.log(res);
             alert("세션이 만료되었거나 로그인이 필요합니다.");
             logout();
             return;
@@ -154,7 +137,7 @@ function bindView(view, data) {
                 }
                 case 'select': {                    
                     const option = Array.from(bind.options).find(opt => { return opt.value == commandValue });                    
-                    bind.selectedIndex = option.index;
+                    try { bind.selectedIndex = option.index;}  catch{}
                     break;
                 }
                 case 'listtemplete': {
@@ -254,6 +237,7 @@ function showMoreList(ele) {
 
 function getStorageToken(key) {
     const token = sessionStorage.getItem(key);    
+    console.log(token);
     return token;
 }
 
@@ -597,12 +581,11 @@ function formatWorkStatus(v, d, e) {
 
 function formatContractStatus(v, d, e) {
     if(v == "REG") { return "협의" }
-    if(v == "ACCEPT") { return "진행전" }
-    if(v == "ING") { return "실행" }
-    if(v == "DONE") { return "계약완료" }
-    if(v == "CONFIRM") { return "서면결의" }
-    if(v == "ETC") { return "기타" }
-    if(v == "TOTAL") { return "종합" }
+    if(v == "START") { return "계약 후 관리 (계약금 지급)" }
+    if(v == "MANAGE") { return "서면 결의 관리" }
+    if(v == "PENDING") { return "잔금 지급 대기" }
+    if(v == "DONE") { return "잔금 지급 완료" }
+    if(v == "FINISH") { return "소유권 이전" }
 }
 
 function formatPriority(v, d, e) {
@@ -689,8 +672,9 @@ function formatNumber(v, d, e) {
     return v.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-function formatWon(v, d, e) {
-    return formatNumber(v) + "원";
+function formatWon(v, d, e) {    
+    if(v) return formatNumber(v) + "원";
+    return "0원";
 }
 
 function formatMeterKor(v, d, e) {
@@ -1178,5 +1162,6 @@ class Modal {
 }
 
 window.addEventListener('DOMContentLoaded', function(){    
+    console.log('loaded')
     init();
 })

@@ -40,7 +40,10 @@
                                 </label>                            
                             </div>                            
                             
-                            <div class="rowFlexContainer" style="justify-content: flex-end;">
+                            <div class="rowFlexContainer" style="justify-content: flex-end; gap:10px">
+                                <div class="buttonView" onclick="goBack()">
+                                    <span>취소</span>
+                                </div>
                                 <div class="buttonView" onclick="submitCreateMortgagee()">
                                     <span>확인</span>
                                 </div>
@@ -69,7 +72,7 @@
         API.addMortgagee(formData).then(data => {
             if(data.head.status != "ok") { showToast('채권자를 만들지 못했습니다.'); return ;}
             alert('새 채권자가 만들어 졌습니다.');
-            location.href = "createmortgage.html?possessionpkey=" + getParam('possessionpkey');
+            location.href = "mortgagee.html";
         })    
     }
 </script>

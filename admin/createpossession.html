@@ -156,7 +156,10 @@
                                     </div>               
                                 </div>
                                 
-                                <div class="rowFlexContainer" style="justify-content: flex-end;">
+                                <div class="rowFlexContainer" style="justify-content: flex-end; gap: 10px">
+                                    <div class="buttonView" onclick="goBack()">
+                                        <span>취소</span>
+                                    </div>
                                     <div class="buttonView" onclick="submitCreatePossession()">
                                         <span>추가</span>
                                     </div>
@@ -177,8 +180,7 @@
 <script>
     function runSetup() {
         findItems(document);
-        setListEstate();
-        setListOwner();
+        setMortgage()        
     }
 
     function setListEstate() {
@@ -187,6 +189,8 @@
             currentData.estatelist = data.body.estatelist;
         })
     }
+
+
 
     function setListOwner() {
         API.listOwner().then(data => {

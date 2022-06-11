@@ -15,11 +15,11 @@
         <header loadsrc="../layout/header.html">
         </header>
         <main>
-            <nav loadsrc="../layout/nav.html" currentmenu="realestate.html" auth="admin"></nav>
+            <nav loadsrc="../layout/nav.html" currentmenu="mortgage.html" auth="admin"></nav>
             <article>
                 <div class="contentHeader">
                     <div class="contentHeaderStartContainer">
-                        <div class="title">create mortgage</div>
+                        <div class="title">근저당권 추가</div>
                     </div>
                     <div class="contentHeaderEndContainer"></div>
                 </div>
@@ -29,16 +29,17 @@
                             <div class="cellRowTitle">소유 권리자</div>
                             <div class="cellRow ownerlist">
                                 <div class="cellCol" style="width: 33%;">
-                                    <div class="cellRow">
-                                        <div class="cell">
-                                            <span class="cellTitle">이름</span>
-                                            <span class="ownername" c-bind="owner.ownername:text"></span>
-                                        </div>
-                                    </div>
+                                    <div class="cell ownerlist">
+                                        <span class="cellTitle">이름</span>
+                                        <select c-bind="ownerlist:listtemplete" c-tag="c-item" style="font-size: 12px;" onchange="onSelectOnwer(this)">
+                                            <option value="ALL">선택</option>
+                                            <option listtempitem c-item="ownername:option, ownerpkey:value"></option>
+                                        </select>
+                                    </div>                                    
                                     <div class="cellRow">
                                         <div class="cell">
                                             <span class="cellTitle">식별번호</span>
-                                            <span class="owneridnumber" c-bind="owner.owneridnumber:text"></span>
+                                            <span class="owneridnumber"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -46,17 +47,17 @@
                                     <div class="cellRow">
                                         <div class="cell">
                                             <span class="cellTitle">주소</span>
-                                            <span class="owneraddress" c-bind="owner.owneraddress:text"></span>
+                                            <span class="owneraddress"></span>
                                         </div>
                                     </div>
                                     <div class="cellRow">
                                         <div class="cell">
                                             <span class="cellTitle">TEL</span>
-                                            <span class="ownertel" c-bind="owner.ownertel:text:formatTel"></span>
+                                            <span class="ownertel"></span>
                                         </div>
                                         <div class="cell">
                                             <span class="cellTitle">PHONE</span>
-                                            <span class="ownerphone" c-bind="owner.ownerphone:text:formatTel"></span>
+                                            <span class="ownerphone"></span>
                                         </div>
                                     </div>
                                 </div>                                                                
@@ -64,27 +65,30 @@
                             
                             <div class="cellRowTitle">소유 권리</div>
                             <div class="cellRow">
-                                <div class="cell">
-                                    <span class="cellTitle">종류</span>
-                                    <span c-bind="possessionkind:text:formatPossessionKind"></span>
+                                <div class="cell possessionlist">
+                                    <span class="cellTitle">권리</span>
+                                    <select name="possessionpkey" c-bind="possessionlist:listtemplete" c-tag="c-item" style="font-size: 12px;" onchange="onSelectPossession(this)">
+                                        <option value="ALL">선택</option>
+                                        <option listtempitem c-item="townname:option:formatPossessionName, possessionpkey:value"></option>
+                                    </select>
                                 </div>                                
                                 <div class="cell">
                                     <span class="cellTitle">소유면적</span>
-                                    <span c-bind="possessionmeter:text"></span>
+                                    <span class="possessionmeter"></span>
                                 </div>
                                 <div class="cell">
-                                    <span class="cellTitle">관리처분가</span>
-                                    <span c-bind="possessionpurchaseprice:text:formatWon"></span>
+                                    <span class="cellTitle">소유평단가</span>
+                                    <span class="possessionpurchaseprice"></span>
                                 </div>
                                 <div class="cell">
                                     <span class="cellTitle">소유이전일</span>
-                                    <span c-bind="possessiontransferdate:text:formatDateNum"></span>
+                                    <span class="possessiontransferdate"></span>
                                 </div>                                
                             </div>
 
                             <span class="cellRowTitle">근저당 설정</span>                                                            
                             <div class="cellRow">
-                                <div class="cell">
+                                <div class="cell mortgageelist">
                                     <span class="cellTitle">저당권자</span>
                                     <select name="mortgageepkey" c-bind="mortgageelist:listtemplete" c-tag="c-item" style="font-size: 12px;">
                                         <option value="ALL">선택</option>
@@ -106,11 +110,11 @@
                             </div>                                                                          
                             
                             <div class="rowFlexContainer" style="justify-content: flex-end; gap:10px">
+                                <div class="buttonView" onclick="goBack()">
+                                    <span>취소</span>
+                                </div>
                                 <div class="buttonView" onclick="submitCreateMortgage()">
                                     <span>확인</span>
-                                </div>
-                                <div class="buttonView" onclick="goCreateMortgagee()">
-                                    <span>새 저당권자 만들기</span>
                                 </div>
                             </div>
                         </div>
@@ -127,33 +131,87 @@
 <script>
     function runSetup() {
         findItems(document);
-        getPossession();
+        setListOwner();        
+        setListMortgagee();
     }
 
-    function getPossession() {
-        const possessionpkey = getParam('possessionpkey');
-        API.getPossession({possessionpkey : possessionpkey})
-        .then(data => {
-            currentData = data.body.possession;
-            API.listMortgagee().then(res => {
-                data.body.possession.mortgageelist = res.body.mortgageelist;
-                bindView($('.cellView').get(0), data.body.possession);                         
-            });
+    function setListOwner() {
+        API.listOwner().then(data => {
+            data.body.ownerlist.sort((a, b) => { return a.ownername > b.ownername ? 1 : -1});            
+            bindView($('.ownerlist').get(0), data.body);            
+            currentData.ownerlist = data.body.ownerlist;            
         })
     }
 
+    function setListMortgagee() {
+        API.listMortgagee().then(data => {
+            data.body.mortgageelist.sort((a, b) => { return a.mortgageename > b.mortgageename ? 1 : -1});
+            bindView($('.mortgageelist').get(0), data.body);
+            currentData.mortgageelist = data.body.mortgageelist;
+        })
+    }
+
+
+    function onSelectOnwer(ele) {
+        let ownerdata = {};
+        currentData.ownerlist.forEach(owner => {
+            if(owner.ownerpkey == ele.value) {
+                ownerdata = owner;
+            }
+        });                
+        bindOwner(ownerdata);
+        bindPossession(ownerdata);      
+    }
+
+    function bindPossession(ownerdata) {
+        API.listPossessionByOwner({ownerpkey : ownerdata.ownerpkey})
+        .then(data => {
+            currentData.possessionlist = data.body.possessionlist;
+            bindView($('.possessionlist').get(0), data.body);
+        });
+    }
+
+    function bindOwner(ownerdata) {
+        for(const [k, v]  of Object.entries(ownerdata)) {
+            let val = v;
+            if(k == "ownertel" || k == "ownerphone") { val = formatTel(v); }
+            $('.' + k).text(val);
+        }
+    }
+
     function submitCreateMortgage() {
-        var formData = getDataFrom('.cellView');        
-        formData.possessionpkey = getParam('possessionpkey');        
+        var formData = getDataFrom('.cellView');                       
         formData.mortgagedate = formData.mortgagedate.replace(/-/g, "");
-        formData.mortgagekind = currentData.possessionkind;  
+        formData.mortgagekind = currentData.possessionkind; 
         if(formData.mortgagekind == "ALL") { showToast('근저당 종류를 선택해주세요'); return;}
-        if(formData.mortgageepkey == "ALL") { showToast('저당자를 선택해주세요'); return;}
+        if(formData.mortgageepkey == "ALL") { showToast('저당권자를 선택해주세요'); return;}
+        if(formData.possessionpkey == "ALL") { showToast('소유권리를 선택해주세요'); return;}
+        console.log(formData);
         API.addMortgage(formData).then(data => {
             if(data.head.status != "ok") { showToast('근저당권을 만들지 못했습니다.'); return ;}
             alert('새 근저당권이 만들어 졌습니다.');
             location.href = "realestate.html";
         });    
+    }
+
+    function onSelectPossession(ele) {
+        let possessiondata = {};
+        currentData.possessionlist.forEach(possession => {
+            if(possession.possessionpkey == ele.value) {
+                possessiondata = possession;
+            }
+        });                
+        currentData.possessionkind = possessiondata.possessionkind;
+        bindPossessionDetail(possessiondata);
+    }
+
+    function bindPossessionDetail(possessiondata) {
+        for(const [k, v]  of Object.entries(possessiondata)) {
+            let val = v;
+            if(k == "possessionpurchaseprice") { val = formatWon(v); }
+            if(k == "possessiontransferdate") { val = formatDateNum(v); }
+            $('.' + k).text(val);
+        }
     }
 
     function goCreateMortgagee() {

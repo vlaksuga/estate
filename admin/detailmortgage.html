@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/main.css">    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/js/api.js"></script>    
+    <script src="/js/main.js"></script>    
+    <title>SEUM RMS</title>
+</head>
+<body>
+    <div id="app" user="admin">
+        <header loadsrc="../layout/header.html">
+        </header>
+        <main>
+            <nav loadsrc="../layout/nav.html" currentmenu="mortgage.html" auth="admin"></nav>
+            <article>
+                <div class="contentHeader">
+                    <div class="contentHeaderStartContainer">
+                        <div class="title">근저당권 상세</div>
+                    </div>
+                    <div class="contentHeaderEndContainer"></div>
+                </div>
+                <div class="contentMain">
+                    <div class="cellView" style="width:75%">
+                        <div class="cellCol">
+                            <div class="cellRowTitle">소유 권리자</div>
+                            <div class="cellRow ownerlist">
+                                <div class="cellCol" style="width: 33%;">
+                                    <div class="cell ownerlist">
+                                        <span class="cellTitle">이름</span>
+                                        <span class="ownername" c-bind="ownername:text"></span>
+                                    </div>                                    
+                                    <div class="cellRow">
+                                        <div class="cell">
+                                            <span class="cellTitle">식별번호</span>
+                                            <span class="owneridnumber" c-bind="owneridnumber:text"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="cellCol">
+                                    <div class="cellRow">
+                                        <div class="cell">
+                                            <span class="cellTitle">주소</span>
+                                            <span class="owneraddress" c-bind="owneraddress:text"></span>
+                                        </div>
+                                    </div>
+                                    <div class="cellRow">
+                                        <div class="cell">
+                                            <span class="cellTitle">TEL</span>
+                                            <span class="ownertel" c-bind="ownertel:text:formatTel"></span>
+                                        </div>
+                                        <div class="cell">
+                                            <span class="cellTitle">PHONE</span>
+                                            <span class="ownerphone" c-bind="ownerphone:text:formatTel"></span>
+                                        </div>
+                                    </div>
+                                </div>                                                                
+                            </div>    
+                            
+                            <div class="cellRowTitle">소유 권리</div>
+                            <div class="cellRow">
+                                <div class="cell">
+                                    <span class="cellTitle">권리</span>
+                                    <span class="possessionname" c-bind="townname:text:formatPossessionName"></span>
+<!--                                     <select name="possessionpkey" c-bind="possessionlist:listtemplete" c-tag="c-item" style="font-size: 12px;" onchange="onSelectPossession(this)">
+                                        <option value="ALL">선택</option>
+                                        <option listtempitem c-item="townname:option:formatPossessionName, possessionpkey:value"></option>
+                                    </select> -->
+                                </div>                                
+                                <div class="cell">
+                                    <span class="cellTitle">소유면적</span>
+                                    <span class="possessionmeter" c-bind="possessionmeter:text"></span>
+                                </div>
+                                <div class="cell">
+                                    <span class="cellTitle">소유평단가</span>
+                                    <span class="possessionpurchaseprice" c-bind="possessionpurchaseprice:text:formatWon"></span>
+                                </div>
+                                <div class="cell">
+                                    <span class="cellTitle">소유이전일</span>
+                                    <span class="possessiontransferdate" c-bind="possessiontransferdate:text:formatDateNum"></span>
+                                </div>                                
+                            </div>
+
+                            <span class="cellRowTitle">근저당 설정</span>                                                            
+                            <div class="cellRow">
+                                <div class="cell mortgageelist">
+                                    <span class="cellTitle">저당권자</span>
+                                    <span class="mortgageename" c-bind="mortgageename:text"></span>
+                                </div>
+                                <div class="cell">
+                                    <span class="cellTitle">채무자</span>
+                                    <span class="debtor" c-bind="debtor:text"></span>                                    
+                                </div>
+                                <div class="cell">
+                                    <span class="cellTitle">근저당설정일</span>
+                                    <span class="mortgagedate" c-bind="mortgagedate:text:formatDateNum"></span>                                    
+                                </div>
+                                <div class="cell">
+                                    <span class="cellTitle">근저당설정액</span>
+                                    <span class="mortgageprice" c-bind="mortgageprice:text:formatWon">근저당설정액</span>                                    
+                                </div>  
+                            </div>                                                                          
+                            
+                            <div class="rowFlexContainer" style="justify-content: flex-end; gap:10px">
+                                <div class="buttonView" onclick="goBack()">
+                                    <span>뒤로</span>
+                                </div>
+                                <div class="buttonView" onclick="goModifyMortgage()">
+                                    <span>수정</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>                
+            </article>
+            <aside></aside>
+        </main>
+    </div>
+</body>
+</html>
+
+<script>
+    function runSetup() {
+        findItems(document);
+        getMortgage();
+    }
+
+    function getMortgage() {
+        API.getMortgage({mortgagepkey : getParam('mortgagepkey')})
+        .then(res => {
+            bindView($('.cellView').get(0), res.body.mortgage);
+            currentData.mortgage = res.body.mortgage;
+        })
+    }
+
+    function goModifyMortgage() {
+        location.href = "modifyMortgage.html?mortgagepkey=" + currentData.mortgage.mortgagepkey;
+    }
+
+
+</script>

@@ -102,7 +102,31 @@
                                 </div>                                
                             </div>
 
-                            <span class="cellRowTitle">계약 설정</span>                                                            
+                            <div class="cellRowTitle">등기부권리사항</div>
+                                <div class="wrap" c-bind="landhistory:list" style="display: flex; flex-direction: column; gap: 8px;">
+                                    <item>
+                                        <div class="cellRow">                                
+                                            <div class="cell view">
+                                                <span class="cellTitle">구분</span>
+                                                <span c-bind="historykind:text:formatHistoryKind"></span>                                        
+                                            </div>
+                                            <div class="cell view">
+                                                <span class="cellTitle">권리자</span>
+                                                <span c-bind="historyowner:text"></span>                                        
+                                            </div>                        
+                                            <div class="cell view">
+                                                <span class="cellTitle">설정일</span>
+                                                <span c-bind="createdate:text:formatDateNum"></span>
+                                            </div>
+                                            <div class="cell view">
+                                                <span class="cellTitle">금액</span>
+                                                <span c-bind="historyprice:text:formatWon"></span>
+                                            </div>                                   
+                                        </div>
+                                    </item>
+                                </div>
+
+                            <div class="cellRowTitle">계약 설정</div> 
                             <div class="cellRow">
                                 <div class="cell">
                                     <span class="cellTitle">진행상태</span>
@@ -145,6 +169,10 @@
                             </div>
                             <div class="cellRow">
                                 <div class="cell">
+                                    <span class="cellTitle">매입예정액</span>
+                                    <span class="regprice" c-bind="regprice:text:formatWon"></span>                                    
+                                </div>
+                                <div class="cell">
                                     <span class="cellTitle">메모</span>
                                     <span class="memo" c-bind="memo:text">
                                 </div>
@@ -177,9 +205,42 @@
     function getContract() {
         API.getContract({contractpkey : getParam('contractpkey')})
         .then(data => {
-            bindView($('.cellView').get(0), data.body.contract);
-            currentData = data.body.contract;
+            API.getPossession({possessionpkey : data.body.contract.possessionpkey})
+            .then(res => {
+                console.log(res);
+                data.body.contract.landhistory = getLandHistory(res.body.possession);
+                currentData = data.body.contract;                
+                bindView($('.cellView').get(0), data.body.contract);                
+            })
         })
+    }
+
+    function getLandHistory(p) {
+        let ret = [];
+        var landpossession = {
+            kind : "LAND",
+            historypkey : "-1",
+            historykind : "POSSESSION",
+            historyowner : p.owner.ownername,
+            historyownerpkey : p.owner.ownerpkey,
+            historyprice : p.possessionpurchaseprice,
+            createdate : p.possessiontransferdate
+        }
+        ret.push(landpossession);
+        for(i=0; i<p.landmortgagelist.length; i++) {
+            let m = p.landmortgagelist[i];
+            var mortgage = {
+                kind : "LAND",
+                hitorypkey : m.mortgagepkey,
+                historykind : "MORTGAGE",
+                historyowner : m.mortgageename,
+                historyownerpkey : m.mortgageepkey,
+                historyprice : m.mortgageprice,
+                createdate : m.mortgagedate
+            }
+            ret.push(mortgage);
+        }
+        return ret;
     }
 
     function goModifyContract() {

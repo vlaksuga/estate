@@ -15,7 +15,7 @@
         <header loadsrc="../layout/header.html">
         </header>
         <main>
-            <nav loadsrc="../layout/nav.html" currentmenu="possession.html" auth="root"></nav>
+            <nav loadsrc="../layout/nav.html" currentmenu="possession.html" auth="admin"></nav>
             <article>
                 <div class="contentHeader">
                     <div class="contentHeaderStartContainer">
@@ -57,7 +57,7 @@
                                             <div class="cell ownerlist">
                                                 <span class="cellTitle">이름</span>
                                                 <select name="ownerpkey" c-bind="ownerlist:listtemplete" c-tag="c-item" style="font-size: 12px;" id="ownerfilter" onchange="onSelectOnwer(this)" autoset="Y">
-                                                    <option value="ALL">선택</option>
+                                                    <option value="">선택</option>
                                                     <option listtempitem c-item="ownername:option, ownerpkey:value"></option>
                                                 </select>
                                             </div>
@@ -152,7 +152,10 @@
                                         </div>
                                     </div>               
                                 </div>
-                                <div class="rowFlexContainer" style="justify-content: flex-end;">
+                                <div class="rowFlexContainer" style="justify-content: flex-end; gap:10px">
+                                    <div class="buttonView" onclick="goBack()">
+                                        <span>취소</span>
+                                    </div>
                                     <div class="buttonView" onclick="submitModifyPossession()">
                                         <span>확인</span>
                                     </div>

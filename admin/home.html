@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/main.css">    
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="/js/api.js"></script>    
     <script src="/js/main.js"></script>
     <title>SEUM RMS</title>
@@ -23,12 +24,83 @@
                     <div class="contentHeaderStartContainer">
                         <div class="title">home</div>
                     </div>
-                    <div class="contentHeaderEndContainer">
-                        <span class="material-icons" style="font-size: 18px; cursor: pointer;" onclick="createEstate()">add</span>
-                    </div>
+                    <div class="contentHeaderEndContainer"></div>
                 </div>
                 <div class="contentMain">
-
+                    <div class="cellView">
+                        <div class="cellCol status">
+                            <div class="cellRow ">
+                                <div class="cell">
+                                    <span class="cellTitle">협의</span>
+                                    <span class="value regcnt" c-bind="regcnt:text"></span>
+                                </div>
+                                <div class="cell">
+                                    <span class="cellTitle">계약 후 관리</span>
+                                    <span class="value managecnt" c-bind="startcnt:text"></span>
+                                </div>
+                                <div class="cell">
+                                    <span class="cellTitle">서면 결의 관리</span>
+                                    <span class="value startcnt" c-bind="managecnt:text"></span>
+                                </div>
+                            </div>
+                            <div class="cellRow">
+                                <div class="cell">
+                                    <span class="cellTitle">잔금 지급 대기</span>
+                                    <span class="value pendingcnt" c-bind="pendingcnt:text"></span>
+                                </div>
+                                <div class="cell">
+                                    <span class="cellTitle">잔금 지급 완료</span>
+                                    <span class="value donecnt" c-bind="donecnt:text"></span>
+                                </div>
+                                <div class="cell">
+                                    <span class="cellTitle">소유권 이전</span>
+                                    <span class="value finishcnt" c-bind="finishcnt:text"></span>
+                                </div>
+                            </div>
+                            <div class="cellRow">
+                                <div class="cell">
+                                    <span class="cellTitle">토지매입 진행상황</span>
+                                    <div class="chartBox">
+                                        <canvas id="statuschart" height="500" style="max-height: 500px;"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cellCol payment">
+                            <div class="cellRow ">
+                                <div class="cell">
+                                    <span class="cellTitle">총 예산</span>
+                                    <span class="value" c-bind="total:text:formatWon"></span>
+                                </div>
+                                <div class="cell">
+                                    <span class="cellTitle">잔여액</span>
+                                    <span class="value" c-bind="rest:text:formatWon"></span>
+                                </div>
+                            </div>
+                            <div class="cellRow">
+                                <div class="cell">
+                                    <span class="cellTitle">계약금 지급액</span>
+                                    <span class="value" c-bind="startsum:text:formatWon"></span>
+                                </div>
+                                <div class="cell">
+                                    <span class="cellTitle">중도금 지급액</span>
+                                    <span class="value" c-bind="ingsum:text:formatWon"></span>
+                                </div>
+                                <div class="cell">
+                                    <span class="cellTitle">잔금 지급액</span>
+                                    <span class="value" c-bind="endsum:text:formatWon"></span>
+                                </div>
+                            </div>
+                            <div class="cellRow">
+                                <div class="cell">                                    
+                                    <span class="cellTitle">토지매입 진행상황</span>
+                                    <div class="chartBox">
+                                        <canvas id="paymentchart" height="500" style="max-height: 500px;"></canvas>
+                                    </div>                                    
+                                </div>
+                            </div>                            
+                        </div>
+                    </div>
                 </div>                 
             </article>
             <aside></aside>
@@ -39,42 +111,133 @@
 </html>
 
 <script>
+    var statusChart;
+    var payChart;
+    var statusChartConfig = {
+            responsive : true,
+            type: 'bar',
+            options : {               
+                indexAxis : 'y',
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            precision: 0
+                        }
+                    }
+                },
+                plugins : {
+                    legend : {
+                        position : 'bottom',
+                        display : false,
+                        align : 'start',
+                        labels : {                            
+                            font : {
+                                size: 14,
+                                weight : 700                                
+                        },
+                        boxWidth : 10,
+                        boxHeight : 10                        
+                        },
+                        textAlign : 'center'
+                    }
+                }  
+            }
+        }
     
+    var payChartConfig = {
+        type: 'doughnut',
+            showDatapoints: true,
+            options : {
+                plugins : {
+                    legend : {
+                        position : 'bottom',
+                        display : true,
+                        align : 'center',
+                        labels : {
+                            font : {
+                                size: 11,
+                                weight : 900                                
+                        },
+                        boxWidth : 20
+                        },
+                        textAlign : 'center'
+                    },
+                },                
+                pieceLabel: {
+                   mode: 'label'
+                }    
+            }
+    }
+
     function runSetup() {
-        findItems(document);
-        setListEstate();
+        API.getAdminDashBoard().then(res => {
+            currentData.status = res.body.statuscnt;
+            currentData.payment = res.body.pricesum;
+            currentData.payment.total = 350000000000;
+            currentData.payment.rest = getRest(currentData.payment);
+            bindView($('.status').get(0), currentData.status);
+            bindView($('.payment').get(0), currentData.payment);                                   
+            statusChart = new Chart($('#statuschart'), statusChartConfig);
+            payChart = new Chart($('#paymentchart'), payChartConfig);
+            updateStatusChart();
+            updatePayChart();
+        })        
     }    
 
-    function setListEstate() {
-        API.listEstate().then(data => {
-            console.log(data);
-            bindView($('.estatelist').get(0), data.body);
-        });
-        
+    function updatePayChart() {
+        payChartConfig.data.labels = ["계약금", "중도금", "잔금", "잔여액"];
+        payChartConfig.data.datasets = [{
+                data : [currentData.payment.startsum, currentData.payment.ingsum, currentData.payment.endsum, currentData.payment.rest],
+                backgroundColor : [
+                    getRootStyle("--theme-color-alt-" + "a"),
+                    getRootStyle("--theme-color-alt-" + "b"),
+                    getRootStyle("--theme-color-alt-" + "c"),
+                    getRootStyle("--theme-color-alt-" + "d")
+                ],
+                hoverOffset : 4
+            }            
+        ]
+        payChart.update();       
     }
 
-    function createEstate() {
-        location.href = "createestate.html";
+    function updateStatusChart() {                  
+        let ret = {};
+        let dataArray = [];
+        dataArray.push(currentData.status.regcnt);
+        dataArray.push(currentData.status.startcnt);
+        dataArray.push(currentData.status.managecnt);
+        dataArray.push(currentData.status.pendingcnt);
+        dataArray.push(currentData.status.donecnt);
+        dataArray.push(currentData.status.finishcnt);
+        ret.data = dataArray;        
+        ret.tension = 0.4;
+        ret.backgroundColor = [
+            getRootStyle("--theme-color-alt-" + "a"),
+            getRootStyle("--theme-color-alt-" + "b"),
+            getRootStyle("--theme-color-alt-" + "c"),
+            getRootStyle("--theme-color-alt-" + "d"),
+            getRootStyle("--theme-color-alt-" + "e"),
+            getRootStyle("--theme-color-alt-" + "f")
+        ];
+        ret.borderColor = [
+            getRootStyle("--theme-color-alt-" + "a"),
+            getRootStyle("--theme-color-alt-" + "b"),
+            getRootStyle("--theme-color-alt-" + "c"),
+            getRootStyle("--theme-color-alt-" + "d"),
+            getRootStyle("--theme-color-alt-" + "e"),
+            getRootStyle("--theme-color-alt-" + "f")
+        ];      
+        statusChartConfig.data.datasets.push(ret);
+        statusChartConfig.data.labels = ["협의", "계약 후 관리", "서면 결의 관리", "잔금 지급 대기", "잔금 지급 완료", "소유권 이전"];
+        statusChart.update();
     }
 
-    function selectEstate(v, d, e){
-        $(e).on('click', function() {
-            $('.estatelist').hide();
-            $('.possessionlist').show();
-            showAside('../aside/detailestate.html', function(){ mapAside(d)} );
-            API.listPossession({officialestatepkey : v}).then(data => {
-                clearItems('.possessionlist');
-                bindView($('.possessionlist').get(0), data.body);
-                console.log(data);
-            });
-        })
-        return v;
-    }
+    
 
-    function backToEstateList() {
-        $('.possessionlist').hide();
-        $('.estatelist').show();        
-        hideAside();
+    function getRest(payment) {
+        var rest = payment.total;
+        rest = parseInt(rest) - parseInt(payment.startsum) - parseInt(payment.ingsum) - parseInt(payment.endsum); 
+        return rest;
     }
-
 </script>

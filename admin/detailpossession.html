@@ -176,8 +176,7 @@
     }    
     function setOwnerDetail(){
         const config = { possessionpkey : getParam('possessionpkey') }
-        API.getPossession(config).then(data => {
-            
+        API.getPossession(config).then(data => {            
             data.body.possession.landhistory = getLandHistory(data.body.possession);
             currentData = data.body.possession;
             bindView($('.cellView').get(0), data.body.possession);

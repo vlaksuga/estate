@@ -52,7 +52,7 @@
                                 
                             </div>
 
-                            <div class="cellRow">
+                            <div class="cellRow bind">
                                 <label class="cell" for="officialaddress">
                                     <span class="cellTitle">지번</span>
                                     <input type="text" name="officialaddress" id="officialaddress" c-bind="officialaddress:value" placeholder="지번을 입력하세요">
@@ -77,7 +77,7 @@
                                 <label class="cell" for="officialbuildingsector">
                                     <span class="cellTitle">업종</span>
                                     <select name="officialbuildingsector" c-bind="officialbuildingsector:select" id="provicefilter" style="font-size: 12px;">
-                                        <option value="ALL">선택</option>
+                                        <option value="">선택</option>
                                         <option value="상업시설">상업시설</option>
                                         <option value="주거시설">주거시설</option>
                                     </select>
@@ -130,27 +130,24 @@
     }
 
     function setEstate() {
-        API.getEstate({ officialestatepkey : getParam('estatepkey')}).then(data => {
-            console.log(data);
+        API.getEstate({ officialestatepkey : getParam('estatepkey')}).then(data => {            
             bindView($('.cellView').get(0), data.body.estate);
             currentData = data.body.estate;
             setListProvince();            
         })
     }
 
-    function setListProvince() {
-        API.listProvince().then(data => {
+    function setListProvince() {        
+        API.listProvince().then(data => {                        
             bindView($('.provincelist').get(0), data.body);
             const filter = $('#provicefilter').get(0);
             if(filter.getAttribute('autoset') == "Y") {
                 console.log(currentData);
-                const option = Array.from(filter.options).find(opt => { return opt.value == currentData.provincepkey });
-                                    
+                const option = Array.from(filter.options).find(opt => { return opt.value == currentData.provincepkey });                                    
                 filter.selectedIndex = option.index;
                 filter.onchange(filter);
                 filter.setAttribute('autoset', "N");
-            }
-            
+            }            
         })
     }
 
