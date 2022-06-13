@@ -37,7 +37,7 @@
                                 </div> -->
                                 <div class="rowView header">
                                     <div class="rowItem" style="width: 100%">
-                                        <span>순번</span>
+                                        <span>순번</span>                                        
                                     </div>
                                     <div class="rowItem" style="width: 100%">
                                         <span>동</span>                                        
@@ -285,7 +285,8 @@
     }    
 
     function setListEstate() {        
-        API.listEstate().then(data => {            
+        API.listEstate().then(data => {
+            currentData = data.body;
             bindView($('.estatelist').get(0), data.body);
         });
         
@@ -342,6 +343,7 @@
         $('.possessionmortgagelist').hide();
         showAside('../aside/detailestate.html', function(){ mapAside($('.estatelist .rowView.active').get(0).binddata) });        
     }
+
 
     
 

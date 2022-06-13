@@ -1,17 +1,20 @@
 var currentData = {};
-var currentUser = {t : getStorageToken('t')};
+var currentUser = null;
 
-function init() {
-    setCurrentUser();        
-    loadFragments().then(runSetup());
+function init() {    
+    currentUser = {t : getStorageToken('t')};
+    loadFragments().then(res => {
+        setCurrentUser();
+        runSetup();
+    });
 }
 
 function setCurrentUser(){    
     API.getUserInfo().then(res => {
         if(res.body.islogin != "Y") {
             console.log(res);
-            alert("세션이 만료되었거나 로그인이 필요합니다.");
-            logout();
+            showToast("세션이 만료되었거나 로그인이 필요합니다.");
+            //logout();
             return;
         }
         Object.assign(currentUser, res.body);            
@@ -236,8 +239,7 @@ function showMoreList(ele) {
 }
 
 function getStorageToken(key) {
-    const token = sessionStorage.getItem(key);    
-    console.log(token);
+    const token = sessionStorage.getItem(key);        
     return token;
 }
 
