@@ -13,8 +13,8 @@ function setCurrentUser(){
     API.getUserInfo().then(res => {
         if(res.body.islogin != "Y") {
             console.log(res);
-            showToast("세션이 만료되었거나 로그인이 필요합니다.");
-            //logout();
+            alert("세션이 만료되었거나 로그인이 필요합니다.");
+            logout();
             return;
         }
         Object.assign(currentUser, res.body);            
