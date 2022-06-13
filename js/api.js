@@ -1,5 +1,5 @@
-/* version : 2.1 */
-const TEST_MODE = true;
+/* version : 2.2 */
+const TEST_MODE = false;
 
 const IMG_SERVER = TEST_MODE ? "http://192.168.50.24:7777/" : "https://rms.seumjnd.com:7777/" ; 
 const API_SERVER = TEST_MODE ? "http://192.168.50.24:7777/" : "https://rms.seumjnd.com:7777/" ; 
