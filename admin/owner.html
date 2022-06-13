@@ -7,8 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/main.css">    
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <script src="/js/api.js"></script>    
     <script src="/js/main.js"></script>
+    <script src="/js/excel.js"></script>
     <title>SEUM RMS</title>
 </head>
 
@@ -25,6 +27,7 @@
                     </div>
                     <div class="contentHeaderEndContainer">
                         <span class="material-icons" style="font-size: 18px; cursor: pointer;" onclick="createOwner()">add</span>
+                        <span class="material-icons" style="font-size: 18px; cursor: pointer;" onclick="downloadExcel(this, 'ownerlist')" sheetname="소유자" titlename="소유자.xlsx">description</span>
                     </div>
                 </div>
                 <div class="contentMain">
@@ -36,25 +39,25 @@
                                 </div> -->
                                 <div class="rowView header">
                                     <div class="rowItem" style="width: 10%">
-                                        <span>순번</span>
+                                        <span tname>순번</span>
                                     </div>
                                     <div class="rowItem" style="width: 10%">
-                                        <span>구분</span>
+                                        <span tname>구분</span>
                                     </div>
                                     <div class="rowItem" style="width: 10%">
-                                        <span>이름</span>
+                                        <span tname>이름</span>
                                     </div>
                                     <div class="rowItem" style="width: 45%">
-                                        <span>주소</span>
+                                        <span tname>주소</span>
                                     </div>
                                     <div class="rowItem" style="width: 15%">
-                                        <span>식별번호</span>
+                                        <span tname>식별번호</span>
                                     </div>                                    
                                     <div class="rowItem" style="width: 10%">
-                                        <span>TEL</span>
+                                        <span tname>TEL</span>
                                     </div>
                                     <div class="rowItem" style="width: 10%">
-                                        <span>PHONE</span>
+                                        <span tname>PHONE</span>
                                     </div>
                                 </div>                                
                             </div>
@@ -66,25 +69,25 @@
                                         <item>
                                             <div class="rowView light" c-bind="ownerpkey:ownerpkey:selectOwner" style="cursor:pointer;">
                                                 <div class="rowItem" style="width: 10%">
-                                                    <span c-bind="ownerpkey:text"></span>
+                                                    <span c-bind="ownerpkey:text" excol></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 10%">
-                                                    <span c-bind="ownerkind:text:formatOwnerKind"></span>
+                                                    <span c-bind="ownerkind:text:formatOwnerKind" excol></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 10%">
-                                                    <span c-bind="ownername:text"></span>
+                                                    <span c-bind="ownername:text" excol></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 45%">
-                                                    <span c-bind="owneraddress:text"></span>
+                                                    <span c-bind="owneraddress:text" excol></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 15%">
-                                                    <span c-bind="owneridnumber:text"></span>
+                                                    <span c-bind="owneridnumber:text" excol></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 10%">
-                                                    <span c-bind="ownertel:text:formatTel:formatTel"></span>
+                                                    <span c-bind="ownertel:text:formatTel:formatTel" excol></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 10%">
-                                                    <span c-bind="ownerphone:text:formatTel"></span>
+                                                    <span c-bind="ownerphone:text:formatTel" excol></span>
                                                 </div>
                                             </div>
                                         </item>                                   

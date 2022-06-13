@@ -7,9 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/main.css">    
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script lang="javascript" src="https://cdn.sheetjs.com/xlsx-0.18.9/package/dist/xlsx.full.min.js"></script>
     <script src="/js/main.js"></script>
     <script src="/js/api.js"></script>    
-    
+    <script src="/js/excel.js"></script>
     <title>SEUM RMS</title>
 </head>
 
@@ -26,6 +27,7 @@
                     </div>
                     <div class="contentHeaderEndContainer">
                         <span class="material-icons" style="font-size: 18px; cursor: pointer;" onclick="createMortgage()">add</span>
+                        <span class="material-icons" style="font-size: 18px; cursor: pointer;" onclick="downloadExcel(this, 'mortgagelist')" sheetname="근저당권" titlename="근저당권.xlsx">description</span>
                     </div>
                 </div>
                 <div class="contentMain">
@@ -38,25 +40,25 @@
                                 </div>
                                 <div class="rowView header">
                                     <div class="rowItem" style="width: 100%">
-                                        <span>종류</span>
+                                        <span tname>종류</span>
                                     </div>
                                     <div class="rowItem" style="width: 100%">
-                                        <span>동</span>
+                                        <span tname>동</span>
                                     </div>
                                     <div class="rowItem" style="width: 100%">
-                                        <span>지번</span>
+                                        <span tname>지번</span>
                                     </div>
                                     <div class="rowItem" style="width: 100%">
-                                        <span>소유자</span>
+                                        <span tname>소유자</span>
                                     </div>
                                     <div class="rowItem" style="width: 100%">
-                                        <span>저당권자</span>
+                                        <span tname>저당권자</span>
                                     </div>
                                     <div class="rowItem" style="width: 100%" >
-                                        <span>근저당설정일</span>                                        
+                                        <span tname>근저당설정일</span>                                        
                                     </div>
                                     <div class="rowItem" style="width: 100%">
-                                        <span>근저당설정액</span>                                        
+                                        <span tname>근저당설정액</span>                                        
                                     </div>
                                 </div>                                
                             </div>
@@ -67,25 +69,25 @@
                                         <item>
                                             <div class="rowView light" style="cursor:pointer;" c-bind="mortgageepkey:mortgageepkey:onSelectMortgage">
                                                 <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="mortgagekind:text:formatMortgageKind"></span>
+                                                    <span c-bind="mortgagekind:text:formatMortgageKind" excol></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="townname:text"></span>
+                                                    <span c-bind="townname:text" excol></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="officialaddress:text"></span>
+                                                    <span c-bind="officialaddress:text" excol></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="ownername:text"></span>
+                                                    <span c-bind="ownername:text" excol></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="mortgageename:text"></span>
+                                                    <span c-bind="mortgageename:text" excol></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="mortgagedate:text:formatDateNum"></span>
+                                                    <span c-bind="mortgagedate:text:formatDateNum" excol></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="mortgageprice:text:formatWon"></span>
+                                                    <span c-bind="mortgageprice:text:formatWon" excol></span>
                                                 </div>
                                             </div>
                                         </item>                                   

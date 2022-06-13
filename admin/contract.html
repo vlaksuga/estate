@@ -7,8 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/main.css">    
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script lang="javascript" src="https://cdn.sheetjs.com/xlsx-0.18.9/package/dist/xlsx.full.min.js"></script>
     <script src="/js/api.js"></script>    
     <script src="/js/main.js"></script>
+    <script src="/js/excel.js"></script>
     <title>SEUM RMS</title>
 </head>
 
@@ -25,6 +27,7 @@
                     </div>
                     <div class="contentHeaderEndContainer">
                         <span class="material-icons" style="font-size: 18px; cursor: pointer;" onclick="createContract()">add</span>
+                        <span class="material-icons" style="font-size: 18px; cursor: pointer;" onclick="downloadExcel(this, 'contractlist')" sheetname="계약" titlename="계약.xlsx">description</span>
                     </div>
                 </div>
                 <div class="contentMain">
@@ -32,39 +35,36 @@
 
                         <div class="itemList contractlist">
                             <div class="itemListStart" style="min-height: 0;">
-                                <!-- <div class="rowFlexContainer" style="gap:10px; align-items: center;">
-                                    <span class="itemListTitle">계약 리스트</span>                                    
-                                </div> -->
                                 <div class="rowView header">
                                     <div class="rowItem" style="width: 100%">
-                                        <span>계약번호</span>
+                                        <span tname>계약번호</span>
                                     </div>
                                     <div class="rowItem" style="width: 100%">
-                                        <span>진행상황</span>
+                                        <span tname>진행상황</span>
                                     </div>
                                     <div class="rowItem" style="width: 100%">
-                                        <span>소유주</span>                                        
+                                        <span tname>소유주</span>                                        
                                     </div>
                                     <div class="rowItem" style="width: 100%">
-                                        <span>계약 담당자</span>                                        
+                                        <span tname>계약 담당자</span>                                        
                                     </div>
                                     <div class="rowItem" style="width: 100%">
-                                        <span>종류</span>                                        
+                                        <span tname>종류</span>                                        
                                     </div>
                                     <div class="rowItem" style="width: 100%">
-                                        <span>동</span>                                        
+                                        <span tname>동</span>                                        
                                     </div>
                                     <div class="rowItem" style="width: 100%" >
-                                        <span>지번</span>                                                                                
+                                        <span tname>지번</span>                                                                                
                                     </div>
                                     <div class="rowItem" style="width: 100%">
-                                        <span>권리가액</span>                                        
+                                        <span tname>권리가액</span>                                        
                                     </div>
                                     <div class="rowItem" style="width: 100%">
-                                        <span>계약금액</span>                                   
+                                        <span tname>계약금액</span>                                   
                                     </div>
                                     <div class="rowItem" style="width: 100%">
-                                        <span>총 지급액</span>                                        
+                                        <span tname>총 지급액</span>                                        
                                     </div>
                                 </div>                                
                             </div>
@@ -76,34 +76,34 @@
                                         <item>
                                             <div class="rowView light" c-bind="contractpkey:contractpkey:selectContract" style="cursor:pointer;">
                                                 <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="contractpkey:text"></span>
+                                                    <span c-bind="contractpkey:text" excol></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="contractstatus:text:formatContractStatus"></span>
+                                                    <span c-bind="contractstatus:text:formatContractStatus" excol></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="ownername:text"></span>
+                                                    <span c-bind="ownername:text" excol></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="username:text:setUsername"></span>
+                                                    <span c-bind="username:text:setUsername" excol></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="possessionkind:text:formatPossessionKind"></span>
+                                                    <span c-bind="possessionkind:text:formatPossessionKind" excol></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="townname:text"></span>
+                                                    <span c-bind="townname:text" excol></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="officialaddress:text"></span>
+                                                    <span c-bind="officialaddress:text" excol></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 100%;" >
-                                                    <span c-bind="afterprice:text:formatWon"></span>
+                                                    <span c-bind="afterprice:text:formatWon" excol></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="startprice:text:formatWon"></span>
+                                                    <span c-bind="startprice:text:formatWon" excol></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="totalprice:text:formatWon"></span>
+                                                    <span c-bind="totalprice:text:formatWon" excol></span>
                                                 </div>
                                             </div>
                                         </item>                                   
