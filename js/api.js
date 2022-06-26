@@ -1,8 +1,8 @@
 /* version : 2.2 */
-const TEST_MODE = false;
+const TEST_MODE = true;
 
-const IMG_SERVER = TEST_MODE ? "http://192.168.50.24:7777/" : "https://rms.seumjnd.com:7777/" ; 
-const API_SERVER = TEST_MODE ? "http://192.168.50.24:7777/" : "https://rms.seumjnd.com:7777/" ; 
+const IMG_SERVER = TEST_MODE ? "http://172.30.1.60:7777/" : "https://rms.seumjnd.com:7777/" ; 
+const API_SERVER = TEST_MODE ? "http://172.30.1.60:7777/" : "https://rms.seumjnd.com:7777/" ; 
 
 
 class Api {
@@ -63,7 +63,8 @@ class CommonApi extends Api {
     }
 
     /* get */
-    getAdminDashBoard(data) { return super.get("s/getAdminDashBoard.json", data) }    
+    getAdminDashBoard(data) { return super.get("s/getAdminDashBoard.json", data) }
+    listTeam(data) { return super.get("s/listTeam.json", data) }    
     listOwner(data) { return super.get("s/listOwner.json", data) }    
     getOwner(data) { return super.get("s/getOwner.json", data) }
     listEstate(data) { return super.get("s/listEstate.json", data) }    

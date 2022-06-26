@@ -30,7 +30,7 @@
                 <div class="contentMain">
                     <div class="rowFlexContainer" style="gap:16px;">
 
-                        <div class="itemList userlist" style="transition: all 0.5s ease-in-out; max-width: 1000px;">
+                        <div class="itemList userlist" style="transition: all 0.5s ease-in-out;">
                             <div class="itemListStart">
                                 <div class="rowFlexContainer" style="gap:10px; align-items: center;">
                                     <span class="itemListTitle">계정</span>                                    
@@ -41,6 +41,12 @@
                                     </div>
                                     <div class="rowItem" style="width: 100%">
                                         <span>아이디</span>
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span>소속</span>
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span>본부</span>
                                     </div>
                                     <div class="rowItem" style="width: 100%">
                                         <span>팀</span>
@@ -74,6 +80,12 @@
                                                 </div>
                                                 <div class="rowItem" style="width: 100%">
                                                     <span c-bind="usergroup:text:formatUserGroup"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="hqname:text:formatHqName"></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="teamname:text:formatTeamName"></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 100%">
                                                     <span c-bind="rolename:text:formatRoleName"></span>

@@ -14,6 +14,18 @@
                 <span class="value" c-bind="userid:text"></span>
             </div>
             <div class="propertyView">
+                <span class="key">소속</span>
+                <span class="value" c-bind="usergroup:text:formatUserGroup"></span>
+            </div>
+            <div class="propertyView">
+                <span class="key">본부</span>
+                <span class="value" c-bind="hqname:text:formatHqName"></span>
+            </div>
+            <div class="propertyView">
+                <span class="key">팀</span>
+                <span class="value" c-bind="teamname:text:formatTeamName"></span>
+            </div>
+            <div class="propertyView">
                 <span class="key">권한</span>
                 <span class="value" c-bind="rolename:text:formatRoleName"></span>
             </div>

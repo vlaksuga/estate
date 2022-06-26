@@ -57,18 +57,33 @@
                                 </label>
                             </div>                            
                             <div class="cellRow">
-                                <div class="cell view teamlist">
-                                    <span class="cellTitle">팀</span>                                    
-                                    <select name="usergroup" id="usergroup" style="font-size: 12px;">
-                                        <option value="AA">관리팀</option>                                   
-                                        <option value="A">토지작업팀</option>                                        
+                                <div class="cell view usergrouplist">
+                                    <span class="cellTitle">소속</span>                                    
+                                    <select name="usergroup" id="usergroup" style="font-size: 12px;">                                   
+                                        <option value="A">세움J&D</option>                                        
                                         <option value="B">JR자산운용</option>                                        
                                         <option value="C">지평법무법인</option>                                        
                                     </select>
                                 </div>                                
                             </div>
                             <div class="cellRow">
-                                <div class="cell view provincelist">
+                                <div class="cell view hqlist">
+                                    <span class="cellTitle">본부</span>                                    
+                                    <select c-bind="hqlist:listtemplete" c-tag="c-item" style="font-size: 12px;" id="hqfilter" onchange="onSelectHq(this)" autoset="Y">
+                                        <option value="ALL">선택</option>
+                                        <option listtempitem c-item="teamname:option:formatHqName, teampkey:value"></option>
+                                    </select>
+                                </div>
+                                <div class="cell view teamlist">
+                                    <span class="cellTitle">팀</span>                                    
+                                    <select name="teampkey" c-bind="teamlist:listtemplete" c-tag="c-item" style="font-size: 12px;" id="teamfilter">
+                                        <option value="ALL">선택</option>
+                                        <option listtempitem c-item="teamname:option:formatTeamName, teampkey:value"></option>
+                                    </select>
+                                </div>            
+                            </div>
+                            <div class="cellRow">
+                                <div class="cell view">
                                     <span class="cellTitle">권한</span>                                    
                                     <select name="rolepkey" id="rolepkey" style="font-size: 12px;">            
                                         <option value="1">관리자</option>                                        
@@ -77,7 +92,6 @@
                                     </select>
                                 </div>                                
                             </div>
-
                             
                             <div class="rowFlexContainer" style="justify-content: flex-end; gap:10px">
                                 <div class="buttonView" onclick="goBack()">
@@ -100,19 +114,33 @@
 
 <script>
     function runSetup() {
-        findItems(document);        
+        findItems(document);
+        API.listTeam().then(data => {
+            bindView($('.hqlist').get(0), data.body);
+        })        
     }
 
     function submitCreateUser() {
         var formData = getDataFrom('.cellView');        
-        if(!formData.username || formData.username.trim() == "") { showToast("이름을 입력하세요"); return; }        
+        if(!formData.username || formData.username.trim() == "") { showToast("이름을 입력하세요"); return; }                
         if(!formData.userpw || formData.userpw.trim() == "") { showToast("패스워드를 입력하세요"); return; }
         if(!formData.userpw2 || formData.userpw2.trim() == "") { showToast("패스워드를 입력하세요"); return; }
-        if(formData.usergroup != "AA" && formData.rolepkey == "1") { showToast("관리자는 관리팀에만 속할 수 있습니다."); return;}
+        if(formData.usergroup != "A" && formData.rolepkey == "1") { showToast("관리자는 세움J&D에만 속할 수 있습니다."); return;}
+
+        formData.isteam = !formData.teampkey || formData.teampkey.trim() == "ALL" ? "N" : "Y"; 
         API.addUser(formData).then(data => {
             if(data.head.status != "ok") { showToast('사용자를 만들지 못했습니다.'); return ;}
             alert('새 사용자가 만들어 졌습니다.');
             location.href = "user.html";
         })    
     }
+
+    function onSelectHq(ele) {
+        var data = ele.options[ele.selectedIndex].binddata;
+        if(data) {
+            bindView($('.teamlist').get(0), data)  
+        }
+    }
+
+    
 </script>

@@ -703,8 +703,7 @@ function formatRoleName(v, d, e) {
 }
 
 function formatUserGroup(v, d, e) {
-    if(v == "AA") {return "관리팀"}
-    if(v == "A") {return "토지작업팀"}
+    if(v == "A") {return "세움J&D"}
     if(v == "B") {return "JR자산운용"}
     if(v == "C") {return "지평법무법인"}
 }
@@ -712,6 +711,14 @@ function formatUserGroup(v, d, e) {
 function formatUserStatus(v, d, e) {
     if(v == "NORMAL") { return "접속가능" }
     if(v == "BAN") { return "접속불가" }
+}
+
+function formatHqName(v, d, e) {
+    return v ? v + "본부" : "X";
+}
+
+function formatTeamName(v, d, e) {
+    return v ? v + "팀" : "X";
 }
 
 function formatPossessionName(v, d, e) {
