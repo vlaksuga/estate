@@ -721,7 +721,7 @@ function formatRoleName(v, d, e) {
 function formatUserGroup(v, d, e) {
     if(v == "A") {return "세움J&D"}
     if(v == "B") {return "JR자산운용"}
-    if(v == "C") {return "지평법무법인"}
+    if(v == "C") {return "법무법인지평"}
 }
 
 function formatUserStatus(v, d, e) {
