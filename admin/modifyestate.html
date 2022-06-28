@@ -58,7 +58,7 @@
                                     <input type="text" name="officialaddress" id="officialaddress" c-bind="officialaddress:value" placeholder="지번을 입력하세요">
                                 </label>
                                 <div class="cell">
-                                    <span class="cellTitle">지대</span>
+                                    <span class="cellTitle">지목</span>
                                     <div class="wrap" style="display: flex; flex-direction: row; gap: 16px;">
                                         <div class="radioView">                                               
                                             <label for="nomia">대지</label>
@@ -68,41 +68,44 @@
                                             <label for="nomib">도로</label>
                                             <input type="radio" name="officialnomination" id="nomib" c-bind="officialnomination:radio" value="도">
                                         </div>
-                                    </div>                                            
+                                    </div>                                             
                                 </div>
-                                <label class="cell" for="officialbuildingname">
+                                <label class="cell buildingName" for="officialbuildingname"  c-bind="officialkind:kind:setKindVisibility">
                                     <span class="cellTitle">건물명</span>
                                     <input type="text" c-bind="officialbuildingname:value" name="officialbuildingname" id="officialbuildingname" placeholder="건물명을 입력하세요">
-                                </label>
-                                <label class="cell" for="officialbuildingsector">
-                                    <span class="cellTitle">업종</span>
-                                    <select name="officialbuildingsector" c-bind="officialbuildingsector:select" id="provicefilter" style="font-size: 12px;">
-                                        <option value="">선택</option>
-                                        <option value="상업시설">상업시설</option>
-                                        <option value="주거시설">주거시설</option>
-                                    </select>
-                                </label>
+                                </label>                                
                             </div>
 
                             <div class="cellRow">
-                                <label class="cell" for="officiallandmeter">
-                                    <span class="cellTitle">토지면적</span>
-                                    <input type="text" name="officiallandmeter" id="officiallandmeter" c-bind="officiallandmeter:value" placeholder="토지면적을 &#13217 단위의 숫자로 입력하세요. 예)8000" value="0">
+                                <div class="cell view">
+                                    <span class="cellTitle">종류</span>
+                                    <select name="officialkind" c-bind="officialkind:select" style="font-size: 12px;" onchange="onKindChanged(this)">
+                                        <option value="LAND">토지</option>
+                                        <option value="BUIL">건물</option>
+                                    </select>
+                                </div>
+                                <label class="cell" for="officialmeter">
+                                    <span class="cellTitle"><span class="kindName" c-bind="officialkind:text:formatOfficialKind"></span>면적 (&#13217)</span>
+                                    <input type="text" class="officialmeter" name="officialmeter" id="officialmeter" c-bind="officialmeter:value" kind="meter" placeholder="면적을 &#13217 단위의 숫자로 입력하세요. 예)8000" value="0" oninput="calcMeterPrice(this)" onblur="this.value = formatNumber(this.value)">
                                 </label>
-                                <label class="cell" for="officiallandprice">
-                                    <span class="cellTitle">토지가격</span>
-                                    <input type="text" name="officiallandprice" id="officiallandprice" c-bind="officiallandprice:value:formatWon" placeholder="토지가격을 원단위의 숫자로 입력하세요. 예)2000000" value="0">
+                                <label class="cell view">
+                                    <span class="cellTitle"><span class="kindName" c-bind="officialkind:text:formatOfficialKind"></span>면적 (평)</span>
+                                    <span class="value" c-bind="officialmeter:text:formatMeterKor" calc="meterkr"></span>
                                 </label>
                             </div>
                             <div class="cellRow">
-                                <label class="cell" for="officialbuildingmeter">
-                                    <span class="cellTitle">건물면적</span>
-                                    <input type="text" name="officialbuildingmeter" id="officialbuildingmeter" c-bind="officialbuildingmeter:value"  placeholder="건물면적을 &#13217 단위의 숫자로 입력하세요. 예)8000" value="0">
-                                </label>
-                                <label class="cell" for="officialbuildingprice">
-                                    <span class="cellTitle">건물가격</span>
-                                    <input type="text" name="officialbuildingprice" id="officialbuildingprice" c-bind="officialbuildingprice:value:formatWon" placeholder="건물가격을 원단위의 숫자로 입력하세요. 예)200000" value="0">
-                                </label>
+                                <div class="cell">
+                                    <span class="cellTitle">공시가액</span>
+                                    <input type="text" class="officialprice" name="officialprice" id="officialprice" c-bind="officialprice:value:formatWon" kind="price" oninput="calcMeterPrice(this)" onblur="this.value = formatWon(this.value)"></span>
+                                </div>
+                                <div class="cell view">
+                                    <span class="cellTitle">공시지가 (&#13217)</span>
+                                    <span class="officialprice" calc="priceen" c-bind="officialprice:text:formatWonPerMeterSquare"></span>
+                                </div>
+                                <div class="cell view">
+                                    <span class="cellTitle">공시지가 (평)</span>
+                                    <span class="officialprice" calc="pricekr" c-bind="officialprice:text:formatWonPerMeterKor"></span>
+                                </div>
                             </div>
                             <div class="rowFlexContainer" style="justify-content: flex-end; gap:10px">
                                 <div class="buttonView" onclick="goBack()">
@@ -179,23 +182,62 @@
         });                  
     }
 
+    function onKindChanged(ele) {
+        var kv = ele.options[ele.selectedIndex].value;
+        var name;
+        var isBuildingVisible = false;
+        switch (kv) {
+            case "LAND" : {
+                name = "토지"; 
+                isBuildingVisible = false;
+                break;
+            }
+            case "BUIL" : {
+                name = "건물"; 
+                isBuildingVisible = true;
+                break;
+            }
+            default : { break; }
+        }
+        $('.kindName').text(name);        
+        if(isBuildingVisible) {$('.buildingName').show();} else {
+            $('#officialbuildingname').val("");
+            $('.buildingName').hide()} ;         
+    }
+
+    function calcMeterPrice(ele) {
+        let meter = $('#officialmeter').val();
+        let price = $('#officialprice').val();
+        let meterkr, priceen, pricekr;
+        if($(ele).attr('kind') == "meter") { meter = ele.value; }
+        if($(ele).attr('kind') == "price") { price = ele.value; }        
+        meterkr = formatMeterKor(meter);
+        if(meter && price && meter != 0 && price != 0) {
+            priceen = (deformatWon(price) / deformatNumber(meter)).toFixed(2);
+            pricekr = (deformatWon(price) / meterkr).toFixed(2);
+        } else {
+            priceen = "0";
+            pricekr = "0";
+        }
+        $('[calc="meterkr"]').text(formatNumber(meterkr));
+        $('[calc="priceen"]').text(formatNumber(priceen));
+        $('[calc="pricekr"]').text(formatNumber(pricekr));
+    }
+
     function submitModifyEstate() {
-        var formData = getDataFrom('.cellView');
-        formData.officiallandprice = formData.officiallandprice.replace(/,/g, "").replace("원", "");
-        formData.officialbuildingprice = formData.officialbuildingprice.replace(/,/g, "").replace("원", "");
-        
+        var formData = getDataFrom('.cellView');           
         if(!formData.provincepkey || formData.provincepkey=="ALL") { showToast("시/도를 선택하세요"); return; }
         if(!formData.areapkey || formData.areapkey=="ALL") { showToast("구/군을 선택하세요"); return; }
         if(!formData.townpkey || formData.townpkey=="ALL") { showToast("읍/면/동을 선택하세요"); return; }
         if(!formData.officialaddress || formData.officialaddress.trim() == "") { showToast("지번을 입력하세요"); return; }
-        if(!formData.officiallandmeter || formData.officiallandmeter.trim() == "") { showToast("토지면적을 입력하세요"); return; }
-        if(!formData.officiallandprice || formData.officiallandprice.trim() == "") { showToast("토지가격을 입력하세요"); return; }
-        if(!formData.officialbuildingmeter || formData.officialbuildingmeter.trim() == "") { showToast("건물면적을 입력하세요"); return; }
-        if(!formData.officialbuildingprice || formData.officialbuildingprice.trim() == "") { showToast("건물가격을 입력하세요"); return; }
+        if(!formData.officialmeter || formData.officialmeter.trim() == "") { showToast("면적을 입력하세요"); return; }
+        if(!formData.officialprice || formData.officialprice.trim() == "") { showToast("공시가액을 입력하세요"); return; }
+        formData.officialprice = deformatWon(formData.officialprice); 
+        formData.officialmeter = deformatNumber(formData.officialmeter); 
         API.modifyEstate(formData).then(data => {
             if(data.head.status != "ok") { showToast('공시를 수정하지 못했습니다.'); return ;}
             alert('공시가 수정되었습니다.');
-            location.href = "realestate.html";
+            location.href = "detailestate.html?estatepkey=" +  formData.officialestatepkey;
         })    
     }
 

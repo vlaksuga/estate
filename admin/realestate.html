@@ -36,31 +36,38 @@
                         <div class="itemList estatelist">
                             <div class="itemListStart" style="min-height: 0;">
                                 <div class="rowView header">
-                                    <div class="rowItem" style="width: 100%">
+                                    <div class="rowItem" style="width: 50%; min-width: 62px;">
                                         <span tname>순번</span>                                        
                                     </div>
-                                    <div class="rowItem" style="width: 100%">
+                                    <div class="rowItem" style="width: 50%; min-width: 62px;">
                                         <span tname>동</span>                                        
                                     </div>
-                                    <div class="rowItem" style="width: 100%">
+                                    <div class="rowItem" style="width: 50%; min-width: 62px;">
                                         <span tname>지번</span>
                                     </div>
-                                    <div class="rowItem" style="width: 100%">
+                                    <div class="rowItem" style="width: 50%; min-width: 62px;">
                                         <span tname>지목</span>                                        
+                                    </div>          
+                                    <div class="rowItem" style="width: 100%">
+                                        <span tname>종류</span>                                        
                                     </div>                                    
                                     <div class="rowItem" style="width: 100%" >
-                                        <span tname>토지면적</span>
-                                        <span class="measure"  onclick="changeMeterFormat(this, 'officiallandmeter')">&#13217</span>                                                                                
+                                        <span tname>면적 (&#13217)</span>                                        
+                                    </div>
+                                    <div class="rowItem" style="width: 100%" >
+                                        <span tname>면적 (평)</span>                                        
+                                    </div>
+                                    <div class="rowItem" style="width: 100%" >
+                                        <span tname>공시가액</span>                                        
                                     </div>
                                     <div class="rowItem" style="width: 100%">
-                                        <span tname>토지가격</span>                                        
+                                        <span tname>공시지가 (&#13217)</span>                                        
                                     </div>
                                     <div class="rowItem" style="width: 100%">
-                                        <span tname>건물면적</span>
-                                        <span class="measure">&#13217</span>                                   
+                                        <span tname>공시지가 (평)</span>                                        
                                     </div>
                                     <div class="rowItem" style="width: 100%">
-                                        <span tname>건물가격</span>                                        
+                                        <span tname>건물명</span>                                        
                                     </div>
                                 </div>                                
                             </div>
@@ -71,41 +78,38 @@
                                                                                 
                                         <item>
                                             <div class="rowView light" c-bind="officialestatepkey:officialestatepkey:selectEstate" style="cursor:pointer;">
-                                                <div class="rowItem" style="width: 100%">
+                                                <div class="rowItem" style="width: 50%; min-width: 62px;">
                                                     <span c-bind="officialestatepkey:text" excol></span>
                                                 </div>
-                                                <div class="rowItem" style="width: 100%">
+                                                <div class="rowItem" style="width: 50%; min-width: 62px;">
                                                     <span c-bind="townname:text" excol></span>
                                                 </div>
-                                                <div class="rowItem" style="width: 100%">
+                                                <div class="rowItem" style="width: 50%; min-width: 62px;">
                                                     <span c-bind="officialaddress:text" excol></span>
                                                 </div>
-                                                <div class="rowItem" style="width: 100%">
+                                                <div class="rowItem" style="width: 50%; min-width: 62px;">
                                                     <span c-bind="officialnomination:text" excol></span>
                                                 </div>
-                                                <!-- <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="officialbuildingname:text"></span>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="officialkind:text:formatOfficialKind" excol></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="officialbuildingsector:text"></span>
-                                                </div> -->
-                                                <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="officiallandmeter:text" excol></span>
+                                                    <span c-bind="officialmeter:text" excol></span>
                                                 </div>
-                                                <div class="rowItem" style="width: 100%; display: none;" >
-                                                    <span c-bind="officiallandmeter:text:formatMeterKor" ></span>
+                                                <div class="rowItem" style="width: 100%;" >
+                                                    <span c-bind="officialmeter:text:formatMeterKor" excol></span>
                                                 </div>
-                                                <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="officiallandprice:text:formatWon" excol></span>
+                                                <div class="rowItem" style="width: 100%;">
+                                                    <span c-bind="officialprice:text:formatWon" excol></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="officialbuildingmeter:text" excol></span>
+                                                    <span c-bind="officialprice:text:formatWonPerMeterSquare" excol></span>
                                                 </div>
-                                                <div class="rowItem" style="width: 100%; display: none;">
-                                                    <span c-bind="officialbuildingmeter:text:formatMeterKor" ></span>
+                                                <div class="rowItem" style="width: 100%;">
+                                                    <span c-bind="officialprice:text:formatWonPerMeterKor" ></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="officialbuildingprice:text:formatWon" excol></span>
+                                                    <span c-bind="officialbuildingname:text" excol></span>
                                                 </div>
                                             </div>
                                         </item>                                   

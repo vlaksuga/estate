@@ -454,6 +454,11 @@ function formatSizeMeter(v, d, e) {
     return v;
 }
 
+function formatOfficialKind(v, d, e) {
+    if(v == "LAND") {return "토지"}
+    if(v == "BUIL") {return "건물"}
+}
+
 function formatMortgageKind(v, d, e) {
     if(v == "LAND") {return "토지"}
     if(v == "BUIL") {return "건물"}
@@ -671,7 +676,7 @@ function formatEntrySize(v, d, e) {
 
 function formatNumber(v, d, e) {    
     if(!v) { return; };
-    return v.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return v.toString().replace(/[ㄱ-ㅎㅏ-ㅣ가-힣]/g, "").replace(/[a-zA-Z]/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 function formatWon(v, d, e) {    
@@ -679,8 +684,19 @@ function formatWon(v, d, e) {
     return "0원";
 }
 
+function formatWonPerMeterSquare(v, d, e) {
+    console.log(d);
+    if(v && d.officialmeter) return formatWon(parseFloat(v / d.officialmeter).toFixed(2));
+    return "0원";
+}
+
+function formatWonPerMeterKor(v, d, e) {
+    if(v && d.officialmeter) return formatWon(parseFloat(v / formatMeterKor(d.officialmeter)).toFixed(2));
+    return "0원";
+}
+
 function formatMeterKor(v, d, e) {
-    return (parseFloat(v) * 0.3025).toFixed(2);
+    return (parseFloat(v) / 3.305785).toFixed(2);
 }
 function formatMeterSquare(v, d, e) {
     return (parseFloat(v)).toFixed(2);
@@ -754,10 +770,24 @@ function formatCheckView(v, d, e) {
     return "";
 }
 
+function deformatWon(v, d, e) {
+    return parseFloat(v.replace(/,/g, "").replace("원", "")); 
+}
+
+function deformatNumber(v, d, e) {
+    return parseFloat(v.replace(/,/g, "")); 
+}
+
 function setVisibility(v, d, e) {
     if(!v) { $(e).hide(); }
     else { $(e).show() }
-    return v
+    return v;
+}
+
+function setKindVisibility(v, d, e) {
+    if(v != "BUIL") { $(e).hide(); }
+    else { $(e).show() }
+    return v;
 }
 
 function drawColor(v, d, e) {

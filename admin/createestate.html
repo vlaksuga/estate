@@ -76,7 +76,7 @@
                             </div>
 
                             <div class="cellRow">
-                                <div class="cell view provincelist">
+                                <div class="cell view">
                                     <span class="cellTitle">종류</span>
                                     <select name="officialkind" style="font-size: 12px;" onchange="onKindChanged(this)">
                                         <option value="LAND">토지</option>
@@ -85,17 +85,18 @@
                                 </div>
                                 <label class="cell" for="officialmeter">
                                     <span class="cellTitle"><span class="kindName">토지</span>면적 (&#13217)</span>
-                                    <input type="text" name="officialmeter" id="officialmeter" kind="meter" placeholder="면적을 &#13217 단위의 숫자로 입력하세요. 예)8000" value="0" oninput="calcMeterPrice(this)">
+                                    <input type="text" name="officialmeter" id="officialmeter" kind="meter" placeholder="면적을 &#13217 단위의 숫자로 입력하세요. 예)8000" value="0" oninput="calcMeterPrice(this)" onblur="this.value = formatNumber(this.value)">
                                 </label>
                                 <div class="cell">
                                     <span class="cellTitle"><span class="kindName">토지</span>면적 (평)</span>
                                     <span class="value" calc="meterkr"></span>
                                 </div>
                             </div>
+
                             <div class="cellRow">
                                 <label class="cell" for="officiallandprice">
                                     <span class="cellTitle">공시가액</span>
-                                    <input type="text" name="officialprice" id="officialprice" kind="price" placeholder="가격을 원단위의 숫자로 입력하세요. 예)2000000" value="0" oninput="calcMeterPrice(this)">
+                                    <input type="text" name="officialprice" id="officialprice" kind="price" placeholder="가격을 원단위의 숫자로 입력하세요. 예)2000000" value="0" oninput="calcMeterPrice(this)" onblur="this.value = formatWon(this.value)">
                                 </label>
                                 <div class="cell">
                                     <span class="cellTitle">공시지가 (&#13217)</span>
@@ -166,6 +167,8 @@
         if(!formData.officialaddress || formData.officialaddress.trim() == "") { showToast("지번을 입력하세요"); return; }
         if(!formData.officialmeter || formData.officialmeter.trim() == "") { showToast("면적을 입력하세요"); return; }
         if(!formData.officialprice || formData.officialprice.trim() == "") { showToast("공시가액을 입력하세요"); return; }
+        formData.officialprice = deformatWon(formData.officialprice); 
+        formData.officialmeter = deformatNumber(formData.officialmeter);
         API.addEstate(formData).then(data => {
             if(data.head.status != "ok") { showToast('공시를 만들지 못했습니다.'); return ;}
             alert('새 공시가 만들어 졌습니다.');
@@ -190,10 +193,11 @@
             }
             default : { break; }
         }
-        $('.kindName').text(name);
-        console.log(isBuildingVisible);
-        if(isBuildingVisible) {$('.buildingName').show();} else {$('.buildingName').hide()} ; 
-        
+        $('.kindName').text(name);        
+        if(isBuildingVisible) {$('.buildingName').show();} else {
+            $('#officialbuildingname').val("");
+            $('.buildingName').hide()
+        } ;
     }
 
     function calcMeterPrice(ele) {
@@ -201,11 +205,11 @@
         let price = $('#officialprice').val();
         let meterkr, priceen, pricekr;
         if($(ele).attr('kind') == "meter") { meter = ele.value; }
-        if($(ele).attr('price') == "price") { price = ele.value; }
-        meterkr = (meter / 3.305785).toFixed(2);
+        if($(ele).attr('kind') == "price") { price = ele.value; }        
+        meterkr = formatMeterKor(meter);
         if(meter && price && meter != 0 && price != 0) {
-            priceen = (price / meter).toFixed(2);
-            pricekr = (price / (meter / 3.305785)).toFixed(2);
+            priceen = (deformatWon(price) / deformatNumber(meter)).toFixed(2);
+            pricekr = (deformatWon(price) / meterkr).toFixed(2);
         } else {
             priceen = "0";
             pricekr = "0";

@@ -48,36 +48,40 @@
                                     <span class="officialaddress" c-bind="officialaddress:text">
                                 </div>
                                 <div class="cell">
-                                    <span class="cellTitle">지대</span>
+                                    <span class="cellTitle">지목</span>
                                     <span class="officialnomination" c-bind="officialnomination:text"></span>                                          
                                 </div>
-                                <div class="cell">
+                                <div class="cell" c-bind="officialkind:kind:setKindVisibility">
                                     <span class="cellTitle">건물명</span>
                                     <span class="officialbuildingname" c-bind="officialbuildingname:text"></span>
                                 </div>
+                            </div>
+                            <div class="cellRow">
                                 <div class="cell">
-                                    <span class="cellTitle">업종</span>
-                                    <span class="officialbuildingsector" c-bind="officialbuildingsector:text"></span>
+                                    <span class="cellTitle">종류</span>
+                                    <span class="officialkind" c-bind="officialkind:text:formatOfficialKind"></span>
+                                </div>
+                                <div class="cell">
+                                    <span class="cellTitle"><span class="kindName" c-bind="officialkind:text:formatOfficialKind"></span>면적 (&#13217)</span>
+                                    <span class="officiallandmeter" c-bind="officialmeter:text"></span>
+                                </div>
+                                <div class="cell">
+                                    <span class="cellTitle"><span class="kindName" c-bind="officialkind:text:formatOfficialKind"></span>면적 (평)</span>
+                                    <span class="officiallandmeter" c-bind="officialmeter:text:formatMeterKor"></span>
                                 </div>
                             </div>
                             <div class="cellRow">
                                 <div class="cell">
-                                    <span class="cellTitle">토지면적</span>
-                                    <span class="officiallandmeter" c-bind="officiallandmeter:text"></span>
+                                    <span class="cellTitle">공시가액</span>
+                                    <span class="officialprice" c-bind="officialprice:text:formatWon"></span>
                                 </div>
                                 <div class="cell">
-                                    <span class="cellTitle">토지가격</span>
-                                    <span class="officiallandprice" c-bind="officiallandprice:text:formatWon"></span>
-                                </div>
-                            </div>
-                            <div class="cellRow">
-                                <div class="cell">
-                                    <span class="cellTitle">건물면적</span>
-                                    <span class="officialbuildingmeter" c-bind="officialbuildingmeter:text"></span>
+                                    <span class="cellTitle">공시지가 (&#13217)</span>
+                                    <span class="officialprice" c-bind="officialprice:text:formatWonPerMeterSquare"></span>
                                 </div>
                                 <div class="cell">
-                                    <span class="cellTitle">건물가격</span>
-                                    <span class="officialbuildingprice" c-bind="officialbuildingprice:text:formatWon"></span>
+                                    <span class="cellTitle">공시지가 (평)</span>
+                                    <span class="officialprice" c-bind="officialprice:text:formatWonPerMeterKor"></span>
                                 </div>
                             </div>
                             <div class="rowFlexContainer" style="justify-content: flex-end; gap:10px;">
