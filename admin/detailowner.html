@@ -24,27 +24,15 @@
                     <div class="contentHeaderEndContainer"></div>
                 </div>
                 <div class="contentMain">
-                    <div class="cellView" style="max-width: 1000px;">
+                    <div class="cellView" style="width:60%">
                         <input type="hidden" name="ownerpkey" c-bind="ownerpkey:value">
                         <div class="cellCol">
                             
                             <div class="cellRow">
-                                <div class="cell">
+                                <div class="cell view">
                                     <span class="cellTitle">이름</span>
                                     <span class="ownername" c-bind="ownername:text"></span>
                                 </div>
-                                <div class="cell">
-                                    <span class="cellTitle">구분</span>
-                                    <span class="ownerkind" c-bind="ownerkind:text:formatOwnerKind"></span>
-                                </div>
-                                <div class="cell" for="owneridnumber">
-                                    <span class="cellTitle">식별번호</span>
-                                    <span class="owneridnumber" c-bind="owneridnumber:text"></span>
-                                </div>
-                            </div>
-                            
-                            
-                            <div class="cellRow">
                                 <div class="cell view provincelist">
                                     <span class="cellTitle">시/도</span>
                                     <span class="provincename" c-bind="provincename:text"></span>
@@ -53,26 +41,68 @@
                                     <span class="cellTitle">구/군</span>
                                     <span class="areaname" c-bind="areaname:text"></span>
                                 </div>
-                                <div class="cell">
+                                <div class="cell view">
                                     <span class="cellTitle">상세주소</span>
-                                    <span class="addressdetail" c-bind="townname:text:formatOnwerAddress"></span>
+                                    <span class="addressdetail" c-bind="owneraddress:text:formatOnwerAddress"></span>
+                                </div>
+                            </div>
+                            
+                            
+                            <div class="cellRow">
+                                <div class="cell view">
+                                    <span class="cellTitle">연령</span>
+                                    <span class="ownerage" c-bind="ownerage:text"></span>
+                                </div>
+                                <div class="cell view">
+                                    <span class="cellTitle">식별번호</span>
+                                    <span class="owneridnumber" c-bind="owneridnumber:text"></span>
+                                </div>
+                                <div class="cell view">
+                                    <span class="cellTitle">연락처1</span>
+                                    <span class="ownerphone" c-bind="ownerphone:text:formatTel"></span>
+                                </div>
+                                <div class="cell view">
+                                    <span class="cellTitle">연락처2</span>
+                                    <span class="ownertel" c-bind="ownertel:text:formatTel"></span>
                                 </div>
                             </div>
 
                             <div class="cellRow">                                
                                 <div class="cell">
-                                    <span class="cellTitle">TEL</span>
-                                    <span class="ownertel" c-bind="ownertel:text:formatTel"></span>
+                                    <span class="cellTitle">매입대상 그룹</span>
+                                    <span class="ownergroup" c-bind="ownergroup:text"></span>
                                 </div>
                                 <div class="cell">
-                                    <span class="cellTitle">PHONE</span>
-                                    <span class="ownerphone" c-bind="ownerphone:text:formatTel"></span>
+                                    <span class="cellTitle">대표지번</span>
+                                    <span class="first" c-bind="first:text"></span>
                                 </div>
-                            </div>                      
+                                <div class="cell">
+                                    <span class="cellTitle">추가소유</span>
+                                    <span class="addnumber" c-bind="addnumber:text"></span>
+                                </div>
+                                <div class="cell">
+                                    <span class="cellTitle">실질관계</span>
+                                    <span class="realrelation" c-bind="realrelation:text"></span>                                    
+                                </div>
+                            </div>
+                            <div class="cellRow">
+                                <div class="cell">
+                                    <span class="cellTitle">금액 등 관계</span>
+                                    <span class="pricerelation" c-bind="pricerelation:text"></span>                                                                        
+                                </div>
+                                <div class="cell">
+                                    <span class="cellTitle">상세관계</span>
+                                    <span class="detailrelation" c-bind="detailrelation:text"></span>                                                                        
+                                </div>
+                                <div class="cell">
+                                    <span class="cellTitle">업종</span>
+                                    <span class="ownersector" c-bind="ownersector:text"></span>                                    
+                                </div>
+                            </div>
 
                             
                             <div class="rowFlexContainer" style="justify-content: flex-end; gap :10px">
-                                <div class="buttonView" onclick="goBack()">
+                                <div class="buttonView" onclick="location.href='owner.html'">
                                     <span>뒤로</span>
                                 </div>
                                 <div class="buttonView" onclick="goModifyOwner()">

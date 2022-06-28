@@ -28,62 +28,80 @@
                         <div class="cellCol">
                             <div class="cellRowTitle">소유자</div>
                             <div class="cellRow">
-                                <div class="cellCol" style="width: 30%;">
-                                    <div class="cellRow">
-                                        <label class="cell" for="ownername">
-                                            <span class="cellTitle">이름</span>
-                                            <input type="text" name="ownername" id="ownername" placeholder="이름을 입력하세요">
-                                        </label>
-                                    </div>
-                                    <div class="cellRow">
-                                        <div class="cell">
-                                            <span class="cellTitle">구분</span>
-                                            <select name="ownerkind" style="font-size: 12px;" onchange="setIdKind(this)">
-                                                <option value="ALL">선택</option>
-                                                <option value="PERSONAL">개인</option>
-                                                <option value="CORPORATION">법인</option>
-                                            </select>
-                                        </div>
-                                    </div>
+                                <label class="cell" for="ownername">
+                                    <span class="cellTitle">이름</span>
+                                    <input type="text" name="ownername" id="ownername" placeholder="이름을 입력하세요">
+                                </label>
+                                <div class="cell view provincelist">
+                                    <span class="cellTitle">시/도</span>                                    
+                                    <select name="provincepkey" id="provicefilter" c-bind="provincelist:listtemplete" c-tag="c-item" style="font-size: 12px;" onchange="onProvinceFilterChanged(this)">
+                                        <option value="ALL">선택</option>
+                                        <option listtempitem c-item="provincename:option, provincepkey:value"></option>
+                                    </select>
                                 </div>
-                                <div class="cellCol">
-                                    <div class="cellRow">
-                                        <div class="cell view provincelist">
-                                            <span class="cellTitle">시/도</span>
-                                            
-                                            <select name="provincepkey" id="provicefilter" c-bind="provincelist:listtemplete" c-tag="c-item" style="font-size: 12px;" onchange="onProvinceFilterChanged(this)">
-                                                <option value="ALL">선택</option>
-                                                <option listtempitem c-item="provincename:option, provincepkey:value"></option>
-                                            </select>
-                                        </div>
-                                        <div class="cell view arealist">
-                                            <span class="cellTitle">구/군</span>
-                                            <select name="areapkey" id="areafilter" c-bind="arealist:listtemplete" c-tag="c-item" style="font-size: 12px;" >
-                                                <option value="ALL">선택</option>
-                                                <option listtempitem c-item="areaname:option, areapkey:value"></option>
-                                            </select>
-                                        </div>
-                                        <label class="cell" for="addressdetail">
-                                            <span class="cellTitle">상세주소</span>
-                                            <input type="text" id="addressdetail" placeholder="상세주소를 입력하세요">
-                                        </label>
-                                    </div>
+                                <div class="cell view arealist">
+                                    <span class="cellTitle">구/군</span>
+                                    <select name="areapkey" id="areafilter" c-bind="arealist:listtemplete" c-tag="c-item" style="font-size: 12px;" >
+                                        <option value="ALL">선택</option>
+                                        <option listtempitem c-item="areaname:option, areapkey:value"></option>
+                                    </select>
 
-                                    <div class="cellRow">                                
-                                        <label class="cell" for="owneridnumber">
-                                            <span class="cellTitle">식별번호</span>
-                                            <input type="text" name="owneridnumber"  id="owneridnumber" placeholder="소유자의 종류를 선택해주세요">
-                                        </label>
-                                        <label class="cell" for="owneraddress">
-                                            <span class="cellTitle">TEL</span>
-                                            <input type="text" name="ownertel" id="ownertel" placeholder="전화번호를 입력하세요">
-                                        </label>
-                                        <label class="cell" for="owneraddress">
-                                            <span class="cellTitle">PHONE</span>
-                                            <input type="text" name="ownerphone" id="ownerphone" placeholder="휴대전화를 입력하세요">
-                                        </label>
-                                    </div>
-                                </div> 
+                                </div>
+                                <label class="cell" for="addressdetail">
+                                    <span class="cellTitle">상세주소</span>
+                                    <input type="text" id="addressdetail" placeholder="상세주소를 입력하세요">
+                                </label>
+                            </div>
+
+                            <div class="cellRow">    
+                                <div class="cell">
+                                    <span class="cellTitle">연령</span>
+                                    <input type="text" name="ownerage" id="ownerage" placeholder="연령을 입력하세요">
+                                </div>                        
+                                <label class="cell" for="owneridnumber">
+                                    <span class="cellTitle">주민등록번호</span>
+                                    <input type="text" name="owneridnumber"  id="owneridnumber" placeholder="주민등록번호 앞 6자리를 입력해주세요">
+                                </label>
+                                <label class="cell" for="owneraddress">
+                                    <span class="cellTitle">연락처1</span>
+                                    <input type="text" name="ownerphone" id="ownerphone" placeholder="연락처를 입력하세요">
+                                </label>
+                                <label class="cell" for="owneraddress">
+                                    <span class="cellTitle">연락처2</span>
+                                    <input type="text" name="ownertel" id="ownertel" placeholder="연락처를 입력하세요">
+                                </label>
+                            </div>
+                            <div class="cellRow">
+                                <div class="cell">
+                                    <span class="cellTitle">매입대상 그룹</span>
+                                    <input type="text" name="ownergroup" id="ownergroup" placeholder="그룹이름을 입력하세요">
+                                </div>
+                                <div class="cell">
+                                    <span class="cellTitle">대표지번</span>
+                                    <input type="text" name="first" id="first" placeholder="대표지번을 입력하세요">
+                                </div>
+                                <div class="cell">
+                                    <span class="cellTitle">추가소유</span>
+                                    <input type="text" name="addnumber" id="addnumber" placeholder="추가소유를 입력하세요">
+                                </div>
+                                <div class="cell">
+                                    <span class="cellTitle">실질관계</span>
+                                    <input type="text" name="realrelation" id="realrelation" placeholder="실질관계를 입력하세요">
+                                </div>
+                            </div>
+                            <div class="cellRow">
+                                <div class="cell">
+                                    <span class="cellTitle">금액 등 관계</span>
+                                    <input type="text" name="pricerelation" id="pricerelation" placeholder="금액 등 관계를 입력하세요">
+                                </div>
+                                <div class="cell">
+                                    <span class="cellTitle">상세관계</span>
+                                    <input type="text" name="detailrelation" id="detailrelation" placeholder="상세관계를 입력하세요">
+                                </div>
+                                <div class="cell">
+                                    <span class="cellTitle">업종</span>
+                                    <input type="text" name="ownersector" id="ownersector" placeholder="업종을 입력하세요">
+                                </div>
                             </div>                            
 
                             
@@ -126,23 +144,16 @@
         var formData = getDataFrom('.cellView');       
         formData.owneraddress = `${$('#provicefilter option:checked').text()} ${$('#areafilter option:checked').text()} ${$('#addressdetail').val()}`;
         formData.owneraddress = formData.owneraddress.trim();
-        if(!formData.ownername || formData.ownername.trim() == "") { showToast("이름을 입력하세요"); return; }
-        
+        if(!formData.ownername || formData.ownername.trim() == "") { showToast("이름을 입력하세요"); return; }        
         if(!formData.provincepkey || formData.provincepkey=="ALL") { showToast("시/도를 선택하세요"); return; }
         if(!formData.areapkey || formData.areapkey=="ALL") { showToast("구/군을 선택하세요"); return; }        
-        if(!formData.owneraddress || formData.owneraddress.trim() == "") { showToast("주소를 입력하세요"); return; }
-        if(!formData.ownerkind || formData.ownerkind == "ALL") { showToast('구분을 선택해주세요'); return;}        
+        if(!formData.owneraddress || formData.owneraddress.trim() == "") { showToast("주소를 입력하세요"); return; }        
+
+        console.log(formData);
         API.addOwner(formData).then(data => {
             if(data.head.status != "ok") { showToast('소유자를 만들지 못했습니다.'); return ;}
             alert('새 소유자가 만들어 졌습니다.');
             location.href = "owner.html";
         })    
-    }
-
-    function setIdKind(ele) {
-        var msg = "소유자의 종류를 선택해주세요";                
-        if(ele.value == "PERSONAL") { msg = "주민등록번호를 입력해주세요" }
-        if(ele.value == "CORPORATION") { msg = "사업자등록번호를 입력해주세요" }    
-        $('#owneridnumber').attr('placeholder', msg);        
     }
 </script>

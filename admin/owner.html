@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/main.css">    
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+    <script lang="javascript" src="https://cdn.sheetjs.com/xlsx-0.18.9/package/dist/xlsx.full.min.js"></script>
     <script src="/js/api.js"></script>    
     <script src="/js/main.js"></script>
     <script src="/js/excel.js"></script>
@@ -38,27 +38,36 @@
                                     <span class="itemListTitle">소유자</span>                                    
                                 </div> -->
                                 <div class="rowView header">
-                                    <div class="rowItem" style="width: 10%">
+                                    <div class="rowItem" style="width: 100%">
                                         <span tname>순번</span>
                                     </div>
-                                    <div class="rowItem" style="width: 10%">
-                                        <span tname>구분</span>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span tname>매매대상그룹</span>
                                     </div>
-                                    <div class="rowItem" style="width: 10%">
+                                    <div class="rowItem" style="width: 100%">
                                         <span tname>이름</span>
                                     </div>
-                                    <div class="rowItem" style="width: 45%">
-                                        <span tname>주소</span>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span tname>연령</span>
                                     </div>
-                                    <div class="rowItem" style="width: 15%">
-                                        <span tname>식별번호</span>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span tname>대표지번</span>
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span tname>실질관계</span>
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span tname>금액 등 관계</span>
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span tname>상세관계</span>
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span tname>연락처1</span>
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span tname>연락처2</span>
                                     </div>                                    
-                                    <div class="rowItem" style="width: 10%">
-                                        <span tname>TEL</span>
-                                    </div>
-                                    <div class="rowItem" style="width: 10%">
-                                        <span tname>PHONE</span>
-                                    </div>
                                 </div>                                
                             </div>
 
@@ -68,26 +77,35 @@
                                                                                 
                                         <item>
                                             <div class="rowView light" c-bind="ownerpkey:ownerpkey:selectOwner" style="cursor:pointer;">
-                                                <div class="rowItem" style="width: 10%">
+                                                <div class="rowItem" style="width: 100%">
                                                     <span c-bind="ownerpkey:text" excol></span>
                                                 </div>
-                                                <div class="rowItem" style="width: 10%">
-                                                    <span c-bind="ownerkind:text:formatOwnerKind" excol></span>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="ownergroup:text" excol></span>
                                                 </div>
-                                                <div class="rowItem" style="width: 10%">
+                                                <div class="rowItem" style="width: 100%">
                                                     <span c-bind="ownername:text" excol></span>
                                                 </div>
-                                                <div class="rowItem" style="width: 45%">
-                                                    <span c-bind="owneraddress:text" excol></span>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="ownerage:text" excol></span>
                                                 </div>
-                                                <div class="rowItem" style="width: 15%">
-                                                    <span c-bind="owneridnumber:text" excol></span>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="first:text" excol></span>
                                                 </div>
-                                                <div class="rowItem" style="width: 10%">
-                                                    <span c-bind="ownertel:text:formatTel:formatTel" excol></span>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="realrelation:text" excol></span>
                                                 </div>
-                                                <div class="rowItem" style="width: 10%">
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="pricerelation:text" excol></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="detailrelation:text" excol></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
                                                     <span c-bind="ownerphone:text:formatTel" excol></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="ownertel:text:formatTel" excol></span>
                                                 </div>
                                             </div>
                                         </item>                                   
@@ -243,8 +261,7 @@
     }    
 
     function setListOwner() {
-        API.listOwner().then(data => {           
-            data.body.ownerlist.sort((a, b) => { return a.ownername > b.ownername ? 1 : -1 });
+        API.listOwner().then(data => {            
             bindView($('.ownerlist').get(0), data.body);
         });
     }
