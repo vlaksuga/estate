@@ -695,6 +695,12 @@ function formatWonPerMeterKor(v, d, e) {
     return "0원";
 }
 
+function formatPossessionMeterPercent(v, d, e) {
+    const officialMeter = $('#officialmeter').text();
+    if(v) return formatNumber((v / parseFloat(officialMeter) * 100).toFixed(2)) + "%";
+    return "0%";
+}
+
 function formatMeterKor(v, d, e) {
     return (parseFloat(v) / 3.305785).toFixed(2);
 }

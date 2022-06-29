@@ -45,27 +45,39 @@
                                     <div class="rowItem" style="width: 100%">
                                         <span tname>지번</span>
                                     </div>
-                                    <div class="rowItem" style="width: 100%">
-                                        <span tname>소유자명</span>
-                                    </div>
                                     <div class="rowItem" style="width: 100%" >
                                         <span tname>종류</span>                                                                                
                                     </div>
                                     <div class="rowItem" style="width: 100%" >
-                                        <span tname>종전가액</span>                                                                                
-                                    </div>
-                                    <div class="rowItem" style="width: 100%" >
-                                        <span tname>권리가액</span>                                                                                
-                                    </div>
-                                    <div class="rowItem" style="width: 100%" >
-                                        <span tname>소유면적</span>
-                                        <span class="measure">&#13217</span>                                                                                
+                                        <span tname>지목</span>   
                                     </div>
                                     <div class="rowItem" style="width: 100%">
-                                        <span tname>소유평단가</span>                                        
+                                        <span tname>소유자명</span>
                                     </div>
                                     <div class="rowItem" style="width: 100%">
-                                        <span tname>소유권이전일</span>                                        
+                                        <span tname>업종</span>
+                                    </div>
+
+                                    <div class="rowItem" style="width: 100%" >
+                                        <span tname>총면적 (&#13217)</span>                                                                                                                       
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span tname>소유면적 (&#13217)</span>                                        
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span tname>소유면적 (평)</span>                                        
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span tname>종전자산</span>                                        
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span tname>종후자산</span>
+                                    </div>
+                                    <div class="rowItem" style="width: 100%" >
+                                        <span tname>취득연월일</span>  
+                                    </div>
+                                    <div class="rowItem" style="width: 120%" >
+                                        <span tname>취득원인</span>                                                                                
                                     </div>
                                 </div>                                
                             </div>
@@ -86,10 +98,25 @@
                                                     <span c-bind="officialaddress:text" excol></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="officialkind:text:formatOfficialKind" excol></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="officialnomination:text" excol></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
                                                     <span c-bind="ownername:text" excol></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="possessionkind:text:formatPossessionKind" excol></span>
+                                                    <span c-bind="ownersector:text" excol></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="officialmeter:text" excol></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="possessionmeter:text" excol></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="possessionmeter:text:formatMeterKor" excol></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 100%">
                                                     <span c-bind="beforeprice:text:formatWon" excol></span>
@@ -98,13 +125,10 @@
                                                     <span c-bind="afterprice:text:formatWon" excol></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="possessionmeter:text" excol></span>
-                                                </div>
-                                                <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="possessionpurchaseprice:text:formatWon" excol></span>
-                                                </div>
-                                                <div class="rowItem" style="width: 100%">
                                                     <span c-bind="possessiontransferdate:text:formatDateNum" excol></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 120%; ">
+                                                    <span c-bind="possessioncause:text" excol></span>
                                                 </div>
                                             </div>
                                         </item>                                   

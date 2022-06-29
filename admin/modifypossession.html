@@ -26,6 +26,7 @@
                 <div class="contentMain">
                     <div class="overflowContainer" style="max-height: calc(100vh - 150px); overflow-y: auto;">
                         <div class="cellView" style="width:75%">
+                            <input type="hidden" name="possessionpkey" c-bind="possessionpkey:value">
                             <div class="cellCol">
                                 <div class="cellRowTitle">공시 정보</div>
                                 <div class="cellRow">                                
@@ -40,13 +41,9 @@
                                         <span class="cellTitle">지목</span>
                                         <span class="officialnomination"></span>
                                     </div>
-                                    <div class="cell">
+                                    <div class="cell buildingname" style="display: none;">
                                         <span class="cellTitle">건물명</span>
                                         <span class="officialbuildingname"></span>
-                                    </div>
-                                    <div class="cell">
-                                        <span class="cellTitle">업종</span>
-                                        <span class="officialbuildingsector"></span>
                                     </div>                            
                                 </div>
     
@@ -78,79 +75,58 @@
                                         </div>
                                         <div class="cellRow">
                                             <div class="cell">
-                                                <span class="cellTitle">TEL</span>
+                                                <span class="cellTitle">연락처1</span>
+                                                <span class="ownerphone"></span>
+                                            </div>
+                                            <div class="cell">
+                                                <span class="cellTitle">연락처2</span>
                                                 <span class="ownertel"></span>
                                             </div>
                                             <div class="cell">
-                                                <span class="cellTitle">PHONE</span>
-                                                <span class="ownerphone"></span>
+                                                <span class="cellTitle">업종</span>
+                                                <span class="ownersector"></span>
                                             </div>
                                         </div>
                                     </div>                                                                
                                 </div>
     
     
-                                <div class="cellRowTitle">소유권리</div>                                
+                                <div class="cellRowTitle">소유권 취득</div>                                
                                 <div class="cellRow">
-                                    <div class="cellCol">
-                                        <div class="cellRow">
-                                            <div class="cell">
-                                                <span class="cellTitle">종류</span>
-                                                <select id="possessionkind" name="possessionkind"  c-bind="possessionkind:select" style="font-size: 12px;" onchange="mapPossession()">
-                                                    <option value="LAND">토지</option>
-                                                    <option value="BUIL">건물</option>
-                                                </select> 
-                                            </div>
-                                        </div>
-                                        <div class="cellRow">
-                                            <div class="cell" for="possessionlandmeter">
-                                                <span class="cellTitle">소유권이전일</span>
-                                                <input type="date" name="possessiontransferdate" c-bind="possessiontransferdate:value:formatDateNum">
-                                            </div>
-                                        </div>
+                                    <div class="cell">
+                                        <span class="cellTitle">총면적 (&#13217)</span>
+                                        <span class="officialmeter" id="officialmeter"></span>
                                     </div>
-                                    <div class="cellCol">
-                                        <div class="cellRow">
-                                            <div class="cell">
-                                                <span class="cellTitle">공시면적</span>
-                                                <span id="officialmeter"></span>
-                                            </div>
-                                        </div>
-                                        <div class="cellRow">
-                                            <div class="cell">
-                                                <span class="cellTitle">공시평단가</span>
-                                                <span id="officialprice"></span>
-                                            </div>
-                                        </div>
+                                    <label class="cell" for="possessionlandmeter">
+                                        <span class="cellTitle">소유지분 면적 (&#13217)</span>
+                                        <input type="text" name="possessionmeter" c-bind="possessionmeter:value" id="possessionmeter" placeholder="소유면적을 &#13217 단위의 숫자로 입력하세요. 예)8000" onfocus="this.value = ''" oninput="calcPercentMeter(this)" value="0" onblur="this.value = formatNumber(parseFloat(this.value).toFixed(2))">
+                                    </label>
+                                    <div class="cell">
+                                        <span class="cellTitle">소유지분 면적 (평)</span>
+                                        <span class="officailmeterkor" c-bind="possessionmeter:text:formatMeterKor" calc="meterkr">0</span>
                                     </div>
-                                    <div class="cellCol">
-                                        <div class="cellRow">
-                                            <label class="cell" for="possessionlandmeter">
-                                                <span class="cellTitle">소유면적</span>
-                                                <input type="text" c-bind="possessionmeter:value" name="possessionmeter" id="possessionmeter" placeholder="소유토지면적을 &#13217 단위의 숫자로 입력하세요. 예)8000" onfocus="this.value = ''" oninput="calcPercentMeter('officialmeter', this, 'meterpercent')" value="0" onblur="this.value = formatNumber(parseFloat(this.value).toFixed(2))">
-                                            </label>
-                                        </div>
-                                        <div class="cellRow">
-                                            <label class="cell" for="landpurchaseprice">
-                                                <span class="cellTitle">소유평단가</span>
-                                                <input type="text" c-bind="possessionpurchaseprice:value:formatWon" name="possessionpurchaseprice" id="possessionpurchaseprice" placeholder="소유토지면적을 &#13217 단위의 숫자로 입력하세요. 예)8000" onfocus="this.value = ''" oninput="calcPercentPrice('officialprice', this, 'pricepercent')" value="0" onblur="this.value = formatWon(this.value)">
-                                            </label>
-                                        </div>
+                                    <div class="cell" for="meterpercent">
+                                        <span class="cellTitle">소유지분 비율</span>
+                                        <span class="meterpercent" calc="meterpercent">0</span>
                                     </div>
-                                    <div class="cellCol">
-                                        <div class="cellRow">
-                                            <div class="cell" for="possessionlandmeter">
-                                                <span class="cellTitle">소유률</span>
-                                                <span id="meterpercent" c-bind="possessionmeter:text:initCalcMeter">소유면적을 입력하세요</span>
-                                            </div>
-                                        </div>
-                                        <div class="cellRow">
-                                            <div class="cell" for="possessionlandmeter">
-                                                <span class="cellTitle">매매가율</span>
-                                                <span id="pricepercent" c-bind="possessionpurchaseprice:text:initCalcPrice"></span>
-                                            </div>
-                                        </div>
-                                    </div>               
+                                </div>
+                                <div class="cellRow">
+                                    <label class="cell" >
+                                        <span class="cellTitle">소유권취득일</span>
+                                        <input type="date" c-bind="possessiontransferdate:value:formatDateNum" name="possessiontransferdate">
+                                    </label>
+                                    <label class="cell" >
+                                        <span class="cellTitle">소유권취득원인</span>
+                                        <input type="text" c-bind="possessioncause:value" name="possessioncause">
+                                    </label>
+                                    <label class="cell" >
+                                        <span class="cellTitle">종전자산</span>
+                                        <input type="text" name="beforeprice" c-bind="beforeprice:value:formatWon" placeholder="종전자산을 원단위로 입력하세요" onfocus="this.value=''" onblur="this.value = formatWon(this.value)">
+                                    </label>
+                                    <label class="cell" >
+                                        <span class="cellTitle">종후자산</span>
+                                        <input type="text" name="afterprice" c-bind="afterprice:value:formatWon" placeholder="종전자산을 원단위로 입력하세요" onfocus="this.value=''" onblur="this.value = formatWon(this.value)">
+                                    </label>
                                 </div>
                                 <div class="rowFlexContainer" style="justify-content: flex-end; gap:10px">
                                     <div class="buttonView" onclick="goBack()">
@@ -182,6 +158,8 @@
     function getPossession() {
         API.getPossession({possessionpkey : getParam('possessionpkey')}).then(data => {            
             currentData = data.body.possession;
+            if(currentData.estate.officialkind == "LAND") { $('.buildingname').hide(); }
+            if(currentData.estate.officialkind == "BUIL") { $('.buildingname').show(); }
             API.listEstate().then(res => {
                 currentData.estatelist = res.body.estatelist;
                     API.listOwner().then(res => {
@@ -201,8 +179,7 @@
                         ofilter.selectedIndex = option.index;
                         ofilter.onchange(ofilter);
                         ofilter.setAttribute('autoset', "N");
-                    }            
-                    console.log(currentData);
+                    }                    
                 });
             })
             
@@ -212,25 +189,24 @@
     function onSelectAddress(ele) {
         let estatedata = {};
         currentData.estatelist.forEach(estate => {
-            if(estate.officialestatepkey == ele.value) {
-                estatedata = estate;
-            }
+            if(estate.officialestatepkey == ele.value) { estatedata = estate; }
         });              
         currentData.estatedata = estatedata;  
-        bindEstate(estatedata);      
-    }
-    
-    function bindEstate(estatedata) {
-        const kind = $('#possessionkind').val();
-        const price = $('#officialprice');
-        const meter = $('#officialmeter');
         for(const [k, v]  of Object.entries(estatedata)) {
             let val = v;
             if(k == "ownertel" || k == "ownerphone") { val = formatTel(v); }
+            if(k == "officialprice") { val = formatWon(v);}
             $('.' + k).text(val);
         }
-        mapPossession();
+        if(estatedata.officialkind == "LAND") {
+            $('.buildingname').hide();
+        }
+        if(estatedata.officialkind == "BUIL") {                        
+            $('.buildingname').show();
+        }
+        $('[calc="meterpercent"]').text(((parseFloat(currentData.possessionmeter) / parseFloat(estatedata.officialmeter)) * 100).toFixed(2) + "%");
     }
+        
 
     function onSelectOnwer(ele) {
         let ownerdata = {};
@@ -239,76 +215,43 @@
                 ownerdata = owner;
             }
         });                
-        bindOwner(ownerdata)      
-    }
-
-    function bindOwner(ownerdata) {
         for(const [k, v]  of Object.entries(ownerdata)) {
             let val = v;
             if(k == "ownertel" || k == "ownerphone") { val = formatTel(v); }
             $('.' + k).text(val);
-        }        
-    }
-
-    function initCalcMeter(v, d, e) {
-        
-        var kind;       
-        if(d.possessionkind == "LAND") { kind = "land"}
-        if(d.possessionkind == "BUIL") { kind = "building"}
-        
-        const pVal = parseFloat(d.estate["official" + kind +"meter"]).toFixed(2);
-        const cVal = parseFloat(v);
-        const per =  ((cVal / pVal) * 100).toFixed(2);        
-        return per + "%";
-    }
-
-    function initCalcPrice(v, d, e) {
-        var kind;       
-        if(d.possessionkind == "LAND") { kind = "land"}
-        if(d.possessionkind == "BUIL") { kind = "building"}
-        const pVal = parseFloat(d.estate["official" + kind +"price"]).toFixed(2);
-        const cVal = parseFloat(v);
-        const per =  ((cVal / pVal) * 100).toFixed(2);        
-        return per + "%";
+        }     
     }
     
 
-   function calcPercentMeter(p, c, t) {
-       const parent = document.getElementById(p);
-       const child = c;
-       const target = document.getElementById(t);       
-       const pVal = parseFloat(parent.textContent.replace(/,/g, "")).toFixed(2);
-       const cVal = parseFloat(child.value);
-       const per =  ((cVal / pVal) * 100).toFixed(2);           
-       if(isNaN(per)) { target.textContent = ""; return ;}       
-       target.textContent = per + "%";   
-   }
-
-   function calcPercentPrice(p, c, t) {
-       const parent = document.getElementById(p);
-       const child = c;
-       const target = document.getElementById(t);       
-       const pVal = parseFloat(parent.textContent.replace(/,/g, "").replace("원", ""));
-       const cVal = parseFloat(child.value);
-       const per =  ((cVal / pVal) * 100).toFixed(2);       
-       if(isNaN(per)) { target.textContent = ""; return ;}       
-       target.textContent = per + "%";   
-   }
+    function calcPercentMeter(ele) {
+        currentData.possessionmeter = ele.value;
+        let totalmeter = formatNumber($('.officialmeter').text());
+        let meter = ele.value;        
+        let meterkr, meterpercent;       
+        meterkr = formatMeterKor(meter);        
+        if(meter) {
+            $('[calc="meterkr"]').text(formatNumber(meterkr));
+            $('[calc="meterpercent"]').text(((parseFloat(meter) / parseFloat(totalmeter)) * 100).toFixed(2) + "%");
+        } else {
+            $('[calc="meterkr"]').text("0");
+            $('[calc="meterpercent"]').text("0%");
+        }
+    }    
 
     function submitModifyPossession() {
         var formData = getDataFrom('.cellView');
-            
-        formData.possessionpkey = getParam('possessionpkey');
-        formData.possessionmeter = formData.possessionmeter.replace(",", "");
-        formData.possessiontransferdate = formData.possessiontransferdate.replace(/-/g, ""); 
-        formData.possessionpurchaseprice = formData.possessionpurchaseprice.replace(/,/g, "").replace("원", "");        
-        if(!formData.possessiontransferdate || formData.possessiontransferdate == "") { formData.possessiontransferdate = "99991231"}
-        
+        formData.possessionmeter = formData.possessionmeter.replace(/,/g, "");
+        formData.possessiontransferdate = formData.possessiontransferdate.replace(/-/g, "");
+        formData.beforeprice = formData.beforeprice.replace(/,/g, "").replace("원", "");
+        formData.afterprice = formData.afterprice.replace(/,/g, "").replace("원", "");
+        if(!formData.officialestatepkey)  { showToast("소재지를 선택하세요."); }
+        if(!formData.ownerpkey)  { showToast("소유자를 선택하세요."); }
+        if(!formData.possessiontransferdate || formData.possessiontransferdate == "") { showToast("소유권취득일을 입력하세요.") }
         API.modifyPossession(formData).then(data => {
             if(data.head.status != "ok") { showToast('소유권을 수정하지 못했습니다.'); return ;}
             alert('소유권이 수정되었습니다.');
-            location.href = "possession.html";
-        })    
+            location.href = "detailpossession.html?possessionpkey=" + formData.possessionpkey;
+        });
     }
 
     function mapPossession() {
@@ -326,6 +269,6 @@
     }
 
     function formatAddress(v, d, e) {
-        return v + " " + d.officialaddress + "지번";
+        return v + " " + d.officialaddress + "지번 - " + formatOfficialKind(d.officialkind);
     }
 </script>

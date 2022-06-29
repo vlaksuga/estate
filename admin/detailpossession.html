@@ -28,7 +28,7 @@
                 </div>
                 <div class="contentMain">
                     <div class="overflowContainer" style="max-height: calc(100vh - 130px); overflow-y: auto;">
-                        <div class="cellView">
+                        <div class="cellView" style="width:75%">
                             <div class="cellCol">
                                 <div class="cellRowTitle">대상 정보</div>
                                 
@@ -41,97 +41,98 @@
                                         <span class="cellTitle">지목</span>
                                         <span c-bind="estate.officialnomination:text"></span>
                                     </div>
-                                    <div class="cell view">
+                                    <div class="cell view buildingname" style="display: none;">
                                         <span class="cellTitle">건물명</span>
                                         <span c-bind="estate.officialbuildingname:text"></span>
-                                    </div>
-                                    <div class="cell view">
-                                        <span class="cellTitle">업종</span>
-                                        <span c-bind="estate.officialbuildingsector:text"></span>
                                     </div>
                                 </div>
                                 
                                 <div class="cellRowTitle">소유자</div>
                                 
-                                <div class="cellRow">                                
-                                    <div class="cell view">
-                                        <span class="cellTitle">이름</span>
-                                        <span c-bind="owner.ownername:text"></span>
-                                    </div>
-                                    <div class="cell view">
-                                        <span class="cellTitle">주민등록번호</span>
-                                        <span c-bind="owner.ownerresidentnumber:text"></span>
-                                    </div>
-                                    <div class="cell view">
-                                        <span class="cellTitle">HP</span>
-                                        <span c-bind="owner.ownerphone:text:formatTel"></span>
-                                    </div>                                
-                                    <div class="cell view">
-                                        <span class="cellTitle">TEL</span>
-                                        <span c-bind="owner.ownertel:text:formatTel"></span>
-                                    </div>
-                                </div>   
                                 <div class="cellRow">
-                                    <div class="cell view">
-                                        <span class="cellTitle">주소</span>
-                                        <span c-bind="owner.owneraddress:text"></span>
+                                    <div class="cellCol" style="width: 33%;">
+                                        <div class="cellRow">
+                                            <div class="cell ownerlist">
+                                                <span class="cellTitle">이름</span>
+                                                <span class="ownername" c-bind="owner.ownername:text"></span>
+                                            </div>
+                                        </div>
+                                        <div class="cellRow">
+                                            <div class="cell">
+                                                <span class="cellTitle">주민등록번호</span>
+                                                <span class="owneridnumber" c-bind="owner.owneridnumber:text"></span>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>                         
+                                    <div class="cellCol">
+                                        <div class="cellRow">
+                                            <div class="cell">
+                                                <span class="cellTitle">주소</span>
+                                                <span class="owneraddress" c-bind="owner.owneraddress:text"></span>
+                                            </div>
+                                        </div>
+                                        <div class="cellRow">
+                                            <div class="cell">
+                                                <span class="cellTitle">연락처1</span>
+                                                <span class="ownerphone" c-bind="owner.ownerphone:text:formatTel"></span>
+                                            </div>
+                                            <div class="cell">
+                                                <span class="cellTitle">연락처2</span>
+                                                <span class="ownertel" c-bind="owner.ownertel:text:formatTel"></span>
+                                            </div>
+                                            <div class="cell">
+                                                <span class="cellTitle">업종</span>
+                                                <span class="ownersector" c-bind="owner.ownersector:text"></span>
+                                            </div>
+                                        </div>
+                                    </div>                                                                
+                                </div>
+              
     
-                                <div class="cellRowTitle">관리처분</div>
-                                <div class="cellRow">                                                  
-                                    <div class="cell view">
-                                        <span class="cellTitle">소유평당가</span>
-                                        <span c-bind="possessionpurchaseprice:text:formatWon"></span>
-                                    </div>                                
-                                    <div class="cell view">
-                                        <span class="cellTitle">소유면적 평</span>
-                                        <span c-bind="possessionmeter:text"></span>
+                                <div class="cellRowTitle">소유권 취득</div>
+                                <div class="cellRow">
+                                    <div class="cell">
+                                        <span class="cellTitle">총면적 (&#13217)</span>
+                                        <span class="officialmeter" c-bind="estate.officialmeter:text" id="officialmeter"></span>
                                     </div>
-                                    <div class="cell view">
-                                        <span class="cellTitle">소유면적 제곱</span>
-                                        <span c-bind="possessionmeter:text"></span>
+                                    <label class="cell" for="possessionlandmeter">
+                                        <span class="cellTitle">소유지분 면적 (&#13217)</span>
+                                        <span class="possessionmeter" c-bind="possessionmeter:text"></span>
+                                    </label>
+                                    <div class="cell">
+                                        <span class="cellTitle">소유지분 면적 (평)</span>
+                                        <span class="possessionmeterkor" c-bind="possessionmeter:text:formatMeterKor"></span>
+                                    </div>
+                                    <div class="cell" for="meterpercent">
+                                        <span class="cellTitle">소유지분 비율</span>
+                                        <span class="possessionmeterpercent" c-bind="possessionmeter:text:formatPossessionMeterPercent"></span>                                        
                                     </div>
                                 </div>
                                 <div class="cellRow">
-                                    <div class="cell view">
-                                        <span class="cellTitle">공시평당가</span>
-                                        <span c-bind="estate.officiallandprice:text:formatWon"></span>
-                                    </div>                                
-                                    <div class="cell view">
-                                        <span class="cellTitle">공시면적 평</span>
-                                        <span c-bind="estate.officiallandmeter:text"></span>
-                                    </div>
-                                    <div class="cell view">
-                                        <span class="cellTitle">공시면적 제곱</span>
-                                        <span c-bind="estate.officiallandprice:text"></span>
-                                    </div>
-                                </div>
-                                <div class="cellRow">
-                                    <div class="cell view">
-                                        <span class="cellTitle">평당가차액</span>
-                                        <span c-bind="possessionpurchaseprice:text:getLandPriceGap"></span>
-                                    </div>
-                                    <div class="cell view">
-                                        <span class="cellTitle">종류</span>
-                                        <span c-bind="possessionkind:text:formatPossessionKind"></span>
-                                    </div>
-                                    <div class="cell view">
-                                        <span class="cellTitle">소유권이전일</span>
-                                        <span c-bind="possessiontransferdate:text:formatDateNum"></span>
-                                    </div>                                                                        
+                                    <label class="cell" >
+                                        <span class="cellTitle">소유권취득일</span>
+                                        <span class="possessiontransferdate" c-bind="possessiontransferdate:text:formatDateNum"></span>
+                                    </label>
+                                    <label class="cell" >
+                                        <span class="cellTitle">소유권취득원인</span>
+                                        <span class="possessioncause" c-bind="possessioncause:text"></span>                                        
+                                    </label>
+                                    <label class="cell" >
+                                        <span class="cellTitle">종전자산</span>
+                                        <span class="beforeprice" c-bind="beforeprice:text:formatWon"></span>                                        
+                                    </label>
+                                    <label class="cell" >
+                                        <span class="cellTitle">종후자산</span>
+                                        <span class="afterprice" c-bind="afterprice:text:formatWon"></span>                                        
+                                    </label>
                                 </div>
 
 
     
-                                <div class="cellRowTitle">등기부권리사항</div>
+                                <div class="cellRowTitle">저당권</div>
                                 <div class="wrap" c-bind="landhistory:list" style="display: flex; flex-direction: column; gap: 8px;">
                                     <item>
-                                        <div class="cellRow">                                
-                                            <div class="cell view">
-                                                <span class="cellTitle">구분</span>
-                                                <span c-bind="historykind:text:formatHistoryKind"></span>                                        
-                                            </div>
+                                        <div class="cellRow">                                            
                                             <div class="cell view">
                                                 <span class="cellTitle">권리자</span>
                                                 <span c-bind="historyowner:text"></span>                                        
@@ -179,12 +180,14 @@
         API.getPossession(config).then(data => {            
             data.body.possession.landhistory = getLandHistory(data.body.possession);
             currentData = data.body.possession;
+            if(currentData.estate.officialkind == "LAND") { $('.buildingname').hide(); }
+            if(currentData.estate.officialkind == "BUIL") { $('.buildingname').show(); }
             bindView($('.cellView').get(0), data.body.possession);
         })
     }
 
     function formatAddress(v, d, e) {
-        return v + " " + d.estate.officialaddress + "지번";
+        return v + " " + d.estate.officialaddress + "지번 - " + formatOfficialKind(d.estate.officialkind);        
     }
 
     function getLandPriceGap (v, d, e) {
