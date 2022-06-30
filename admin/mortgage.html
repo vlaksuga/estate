@@ -40,25 +40,31 @@
                                 </div>
                                 <div class="rowView header">
                                     <div class="rowItem" style="width: 100%">
-                                        <span tname>종류</span>
+                                        <span tname>순번</span>
                                     </div>
                                     <div class="rowItem" style="width: 100%">
-                                        <span tname>동</span>
+                                        <span tname>소재지</span>
                                     </div>
                                     <div class="rowItem" style="width: 100%">
-                                        <span tname>지번</span>
+                                        <span tname>지목</span>
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span tname>총면적 (&#13217)</span>
+                                    </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span tname>소유면적 (&#13217)</span>
                                     </div>
                                     <div class="rowItem" style="width: 100%">
                                         <span tname>소유자</span>
                                     </div>
                                     <div class="rowItem" style="width: 100%">
-                                        <span tname>저당권자</span>
+                                        <span tname>채권자</span>
                                     </div>
                                     <div class="rowItem" style="width: 100%" >
-                                        <span tname>근저당설정일</span>                                        
+                                        <span tname>저당권 종류</span>                                        
                                     </div>
                                     <div class="rowItem" style="width: 100%">
-                                        <span tname>근저당설정액</span>                                        
+                                        <span tname>채권액(채권최고액)</span>                                        
                                     </div>
                                 </div>                                
                             </div>
@@ -67,24 +73,30 @@
                                 <div class="overflowContainer" style="max-height: calc(100vh - 210px); overflow-y: auto;">
                                     <div class="colFlexContainer" c-bind="mortgagelist:list" style="gap: 10px;">                                                                                                                        
                                         <item>
-                                            <div class="rowView light" style="cursor:pointer;" c-bind="mortgageepkey:mortgageepkey:onSelectMortgage">
+                                            <div class="rowView light" style="cursor:pointer;" c-bind="mortgagepkey:mortgagepkey:onSelectMortgage">
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="mortgagepkey:text" excol></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="possession.officialaddress:text:formatTownAndAddress" excol></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="possession.officialnomination:text" excol></span>                                                    
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="possession.officialmeter:text" excol></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="possession.possessionmeter:text" excol></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="possession.ownername:text" excol></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="debtor:text" excol></span>
+                                                </div>
                                                 <div class="rowItem" style="width: 100%">
                                                     <span c-bind="mortgagekind:text:formatMortgageKind" excol></span>
-                                                </div>
-                                                <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="townname:text" excol></span>
-                                                </div>
-                                                <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="officialaddress:text" excol></span>
-                                                </div>
-                                                <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="ownername:text" excol></span>
-                                                </div>
-                                                <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="mortgageename:text" excol></span>
-                                                </div>
-                                                <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="mortgagedate:text:formatDateNum" excol></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 100%">
                                                     <span c-bind="mortgageprice:text:formatWon" excol></span>
@@ -137,7 +149,7 @@
     }
 
     function formatTownAndAddress(v, d, e) {
-        return d.townname + " " +v;
+        return d.possession.townname + " " + v + " - " + formatOfficialKind(d.possession.officialkind);
     }
 
     function formatMortgageeIcon(v, d, e) {

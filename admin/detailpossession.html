@@ -130,20 +130,33 @@
 
     
                                 <div class="cellRowTitle">저당권</div>
-                                <div class="wrap" c-bind="landhistory:list" style="display: flex; flex-direction: column; gap: 8px;">
+                                <div class="wrap" c-bind="mortgagelist:list" style="display: flex; flex-direction: column; gap: 8px;">
                                     <item>
                                         <div class="cellRow">                                            
                                             <div class="cell view">
-                                                <span class="cellTitle">권리자</span>
-                                                <span c-bind="historyowner:text"></span>                                        
-                                            </div>                        
-                                            <div class="cell view">
-                                                <span class="cellTitle">설정일</span>
-                                                <span c-bind="createdate:text:formatDateNum"></span>
+                                                <span class="cellTitle">저당권 설정일</span>
+                                                <span class="mortgagedate" c-bind="mortgagedate:text:formatDateNum"></span>                                    
+                                            </div>
+                                            <div class="cell view">                                    
+                                                <span class="cellTitle">저당권 설정 원인</span>
+                                                <span class="mortgagecause" c-bind="mortgagecause:text"></span>
                                             </div>
                                             <div class="cell view">
-                                                <span class="cellTitle">금액</span>
-                                                <span c-bind="historyprice:text:formatWon"></span>
+                                                <span class="cellTitle">저당권 종류</span>
+                                                <span class="mortgagekind" c-bind="mortgagekind:text:formatMortgageKind"></span>
+                                            </div>
+                                            <div class="cell view">
+                                                <span class="cellTitle">저당권설정자</span>
+                                                <span class="mortgageename" c-bind="mortgageename:text"></span>
+                                            </div>
+                                            <div class="cell view">
+                                                <span class="cellTitle">채권자</span>
+                                                <span class="debtor" c-bind="debtor:text"></span>
+                                            </div>
+            
+                                            <div class="cell view">
+                                                <span class="cellTitle">채권액(채권최고액)</span>
+                                                <span class="mortgageprice" c-bind="mortgageprice:text:formatWon"></span>                                    
                                             </div>                                   
                                         </div>
                                     </item>
@@ -177,8 +190,7 @@
     }    
     function setOwnerDetail(){
         const config = { possessionpkey : getParam('possessionpkey') }
-        API.getPossession(config).then(data => {            
-            data.body.possession.landhistory = getLandHistory(data.body.possession);
+        API.getPossession(config).then(data => {                        
             currentData = data.body.possession;
             if(currentData.estate.officialkind == "LAND") { $('.buildingname').hide(); }
             if(currentData.estate.officialkind == "BUIL") { $('.buildingname').show(); }
@@ -196,34 +208,6 @@
 
     function getBuildingPriceGap (v, d, e) {
         return formatNumber(parseInt(v) - parseInt(d.estate.officialbuildingprice));
-    }
-
-    function getLandHistory(p) {
-        let ret = [];
-        var landpossession = {
-            kind : "LAND",
-            historypkey : "-1",
-            historykind : "POSSESSION",
-            historyowner : p.owner.ownername,
-            historyownerpkey : p.owner.ownerpkey,
-            historyprice : p.possessionpurchaseprice,
-            createdate : p.possessiontransferdate
-        }
-        ret.push(landpossession);
-        for(i=0; i<p.landmortgagelist.length; i++) {
-            let m = p.landmortgagelist[i];
-            var mortgage = {
-                kind : "LAND",
-                hitorypkey : m.mortgagepkey,
-                historykind : "MORTGAGE",
-                historyowner : m.mortgageename,
-                historyownerpkey : m.mortgageepkey,
-                historyprice : m.mortgageprice,
-                createdate : m.mortgagedate
-            }
-            ret.push(mortgage);
-        }
-        return ret;
     }
 
     function goModifyPossession() {

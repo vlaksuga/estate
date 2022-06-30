@@ -244,9 +244,12 @@
         formData.possessiontransferdate = formData.possessiontransferdate.replace(/-/g, "");
         formData.beforeprice = formData.beforeprice.replace(/,/g, "").replace("원", "");
         formData.afterprice = formData.afterprice.replace(/,/g, "").replace("원", "");
-        if(!formData.officialestatepkey)  { showToast("소재지를 선택하세요."); }
-        if(!formData.ownerpkey)  { showToast("소유자를 선택하세요."); }
-        if(!formData.possessiontransferdate || formData.possessiontransferdate == "") { showToast("소유권취득일을 입력하세요.") }
+        if(!formData.officialestatepkey || formData.officialestatepkey == "ALL")  { showToast("소재지를 선택하세요."); return;}
+        if(!formData.ownerpkey || formData.ownerpkey == "ALL")  { showToast("소유자를 선택하세요."); return; }
+        if(!formData.possessiontransferdate || formData.possessiontransferdate == "") { showToast("소유권취득일을 입력하세요."); return;}
+        if(!formData.possessionmeter || formData.possessionmeter == "") { showToast("소유지분 면적을 입력하세요."); return;}
+        if(!formData.beforeprice || formData.beforeprice == "") { showToast("종전자산을 입력하세요."); return;}
+        if(!formData.afterprice || formData.afterprice == "") { showToast("종후자산을 입력하세요."); return;}
         API.modifyPossession(formData).then(data => {
             if(data.head.status != "ok") { showToast('소유권을 수정하지 못했습니다.'); return ;}
             alert('소유권이 수정되었습니다.');

@@ -459,11 +459,6 @@ function formatOfficialKind(v, d, e) {
     if(v == "BUIL") {return "건물"}
 }
 
-function formatMortgageKind(v, d, e) {
-    if(v == "LAND") {return "토지"}
-    if(v == "BUIL") {return "건물"}
-}
-
 function formatRole(v, d, e) {
     if(v == "-1") {return "슈퍼"}
     if(v == "1") {return "관리자"}
@@ -702,7 +697,7 @@ function formatPossessionMeterPercent(v, d, e) {
 }
 
 function formatMeterKor(v, d, e) {
-    return (parseFloat(v) / 3.305785).toFixed(2);
+    return v ? (parseFloat(v) / 3.305785).toFixed(2) : "";
 }
 function formatMeterSquare(v, d, e) {
     return (parseFloat(v)).toFixed(2);
@@ -744,7 +739,13 @@ function formatTeamName(v, d, e) {
 }
 
 function formatPossessionName(v, d, e) {
-    return v + " " + d.officialaddress + " - " + formatPossessionKind(d.possessionkind);
+    return v + " " + d.officialaddress + " - " + formatPossessionKind(d.officialkind);
+}
+
+function formatMortgageKind(v, d, e) {
+    if(v == "A") { return "저당권"}
+    if(v == "B") { return "근저당권"}
+    if(v == "C") { return "공동저당권"}
 }
 
 function formatWorkCauseKindIcon(v, d, e) {

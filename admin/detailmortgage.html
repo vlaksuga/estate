@@ -24,88 +24,70 @@
                     <div class="contentHeaderEndContainer"></div>
                 </div>
                 <div class="contentMain">
-                    <div class="cellView" style="width:75%">
+                    <div class="cellView" style="width: 75%;">
                         <div class="cellCol">
-                            <div class="cellRowTitle">소유 권리자</div>
-                            <div class="cellRow ownerlist">
-                                <div class="cellCol" style="width: 33%;">
-                                    <div class="cell ownerlist">
-                                        <span class="cellTitle">이름</span>
-                                        <span class="ownername" c-bind="ownername:text"></span>
-                                    </div>                                    
-                                    <div class="cellRow">
-                                        <div class="cell">
-                                            <span class="cellTitle">식별번호</span>
-                                            <span class="owneridnumber" c-bind="owneridnumber:text"></span>
-                                        </div>
+                            <div class="cellRowTitle">소유권 리스트</div>
+                            <div class="wrap" c-bind="possessionlist:list">
+                                <item class="cellRow" style="margin-bottom: 8px;">                                                                              
+                                    <div class="cell">
+                                        <span class="cellTitle">소유자</span>
+                                        <span c-bind="ownername:text"></span>
                                     </div>
-                                </div>
-                                <div class="cellCol">
-                                    <div class="cellRow">
-                                        <div class="cell">
-                                            <span class="cellTitle">주소</span>
-                                            <span class="owneraddress" c-bind="owneraddress:text"></span>
-                                        </div>
+                                    <div class="cell">
+                                        <span class="cellTitle">소유권</span>
+                                        <span c-bind="townname:text:formatPossessionName"></span>
                                     </div>
-                                    <div class="cellRow">
-                                        <div class="cell">
-                                            <span class="cellTitle">TEL</span>
-                                            <span class="ownertel" c-bind="ownertel:text:formatTel"></span>
-                                        </div>
-                                        <div class="cell">
-                                            <span class="cellTitle">PHONE</span>
-                                            <span class="ownerphone" c-bind="ownerphone:text:formatTel"></span>
-                                        </div>
+                                    <div class="cell">
+                                        <span class="cellTitle">총면적 (&#13217)</span>
+                                        <span class="officialmeter" c-bind="officialmeter:text" id="officialmeter"></span>
                                     </div>
-                                </div>                                                                
-                            </div>    
-                            
-                            <div class="cellRowTitle">소유 권리</div>
-                            <div class="cellRow">
-                                <div class="cell">
-                                    <span class="cellTitle">권리</span>
-                                    <span class="possessionname" c-bind="townname:text:formatPossessionName"></span>
-<!--                                     <select name="possessionpkey" c-bind="possessionlist:listtemplete" c-tag="c-item" style="font-size: 12px;" onchange="onSelectPossession(this)">
-                                        <option value="ALL">선택</option>
-                                        <option listtempitem c-item="townname:option:formatPossessionName, possessionpkey:value"></option>
-                                    </select> -->
-                                </div>                                
-                                <div class="cell">
-                                    <span class="cellTitle">소유면적</span>
-                                    <span class="possessionmeter" c-bind="possessionmeter:text"></span>
-                                </div>
-                                <div class="cell">
-                                    <span class="cellTitle">소유평단가</span>
-                                    <span class="possessionpurchaseprice" c-bind="possessionpurchaseprice:text:formatWon"></span>
-                                </div>
-                                <div class="cell">
-                                    <span class="cellTitle">소유이전일</span>
-                                    <span class="possessiontransferdate" c-bind="possessiontransferdate:text:formatDateNum"></span>
-                                </div>                                
+                                    <div class="cell" for="possessionlandmeter">
+                                        <span class="cellTitle">소유지분 면적 (&#13217)</span>
+                                        <span class="possessionmeter" c-bind="possessionmeter:text"></span>
+                                    </div>
+                                    <div class="cell" >
+                                        <span class="cellTitle">종전자산</span>
+                                        <span class="beforeprice" c-bind="beforeprice:text:formatWon"></span>                                        
+                                    </div>
+                                    <div class="cell" >
+                                        <span class="cellTitle">종후자산</span>
+                                        <span class="afterprice" c-bind="afterprice:text:formatWon"></span>                                        
+                                    </div>                                        
+                                </item>                                                                  
                             </div>
 
-                            <span class="cellRowTitle">근저당 설정</span>                                                            
+                            <span class="cellRowTitle">근저당 설정</span> 
                             <div class="cellRow">
-                                <div class="cell mortgageelist">
-                                    <span class="cellTitle">저당권자</span>
-                                    <span class="mortgageename" c-bind="mortgageename:text"></span>
-                                </div>
-                                <div class="cell">
-                                    <span class="cellTitle">채무자</span>
-                                    <span class="debtor" c-bind="debtor:text"></span>                                    
-                                </div>
-                                <div class="cell">
-                                    <span class="cellTitle">근저당설정일</span>
+                                <div class="cell view">
+                                    <span class="cellTitle">저당권 설정일</span>
                                     <span class="mortgagedate" c-bind="mortgagedate:text:formatDateNum"></span>                                    
                                 </div>
-                                <div class="cell">
-                                    <span class="cellTitle">근저당설정액</span>
-                                    <span class="mortgageprice" c-bind="mortgageprice:text:formatWon">근저당설정액</span>                                    
+                                <div class="cell view">                                    
+                                    <span class="cellTitle">저당권 설정 원인</span>
+                                    <span class="mortgagecause" c-bind="mortgagecause:text"></span>
+                                </div>
+                                <div class="cell view">
+                                    <span class="cellTitle">저당권 종류</span>
+                                    <span class="mortgagekind" c-bind="mortgagekind:text:formatMortgageKind"></span>
+                                </div>
+                            </div>
+                            <div class="cellRow">
+                                <div class="cell view">
+                                    <span class="cellTitle">저당권설정자</span>
+                                    <span class="mortgageename" c-bind="mortgageename:text"></span>
+                                </div>
+                                <div class="cell view">
+                                    <span class="cellTitle">채권자</span>
+                                    <span class="debtor" c-bind="debtor:text"></span>
+                                </div>
+
+                                <div class="cell view">
+                                    <span class="cellTitle">채권액(채권최고액)</span>
+                                    <span class="mortgageprice" c-bind="mortgageprice:text:formatWon"></span>                                    
                                 </div>  
-                            </div>                                                                          
-                            
+                            </div>                                                          
                             <div class="rowFlexContainer" style="justify-content: flex-end; gap:10px">
-                                <div class="buttonView" onclick="location.href='mortgage.html'">
+                                <div class="buttonView" onclick="location.href = 'mortgage.html'">
                                     <span>뒤로</span>
                                 </div>
                                 <div class="buttonView" onclick="goModifyMortgage()">
@@ -131,14 +113,15 @@
 
     function getMortgage() {
         API.getMortgage({mortgagepkey : getParam('mortgagepkey')})
-        .then(res => {
-            bindView($('.cellView').get(0), res.body.mortgage);
-            currentData.mortgage = res.body.mortgage;
+        .then(data => {
+            console.log(data.body.mortgage);
+            bindView($('.cellView').get(0), data.body.mortgage);
+            currentData.mortgage = data.body.mortgage;
         })
     }
 
     function goModifyMortgage() {
-        location.href = "modifyMortgage.html?mortgagepkey=" + currentData.mortgage.mortgagepkey;
+        location.href = "modifymortgage.html?mortgagepkey=" + currentData.mortgage.mortgagepkey;
     }
 
 
