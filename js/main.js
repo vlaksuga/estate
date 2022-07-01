@@ -582,12 +582,12 @@ function formatWorkStatus(v, d, e) {
 }
 
 function formatContractStatus(v, d, e) {
-    if(v == "REG") { return "협의" }
-    if(v == "START") { return "계약 후 관리 (계약금 지급)" }
-    if(v == "MANAGE") { return "서면 결의 관리" }
-    if(v == "PENDING") { return "잔금 지급 대기" }
-    if(v == "DONE") { return "잔금 지급 완료" }
-    if(v == "FINISH") { return "소유권 이전" }
+    if(v == "REG") { return "협상" }
+    if(v == "START") { return "계약금" }
+    if(v == "ING") { return "중도금" }
+    if(v == "END") { return "잔금" }
+    if(v == "PENDING") { return "지급 대기" }
+    if(v == "DONE") { return "계약 완료" }     
 }
 
 function formatPriority(v, d, e) {
