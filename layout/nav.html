@@ -27,54 +27,56 @@
             <span class="material-icons thumb">dashboard</span>
             <span class="name">홈</span>
         </div>
-        <div class="menuView" id="menu_land" auth="admin" style="display: none;">
-            <span class="material-icons thumb">expand_more</span>
+        <div class="menuView" id="menu_land" auth="admin" style="display: none; color: #777;">
+            <span class="material-icons thumb">remove</span>
             <span class="name">토지DB현황</span>
         </div>
         <div class="menuView sub" id="menu_land_sub_common" viewlink="realestate.html" auth="admin" style="display: none;">
             <span class="material-icons thumb">where_to_vote</span>
             <span class="name">기본사항</span>
         </div>
-        <div class="menuView sub" id="menu_land_sub_estate" auth="admin" style="display: none;">
-            <span class="material-icons thumb">expand_more</span>
+        <div class="menuView sub" id="menu_land_sub_estate" auth="admin" style="display: none; color: #777;">
+            <span class="material-icons thumb">remove</span>
             <span class="name">부동산등기사항</span>
         </div>
         <div class="menuView sub2" id="menu_possession" viewlink="possession.html" auth="admin" style="display: none;">
             <span class="material-icons thumb">real_estate_agent</span>
             <span class="name">소유권</span>
         </div>
-        <div class="menuView sub2" id="menu_land" viewlink="mortgage.html" auth="admin" style="display: none;">
+        <div class="menuView sub2" id="menu_mortgage" viewlink="mortgage.html" auth="admin" style="display: none;">
             <span class="material-icons thumb">paid</span>
             <span class="name">근저당권</span>
-        </div>
-        <div class="menuView" id="menu_overview" viewlink="user.html" auth="root" style="display: none;">
-            <span class="material-icons thumb">manage_accounts</span>
-            <span class="name">계정 관리</span>
-        </div>
-        <div class="menuView" id="menu_overview" viewlink="owner.html" auth="admin"  style="display: none;">
+        </div>        
+        <div class="menuView" id="menu_owner" viewlink="owner.html" auth="admin"  style="display: none;">
             <span class="material-icons thumb">person</span>
             <span class="name">개인DB</span>
         </div>
-        <div class="menuView" id="menu_overview" viewlink="mortgagee.html" auth="admin"  style="display: none;">
+        <div class="menuView" id="menu_mortgagee" viewlink="mortgagee.html" auth="admin"  style="display: none;">
             <span class="material-icons thumb">account_balance</span>
             <span class="name">저당권자</span>
-        </div>
-        <div class="menuView" id="menu_overview" viewlink="mycontract.html" auth="agency"  style="display: none;">
+        </div>        
+        <div class="menuView" id="menu_contract" viewlink="contract.html" auth="admin"  style="display: none;">
             <span class="material-icons thumb">handshake</span>
             <span class="name">계약</span>
         </div>
-        <div class="menuView" id="menu_overview" viewlink="contract.html" auth="admin"  style="display: none;">
-            <span class="material-icons thumb">handshake</span>
-            <span class="name">계약관리</span>
-        </div>
-        <div class="menuView" id="menu_overview" viewlink="contract.html" auth="admin"  style="display: none;">
+        <div class="menuView" id="menu_vote" viewlink="vote.html" auth="admin"  style="display: none;">
             <span class="material-icons thumb">how_to_vote</span>
-            <span class="name">의결권관리</span>
+            <span class="name">의결권</span>
+        </div>
+
+        <div class="menuView" id="menu_user" viewlink="user.html" auth="root" style="display: none;">
+            <span class="material-icons thumb">manage_accounts</span>
+            <span class="name">계정 관리</span>
+        </div>
+
+        <div class="menuView" id="menu_contract_agency" viewlink="mycontract.html" auth="agency"  style="display: none;">
+            <span class="material-icons thumb">handshake</span>
+            <span class="name">계약</span>
         </div>
         
-        <div class="menuView" id="menu_overview" viewlink="searchcontract.html" auth="admin" style="display: none;">
-            <span class="material-icons thumb">search</span>
-            <span class="name">열람</span>
+        <div class="menuView" id="menu_team" viewlink="workplan.html" auth="admin" style="display: none;">
+            <span class="material-icons thumb">work</span>
+            <span class="name">작업팀 배정 현황</span>
         </div>
         
     </div>
@@ -104,13 +106,14 @@
     }
 
     function checkNavToken() {
-        const token = sessionStorage.getItem('nav');        
-        if(token) {            
+        const navtoken = sessionStorage.getItem('nav');
+        if(navtoken) {            
             $('.toggle').text('chevron_right');
             $('nav').addClass('shrink');
             try{onNavShrink()}catch{}
             return;                    
-        }        
+        }
+        
     }
 
     function toggleNav() {        
@@ -125,6 +128,18 @@
         $('.toggle').text('chevron_right');
         $('nav').addClass('shrink');                
         try{onNavShrink()}catch{}
+    }
+
+    function toggleSubNav(ele) {
+        if($(ele).hasClass('shrink')) {            
+            sessionStorage.removeItem(ele.attr('kind'));
+            $(ele).text('expand_more');
+            $(ele).removeClass('shrink');            
+            return;
+        }
+        sessionStorage.setItem($(ele).attr('kind'), "Y");
+        $('.toggle').text('chevron_right');
+        $(ele).addClass('shrink');
     }
 
     function setUserThumb(v, d, e) {

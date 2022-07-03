@@ -296,7 +296,7 @@
                                 </div>
                                 <div class="cell view">
                                     <span class="cellTitle">메모</span>
-                                    <input type="text" class="memo" placeholder="압류, 가압류 등 기타 권리관계, 담당자에게 전달할 사항 등 기재"></span>
+                                    <input type="text" name="memo" class="memo" placeholder="압류, 가압류 등 기타 권리관계, 담당자에게 전달할 사항 등 기재"></span>
                                 </div>                         
                             </div>
                             
@@ -380,16 +380,6 @@
         });
     }
 
-    function onSelectUser(ele) {
-        let userdata = {};
-        currentData.userlist.forEach(user => {
-            if(user.userpkey == ele.value) {
-                userdata = user;
-            }
-        });                
-        bindUser(userdata);
-    }
-
     function bindOwner(ownerdata) {
         for(const [k, v]  of Object.entries(ownerdata)) {
             let val = v;
@@ -448,12 +438,17 @@
         if(!formData.ingprice || formData.ingprice.trim() == "" ) { showToast('중도금을 입력해주세요'); return;}
         if(!formData.endprice || formData.endprice.trim() == "" ) { showToast('잔금을 입력해주세요'); return;}
         
-        if(formData.startdate == "") { formData.startdate == "99991231"}
-        if(formData.ingdate == "") { formData.ingdate == "99991231"}
-        if(formData.enddate == "") { formData.enddate == "99991231"}
-        formData.possessionlist = JSON.stringify(currentData.selectedpossessionlist);        
+        if(!formData.startdate || formData.startdate == "") { formData.startdate = "99991231"}
+        if(!formData.ingdate || formData.ingdate == "") { formData.ingdate = "99991231"}
+        if(!formData.enddate || formData.enddate == "") { formData.enddate = "99991231"}
+        formData.possessionlist = JSON.stringify(currentData.selectedpossessionlist);     
+        console.log(formData);   
         API.addContract(formData).then(data => {
-            if(data.head.status != "ok") { showToast('계약을 만들지 못했습니다.'); return ;}
+            if(data.head.status != "ok") {
+                if(data.head.status == "error" && data.head.errorcode == "1062") {
+                    showToast("동일한 소유자에 해당하는 계약이 존재합니다."); return;
+                }
+                showToast('계약을 만들지 못했습니다.'); return ;}
             alert('새 계약이 만들어 졌습니다.');
             location.href = "contract.html";
         });    

@@ -19,87 +19,96 @@
         <header loadsrc="../layout/header.html">
         </header>
         <main>
-            <nav loadsrc="../layout/nav.html" currentmenu="contract.html" auth="admin"></nav>
+            <nav loadsrc="../layout/nav.html" currentmenu="workplan.html" auth="admin"></nav>
             <article>
                 <div class="contentHeader">
                     <div class="contentHeaderStartContainer">
-                        <div class="title">계약</div>
+                        <div class="title">작업팀 배정 현황</div>
                     </div>
                     <div class="contentHeaderEndContainer">
-                        <span class="material-icons" style="font-size: 18px; cursor: pointer;" onclick="createContract()">add</span>
-                        <span class="material-icons" style="font-size: 18px; cursor: pointer;" onclick="downloadExcel(this, 'contractlist')" sheetname="계약" titlename="계약.xlsx">description</span>
+                        <span class="material-icons" style="font-size: 18px; cursor: pointer;" onclick="downloadExcel(this, 'contractlist')" sheetname="작업팀 배정현황" titlename="작업팀 배정현황.xlsx">description</span>
                     </div>
                 </div>
                 <div class="contentMain">
-                    <div class="rowFlexContainer" style="gap:16px;">
-
+                    <div class="rowFlexContainer">
                         <div class="itemList contractlist">
                             <div class="itemListStart" style="min-height: 0;">
                                 <div class="rowView header">
                                     <div class="rowItem" style="width: 100%">
-                                        <span tname>계약번호</span>
+                                        <span tname>본부</span>
                                     </div>
                                     <div class="rowItem" style="width: 100%">
-                                        <span tname>진행상황</span>
+                                        <span tname>팀</span>
                                     </div>
                                     <div class="rowItem" style="width: 100%">
-                                        <span tname>소유자명</span>                                        
+                                        <span tname>매입대상그룹</span>                                        
+                                    </div>
+                                    <div class="rowItem" style="width: 100%" >
+                                        <span tname>소재지</span>                                                                                
                                     </div>
                                     <div class="rowItem" style="width: 100%">
-                                        <span tname>소재지</span>                                        
+                                        <span tname>소유자</span>                                        
                                     </div>
                                     <div class="rowItem" style="width: 100%">
-                                        <span tname>종전가액</span>                                        
+                                        <span tname>총 면적 (&#13217)</span>                                        
                                     </div>
                                     <div class="rowItem" style="width: 100%">
-                                        <span tname>종후가액</span>                                        
+                                        <span tname>소유면적 (&#13217)</span>                                        
                                     </div>
                                     <div class="rowItem" style="width: 100%">
-                                        <span tname>담당자명</span> 
+                                        <span tname>종전자산</span>                                        
                                     </div>
                                     <div class="rowItem" style="width: 100%">
-                                        <span tname>담당자 연락처</span>                                        
+                                        <span tname>종후자산</span>                                        
                                     </div>
+                                    <div class="rowItem" style="width: 100%">
+                                        <span tname>매입예정가</span>                                        
+                                    </div>                                    
                                 </div>                                
                             </div>
 
                             <div class="itemListEnd">
-                                <div class="overflowContainer" style="max-height: calc(100vh - 210px); overflow-y: auto;">
-                                    <div class="colFlexContainer" c-bind="contractlist:list" style="gap: 10px;">                                        
-                                                                                
+                                <div class="overflowContainer">
+                                    <div class="colFlexContainer" c-bind="contractlist:list" style="gap: 10px;">                                                                                
                                         <item>
-                                            <div class="rowView light" c-bind="contractpkey:contractpkey:selectContract" style="cursor:pointer;">
+                                            <div class="rowView light">
                                                 <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="contractpkey:text" excol></span>
+                                                    <span c-bind="hqname:text:formatHqName" excol></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="contractstatus:text:formatContractStatus" excol></span>
+                                                    <span c-bind="teamname:text:formatTeamName" excol></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="possession.ownername:text" excol></span>
+                                                    <span c-bind="ownergroup:text" excol></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="possession.townname:text:formatPossessionName" excol></span>
+                                                    <span c-bind="townname:text:formatCustomPossessionName" excol></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="ownername:text" excol></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="officialmeter:text" excol></span>
+                                                </div>
+                                                <div class="rowItem" style="width: 100%">
+                                                    <span c-bind="possessionmeter:text" excol></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 100%">
                                                     <span c-bind="beforeprice:text:formatWon" excol></span>
                                                 </div>
-                                                <div class="rowItem" style="width: 100%;" >
+                                                <div class="rowItem" style="width: 100%">
                                                     <span c-bind="afterprice:text:formatWon" excol></span>
                                                 </div>
                                                 <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="username:text" excol></span>
-                                                </div>
-                                                <div class="rowItem" style="width: 100%">
-                                                    <span c-bind="userphone:text:formatTel" excol></span>
-                                                </div>
+                                                    <span c-bind="regprice:text:formatWon" excol></span>
+                                                </div>                                                                                                
                                             </div>
                                         </item>                                   
                                         
                                         <emptyitem style="display: none;">
                                             <div class="emptyContainer">
                                                 <div class="msgBox">
-                                                    <span>계약이 없습니다.</span>                                            
+                                                    <span>배정된 작업이 없습니다.</span>                                            
                                                 </div>
                                             </div>
                                         </emptyitem>
@@ -122,33 +131,17 @@
     
     function runSetup() {
         findItems(document);
-        setListContract();
+        setListWorkPlan();
     }    
 
-    function setListContract() {        
-        API.listContract().then(data => {            
+    function setListWorkPlan() {        
+        API.listWorkPlan().then(data => {            
             bindView($('.contractlist').get(0), data.body);
         });   
     }
 
-    function selectContract(v, d, e) {
-        $(e).on('click', function(){
-            location.href = "detailcontract.html?contractpkey=" + v;
-        });
-        return v;
-    }
-
-    function setUsername(v, d, e) {
-        if(v) { return v }
-        else { return "미정"}
-    }
-
-    function formatPossessionName(v, d, e) {
-        return v + " " + d.possession.officialaddress + " - " + formatPossessionKind(d.possession.officialkind);
-    }
-
-    function createContract() {
-        location.href = "createcontract.html";
+    function formatCustomPossessionName(v, d, e) {
+        return v + " " + d.officialaddress + " - " + formatPossessionKind(d.officialkind);
     }
 
 </script>

@@ -66,12 +66,13 @@ class CommonApi extends Api {
     getAdminDashBoard(data) { return super.get("s/getAdminDashBoard.json", data) }
     listTeam(data) { return super.get("s/listTeam.json", data) }    
     listOwner(data) { return super.get("s/listOwner.json", data) }    
-    getOwner(data) { return super.get("s/getOwner.json", data) }
+    getOwner(data) { return super.get("s/getOwner.json", data) }    
+    getOwnerDetailAboutVote(data) { return super.get("s/getOwnerDetailAboutVote.json", data) }    
     listEstate(data) { return super.get("s/listEstate.json", data) }    
     getEstate(data) { return super.get("s/getEstate.json", data) }
     listPossession(data) { return super.get("s/listPossession.json", data) }    
     listPossessionByEstate(data) { return super.get("s/listPossessionByEstate.json", data) }    
-    listPossessionByOwner(data) { return super.get("s/listPossessionByOwner.json", data) }    
+    listPossessionByOwner(data) { return super.get("s/listPossessionByOwner.json", data) }        
     getPossession(data) { return super.get("s/getPossession.json", data) }          
     getUser(data) { return super.get("s/getUser.json", data) }
     listUser(data) { return super.get("s/listUser.json", data) }
@@ -90,6 +91,8 @@ class CommonApi extends Api {
     getContractByAgency(data) { return super.get("s/getContractByAgency.json", data) }
     listContract(data) { return super.get("s/listContract.json", data) }
     listContractByAgency(data) { return super.get("s/listContractByAgency.json", data) }
+    listVote(data) { return super.get("s/listVote.json", data) }
+    listWorkPlan(data) { return super.get("s/listWorkPlan.json", data) }
                                                    
 
     /* post */
@@ -112,7 +115,8 @@ class CommonApi extends Api {
     addContract(data) { return super.post("addContract.json", data) }
     modifyContract(data) { return super.post("modifyContractByAdmin.json", data) }
     modifyContractByAgency(data) { return super.post("modifyContractByAgency.json", data) }
-                                                                                            
+    addVote(data) { return super.post("addVote.json", data) }                                                                                            
+    modifyVote(data) { return super.post("modifyVote.json", data) }                                                                                            
 }
 
 

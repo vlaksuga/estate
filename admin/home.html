@@ -29,77 +29,64 @@
                 <div class="contentMain">
                     <div class="cellView">
                         <div class="cellCol status">
-                            <div class="cellRow ">
-                                <div class="cell">
-                                    <span class="cellTitle">협의</span>
-                                    <span class="value regcnt" c-bind="regcnt:text"></span>
-                                </div>
-                                <div class="cell">
-                                    <span class="cellTitle">계약 후 관리</span>
-                                    <span class="value managecnt" c-bind="startcnt:text"></span>
-                                </div>
-                                <div class="cell">
-                                    <span class="cellTitle">서면 결의 관리</span>
-                                    <span class="value startcnt" c-bind="managecnt:text"></span>
-                                </div>
-                            </div>
                             <div class="cellRow">
                                 <div class="cell">
-                                    <span class="cellTitle">잔금 지급 대기</span>
-                                    <span class="value pendingcnt" c-bind="pendingcnt:text"></span>
-                                </div>
-                                <div class="cell">
-                                    <span class="cellTitle">잔금 지급 완료</span>
-                                    <span class="value donecnt" c-bind="donecnt:text"></span>
-                                </div>
-                                <div class="cell">
-                                    <span class="cellTitle">소유권 이전</span>
-                                    <span class="value finishcnt" c-bind="finishcnt:text"></span>
-                                </div>
-                            </div>
-                            <div class="cellRow">
-                                <div class="cell">
-                                    <span class="cellTitle">토지매입 진행상황</span>
-                                    <div class="chartBox">
-                                        <canvas id="statuschart" height="500" style="max-height: 500px;"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="cellCol payment">
-                            <div class="cellRow ">
-                                <div class="cell">
-                                    <span class="cellTitle">총 예산</span>
-                                    <span class="value" c-bind="total:text:formatWon"></span>
-                                </div>
-                                <div class="cell">
-                                    <span class="cellTitle">잔여액</span>
-                                    <span class="value" c-bind="rest:text:formatWon"></span>
-                                </div>
-                            </div>
-                            <div class="cellRow">
-                                <div class="cell">
-                                    <span class="cellTitle">계약금 지급액</span>
-                                    <span class="value" c-bind="startsum:text:formatWon"></span>
-                                </div>
-                                <div class="cell">
-                                    <span class="cellTitle">중도금 지급액</span>
-                                    <span class="value" c-bind="ingsum:text:formatWon"></span>
-                                </div>
-                                <div class="cell">
-                                    <span class="cellTitle">잔금 지급액</span>
-                                    <span class="value" c-bind="endsum:text:formatWon"></span>
-                                </div>
-                            </div>
-                            <div class="cellRow">
-                                <div class="cell">                                    
-                                    <span class="cellTitle">토지매입 진행상황</span>
-                                    <div class="chartBox">
-                                        <canvas id="paymentchart" height="500" style="max-height: 500px;"></canvas>
+                                    <div class="head" style="display: flex; flex-direction: row; justify-content: space-between; font-weight: 900;">
+                                        <span class="cellTitle">소유자</span>
+                                        <span class="value" c-bind="ownerdata:text:setOwnerData"></span>
                                     </div>                                    
+                                    <canvas id="ownerchart" height="350" style="max-height: 350px;"></canvas>
+                                </div>
+                                <div class="cell">
+                                    <div class="head" style="display: flex; flex-direction: row; justify-content: space-between; font-weight: 900;">
+                                        <span class="cellTitle">필지</span>
+                                        <span class="value" c-bind="estatedata:text:setEstateData"></span>
+                                    </div>      
+                                    <canvas id="estatechart" height="350" style="max-height: 350px;"></canvas>
+                                </div>
+                                <div class="cell">
+                                    <div class="head" style="display: flex; flex-direction: row; justify-content: space-between; font-weight: 900;">
+                                        <span class="cellTitle">면적 (평)</span>
+                                        <span class="value" c-bind="meterdata:text:setMeterData"></span>
+                                    </div>   
+                                    <canvas id="meterchart" height="350" style="max-height: 350px;"></canvas>
+                                </div>
+                                <div class="cell">
+                                    <div class="head" style="display: flex; flex-direction: row; justify-content: space-between; font-weight: 900;">
+                                        <span class="cellTitle">매매대상그룹</span>
+                                        <span class="value" c-bind="ownergroupdata:text:setOwnerGroupData"></span>
+                                    </div>  
+                                    <canvas id="ownergroupchart" height="350" style="max-height: 350px;"></canvas>
+                                </div>
+                            </div>
+                            <div class="cellRow">
+                                <div class="cell">
+                                    <div class="head" style="display: flex; flex-direction: row; justify-content: space-between; font-weight: 900;">
+                                        <span class="cellTitle">종전자산(원)</span>
+                                        <span class="value" c-bind="beforepricedata:text:setBeforePriceData"></span>
+                                    </div>
+                                    <canvas id="beforepricechart" height="350" style="max-height: 350px;"></canvas>
+                                </div>
+                                <div class="cell">
+                                    <div class="head" style="display: flex; flex-direction: row; justify-content: space-between; font-weight: 900;">
+                                        <span class="cellTitle">매입예정액(원)</span>
+                                        <span class="value" c-bind="regpricedata:text:setRegPriceData"></span>
+                                    </div>                                    
+                                    <canvas id="regpricechart" height="350" style="max-height: 350px;"></canvas>
+                                </div>
+                                <div class="cell">
+                                    <div class="head" style="display: flex; flex-direction: row; justify-content: space-between; font-weight: 900;">
+                                        <span class="cellTitle">의결권</span>
+                                        <span class="value" c-bind="votedata:text:setVoteData"></span>
+                                    </div>
+                                    <canvas id="votechart" height="350" style="max-height: 350px;"></canvas>
+                                </div>
+                                <div class="cell">
+                                    <span class="cellTitle">팀</span>
+                                    <canvas id="teamchart" height="350" style="max-height: 350px;"></canvas>
                                 </div>
                             </div>                            
-                        </div>
+                        </div>                        
                     </div>
                 </div>                 
             </article>
@@ -111,133 +98,136 @@
 </html>
 
 <script>
-    var statusChart;
-    var payChart;
-    var statusChartConfig = {
-            responsive : true,
-            type: 'bar',
-            options : {               
-                indexAxis : 'y',
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            precision: 0
-                        }
+    var ownerchart, estatechart, meterchart, ownergroupchart, beforepricechart, regpricechart, votechart, teamchart;        
+    
+    class DChartConfig {
+        constructor(labels, data) {            
+            return {
+                type: 'doughnut',
+                    showDatapoints: true,
+                    options : {
+                        plugins : {
+                            legend : {
+                                position : 'bottom',
+                                display : true,
+                                align : 'center',
+                                labels : {
+                                    font : {
+                                        size: 11,
+                                        weight : 900                                
+                                },
+                                boxWidth : 20
+                                },
+                                textAlign : 'center'
+                            },
+                        },                
+                        pieceLabel: {
+                        mode: 'label'
+                        }    
+                    },
+                    data : {
+                        labels : labels,                        
+                        datasets : [{
+                            data : data,
+                            backgroundColor : [
+                                getRootStyle("--theme-color-alt-" + "a"),
+                                getRootStyle("--theme-color-alt-" + "b"),
+                                getRootStyle("--theme-color-alt-" + "c"),
+                                getRootStyle("--theme-color-alt-" + "d")
+                            ],
+                            hoverOffset : 4
+                            }            
+                        ]
                     }
-                },
-                plugins : {
-                    legend : {
-                        position : 'bottom',
-                        display : false,
-                        align : 'start',
-                        labels : {                            
-                            font : {
-                                size: 14,
-                                weight : 700                                
-                        },
-                        boxWidth : 10,
-                        boxHeight : 10                        
-                        },
-                        textAlign : 'center'
-                    }
-                }  
             }
         }
-    
-    var payChartConfig = {
-        type: 'doughnut',
-            showDatapoints: true,
-            options : {
-                plugins : {
-                    legend : {
-                        position : 'bottom',
-                        display : true,
-                        align : 'center',
-                        labels : {
-                            font : {
-                                size: 11,
-                                weight : 900                                
-                        },
-                        boxWidth : 20
-                        },
-                        textAlign : 'center'
-                    },
-                },                
-                pieceLabel: {
-                   mode: 'label'
-                }    
-            }
     }
+    
 
     function runSetup() {
-        API.getAdminDashBoard().then(res => {
-            currentData.status = res.body.statuscnt;
-            currentData.payment = res.body.pricesum;
-            currentData.payment.total = 350000000000;
-            currentData.payment.rest = getRest(currentData.payment);
-            bindView($('.status').get(0), currentData.status);
-            bindView($('.payment').get(0), currentData.payment);                                   
-            statusChart = new Chart($('#statuschart'), statusChartConfig);
-            payChart = new Chart($('#paymentchart'), payChartConfig);
-            updateStatusChart();
-            updatePayChart();
+        findItems(document);
+
+        API.getAdminDashBoard().then(data => {
+            currentData.ownerdata = data.body.ownercnt;
+            currentData.estatedata = data.body.estatecnt;
+            currentData.meterdata = data.body.estatemetersum;
+            currentData.ownergroupdata = data.body.ownergroupcnt;
+            currentData.beforepricedata = data.body.possessionbeforepricesum;
+            currentData.regpricedata = data.body.contractregpricesum;
+            currentData.votedata = data.body.votecnt;
+            currentData.teamdata = undefined;            
+            bindView(document, currentData);
+            renderChart();
         })        
     }    
 
-    function updatePayChart() {
-        payChartConfig.data.labels = ["계약금", "중도금", "잔금", "잔여액"];
-        payChartConfig.data.datasets = [{
-                data : [currentData.payment.startsum, currentData.payment.ingsum, currentData.payment.endsum, currentData.payment.rest],
-                backgroundColor : [
-                    getRootStyle("--theme-color-alt-" + "a"),
-                    getRootStyle("--theme-color-alt-" + "b"),
-                    getRootStyle("--theme-color-alt-" + "c"),
-                    getRootStyle("--theme-color-alt-" + "d")
-                ],
-                hoverOffset : 4
-            }            
-        ]
-        payChart.update();       
+    function renderChart() {
+        ownerchart = new Chart(document.getElementById('ownerchart'), new DChartConfig(
+            ["진행소유자", "예정소유자"],
+            [currentData.ownerdata.contractcnt, currentData.ownerdata.ownercnt - currentData.ownerdata.contractcnt]
+        ));
+
+        estatechart = new Chart(document.getElementById('estatechart'), new DChartConfig(
+            ["진행필지", "예정필지"],
+            [currentData.estatedata.contractcnt, currentData.estatedata.estatecnt - currentData.estatedata.contractcnt]
+        ));
+        meterchart = new Chart(document.getElementById('meterchart'), new DChartConfig(
+            ["진행면적", "예정면적"],
+            [formatMeterKor(currentData.meterdata.possessionmetersum), formatMeterKor(currentData.meterdata.estatemetersum - currentData.meterdata.possessionmetersum) ]
+        ));
+        ownergroupchart = new Chart(document.getElementById('ownergroupchart'), new DChartConfig(
+            ["진행그룹", "예정그룹"],
+            [currentData.ownergroupdata.cownergroupcnt, currentData.ownergroupdata.ownergroupcnt - currentData.ownergroupdata.cownergroupcnt]
+        ));
+        beforepricechart = new Chart(document.getElementById('beforepricechart'), new DChartConfig(
+            ["진행금액", "예정금액"],
+            [currentData.beforepricedata.cbeforepricesum, currentData.beforepricedata.beforepricesum - currentData.beforepricedata.cbeforepricesum]
+        ));
+        regpricechart = new Chart(document.getElementById('regpricechart'), new DChartConfig(
+            ["진행금액", "예정금액"],
+            [currentData.regpricedata.regpricesum, currentData.regpricedata.totalregprice - currentData.regpricedata.regpricesum]
+        ));
+        votechart = new Chart(document.getElementById('votechart'), new DChartConfig(
+            ["진행의결권", "예정의결권"],
+            [currentData.votedata.cvotecnt, currentData.votedata.votecnt - currentData.votedata.cvotecnt]
+        ));
+        teamchart = new Chart(document.getElementById('teamchart'), new DChartConfig(                  
+            getLabelAndValueArray().label,
+            getLabelAndValueArray().value                          
+        ));
     }
 
-    function updateStatusChart() {                  
+
+    function getLabelAndValueArray(obj) {        
         let ret = {};
-        let dataArray = [];
-        dataArray.push(currentData.status.regcnt);
-        dataArray.push(currentData.status.startcnt);
-        dataArray.push(currentData.status.managecnt);
-        dataArray.push(currentData.status.pendingcnt);
-        dataArray.push(currentData.status.donecnt);
-        dataArray.push(currentData.status.finishcnt);
-        ret.data = dataArray;        
-        ret.tension = 0.4;
-        ret.backgroundColor = [
-            getRootStyle("--theme-color-alt-" + "a"),
-            getRootStyle("--theme-color-alt-" + "b"),
-            getRootStyle("--theme-color-alt-" + "c"),
-            getRootStyle("--theme-color-alt-" + "d"),
-            getRootStyle("--theme-color-alt-" + "e"),
-            getRootStyle("--theme-color-alt-" + "f")
-        ];
-        ret.borderColor = [
-            getRootStyle("--theme-color-alt-" + "a"),
-            getRootStyle("--theme-color-alt-" + "b"),
-            getRootStyle("--theme-color-alt-" + "c"),
-            getRootStyle("--theme-color-alt-" + "d"),
-            getRootStyle("--theme-color-alt-" + "e"),
-            getRootStyle("--theme-color-alt-" + "f")
-        ];      
-        statusChartConfig.data.datasets.push(ret);
-        statusChartConfig.data.labels = ["협의", "계약 후 관리", "서면 결의 관리", "잔금 지급 대기", "잔금 지급 완료", "소유권 이전"];
-        statusChart.update();
+        let label = [];
+        let value = [];
+        for(const [k, v]  of Object.entries(obj)) {
+            ret.label = k;
+            ret.value = v;
+        }
+        return ret;
     }
 
-    
-
-    function getRest(payment) {
-        var rest = payment.total;
-        rest = parseInt(rest) - parseInt(payment.startsum) - parseInt(payment.ingsum) - parseInt(payment.endsum); 
-        return rest;
+    function setOwnerData(v, d, e) {
+        return formatNumber(v.contractcnt) + " / " + formatNumber(v.ownercnt) + " (" + (v.contractcnt / v.ownercnt * 100).toFixed(2) + "%)";
+    }
+    function setEstateData(v, d, e) {
+        return formatNumber(v.contractcnt) + " / " + formatNumber(v.estatecnt) + " (" + (v.contractcnt / v.estatecnt * 100).toFixed(2) + "%)";
+    }
+    function setMeterData(v, d, e) {
+        return formatMeterKor(v.possessionmetersum) + " / " + formatMeterKor(v.estatemetersum)  + " (" + (v.possessionmetersum / v.estatemetersum * 100).toFixed(2) + "%)";
+    }
+    function setOwnerGroupData(v, d, e) {
+        return formatNumber(v.cownergroupcnt) + " / " + formatNumber(v.ownergroupcnt) + " (" + (v.cownergroupcnt / v.ownergroupcnt * 100).toFixed(2) + "%)";
+    }
+    function setBeforePriceData(v, d, e) {
+        return formatNumber(v.cbeforepricesum)  + " / " + formatNumber(v.beforepricesum)  + " (" + (v.cbeforepricesum / v.beforepricesum * 100).toFixed(2) + "%)";
+    }
+    function setRegPriceData(v, d, e) {
+        return formatNumber(v.regpricesum)  + " / " + formatNumber(v.totalregprice)  + " (" + (v.regpricesum / v.totalregprice * 100).toFixed(2) + "%)";
+    }
+    function setVoteData(v, d, e) {
+        return formatNumber(v.cvotecnt)  + " / " + formatNumber(v.votecnt)  + " (" + (v.cvotecnt / v.votecnt * 100).toFixed(2) + "%)";
     }
 </script>

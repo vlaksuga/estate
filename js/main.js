@@ -738,6 +738,12 @@ function formatTeamName(v, d, e) {
     return v ? v + "팀" : "X";
 }
 
+function formatVoteKind(v, d, e) {
+    if (v == "A") { return "시행규정"}
+    if (v == "B") { return "운영규정"}
+    if (v == "C") { return "건설사"}
+}
+
 function formatPossessionName(v, d, e) {
     return v + " " + d.officialaddress + " - " + formatPossessionKind(d.officialkind);
 }
